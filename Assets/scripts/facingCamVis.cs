@@ -21,6 +21,6 @@ public class facingCamVis : MonoBehaviour
         transform.rotation = playerCam.camRot * Quaternion.Euler(-90, 0, 0);
         transform.position = parentTR.position + transform.rotation * (gameObject.GetComponent<SpriteRenderer>().size.y/2 * transform.localScale.y * Vector3.up);
 
-        Debug.Log(gameObject.GetComponent<SpriteRenderer>().size.y/2 * transform.localScale);
+        //Debug.Log(gameObject.GetComponent<SpriteRenderer>().size.y/2 * transform.localScale);
     }
 }

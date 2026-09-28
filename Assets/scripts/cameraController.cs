@@ -22,6 +22,7 @@ public class cameraController : MonoBehaviour
     {
         camRot = Quaternion.Euler(rotationOfPos, 0, 0);
         currentcamRot = Quaternion.Euler(rotationOfPos, 0, 0);
+        
     }
 
     // Update is called once per frame

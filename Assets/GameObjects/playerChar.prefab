@@ -440,7 +440,7 @@ MonoBehaviour:
   ShowTopMostFoldoutHeaderGroup: 1
   camTR: {fileID: 4199577871196520502}
   distanceFromPL: 2
-  rotationOfPos: 60
+  rotationOfPos: 45
   camtransitionTime: 5
   camRot: {x: 0, y: 0, z: 0, w: 0}
   currentcamRot: {x: 0, y: 0, z: 0, w: 1}

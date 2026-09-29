@@ -15,22 +15,23 @@ public class playerController : NetworkBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        playerCT = GetComponent<Rigidbody>();
+        playerCT = gameObject.GetComponent<Rigidbody>();
+        
     }
 
     // Update is called once per frame
 
     void FixedUpdate()
     {
+        
         if(!IsOwner) return;
+        if (Keyboard.current.fKey.isPressed) transform.position = Vector3.zero;
 
         inputKeys();
-        //Vector3 movement = transform.rotation * Quaternion.Euler(0, playerCam.currentcamRot.y, 0) * (movementVector );
         
-
         playerCT.linearVelocity = playerCam.currentcamRot * movementVector * moveSpeed;
         
-        //Debug.Log(Quaternion.Euler(0, playerCam.currentcamRot.y, 0) + "  "+ playerCam.currentcamRot.y);
+        
     }
     
     void inputKeys()

@@ -9,6 +9,7 @@ using UnityEngine.EventSystems;
 public class facingCamVis : NetworkBehaviour
 {
     [SerializeField] cameraController playerCam;
+    [SerializeField] playerController playerCon;
 
     [SerializeField] Transform parentTR;
 
@@ -59,7 +60,7 @@ public class facingCamVis : NetworkBehaviour
     }
     public void faceDirChange()
     {
-        facingDirect = (int)playerCam.currentcamRot.eulerAngles.y/90;
+        facingDirect = (int)(playerCam.currentcamRot.eulerAngles.y + playerCon.movementDir.Value * 90)/90;
         if(facingDirect>3)facingDirect-=4;
         visSkin.sprite = spriteFaces[facingDirect];
     }

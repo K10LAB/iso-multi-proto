@@ -41,8 +41,8 @@ public class cameraController : NetworkBehaviour
         if(!IsOwner)return;
         mouseZoom += Mouse.current.scroll.ReadValue().y/10f;
         mouseZoom = Mathf.Clamp(mouseZoom, 0f, 1f);
-        if(Keyboard.current.qKey.wasPressedThisFrame) currentcamRot = Quaternion.Euler(currentcamRot.eulerAngles.x, currentcamRot.eulerAngles.y+45, 0);
-        if(Keyboard.current.eKey.wasPressedThisFrame) currentcamRot = Quaternion.Euler(currentcamRot.eulerAngles.x, currentcamRot.eulerAngles.y-45, 0);
+        if(Keyboard.current.qKey.wasPressedThisFrame) currentcamRot = Quaternion.Euler(currentcamRot.eulerAngles.x, currentcamRot.eulerAngles.y+90, 0);
+        if(Keyboard.current.eKey.wasPressedThisFrame) currentcamRot = Quaternion.Euler(currentcamRot.eulerAngles.x, currentcamRot.eulerAngles.y-90, 0);
         camRot = Quaternion.Lerp(camRot, currentcamRot, camtransitionTime * Time.deltaTime);
         camTR.position = transform.position + camRot * (mouseZoom * distanceFromPL * Vector3.up);
         camTR.LookAt(transform.position);

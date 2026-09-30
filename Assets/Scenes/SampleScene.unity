@@ -1638,6 +1638,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::facingCamVis
   ShowTopMostFoldoutHeaderGroup: 1
   playerCam: {fileID: 0}
+  playerCon: {fileID: 0}
   parentTR: {fileID: 1218273671}
   visSkin: {fileID: 0}
   facingDirect: 0
@@ -2076,7 +2077,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 31321ba15b8f8eb4c954353edc038b1d, type: 2}
+  - {fileID: 2100000, guid: 51abd02fa7c15f541bd3ef343b2df7f8, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0

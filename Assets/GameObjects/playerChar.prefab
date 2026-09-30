@@ -90,7 +90,7 @@ SpriteRenderer:
   m_Size: {x: 7.51, y: 7.15}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
+  m_WasSpriteAssigned: 0
   m_SpriteSortPoint: 0
   m_BlendShapeWeights: []
 --- !u!114 &5366848901030452770
@@ -106,15 +106,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::facingCamVis
   ShowTopMostFoldoutHeaderGroup: 1
-  playerCam: {fileID: 0}
+  playerCam: {fileID: 5087673007963608671}
+  playerCon: {fileID: 0}
   parentTR: {fileID: 8088705343512304414}
   visSkin: {fileID: 0}
   facingDirect: 0
   spriteFaces:
-  - {fileID: 21300000, guid: e2f9c9a666ec135408455871a2a8e8a4, type: 3}
-  - {fileID: 21300000, guid: 978b05373b4fc024fbebd5d16300a054, type: 3}
-  - {fileID: 21300000, guid: 5cd86b9ce44dd08418adce8a4fb5f0df, type: 3}
-  - {fileID: 21300000, guid: c7de4f9dae04d104a9bc43a90154a670, type: 3}
+  - {fileID: 21300000, guid: 9e217ea618423be4abd3dd8e3ee67484, type: 3}
+  - {fileID: 21300000, guid: 46ddc2f3b824f8d46bce2e37b8f2ade9, type: 3}
+  - {fileID: 21300000, guid: e5aac7910c3c38540af31cc827d3cbb9, type: 3}
+  - {fileID: 21300000, guid: ee3f4f68340868449b7563b66475381a, type: 3}
   if4Sided: 1
 --- !u!1 &2821451087132053058
 GameObject:
@@ -304,7 +305,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Unity.Netcode.Runtime::Unity.Netcode.NetworkObject
-  GlobalObjectIdHash: 2389395582
+  GlobalObjectIdHash: 725674800
   InScenePlacedSourceGlobalObjectIdHash: 1356263662
   m_InScenePlacedDisabledByDefault: 0
   DeferredDespawnTick: 0
@@ -338,6 +339,12 @@ MonoBehaviour:
   moveSpeed: 2
   horizontalMovement: 0
   verticalMovement: 0
+  movementDir:
+    UpdateTraits:
+      MinSecondsBetweenUpdates: 0
+      MaxSecondsBetweenUpdates: 0
+    m_InternalValue: 0
+  fl: 0
 --- !u!114 &-3603717627758588634
 MonoBehaviour:
   m_ObjectHideFlags: 0

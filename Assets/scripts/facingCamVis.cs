@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using Unity.Netcode;
 using Unity.Services.Lobbies.Models;
 using Unity.VisualScripting;
@@ -10,39 +11,56 @@ public class facingCamVis : NetworkBehaviour
     [SerializeField] cameraController playerCam;
 
     [SerializeField] Transform parentTR;
-    [SerializeField] public float dist;
+
+    [SerializeField] SpriteRenderer visSkin;
+    [SerializeField] int facingDirect;
+    //north=0,west=1,south=2,east=3
+    [SerializeField] public Sprite[] spriteFaces = new Sprite[4];
+    [SerializeField] bool if4Sided;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
+    void Start()
+    {
+        visSkin = GetComponent<SpriteRenderer>();
+    }
     public override void OnNetworkSpawn()
     {
         base.OnNetworkSpawn();
-        tryFindPlayer();
+        StartCoroutine(tryFindPlayer());
+        
     }
 
     // Update is called once per frame
     void Update()
     {
         
-        if (playerCam != null)
-        {
-            transform.rotation = playerCam.camRot * Quaternion.Euler(-90, 0, 0);
-            transform.position = parentTR.position + transform.rotation * (gameObject.GetComponent<SpriteRenderer>().size.y/2 * transform.localScale.y * Vector3.up);
-        } else tryFindPlayer();
+        if (playerCam == null)return;
+        
+        transform.rotation = playerCam.camRot * Quaternion.Euler(-90, 0, 0);
+        transform.position = parentTR.position + transform.rotation * (visSkin.size.y/2 * transform.localScale.y * Vector3.up);
+        if(if4Sided)faceDirChange();
         
         //Debug.Log(gameObject.GetComponent<SpriteRenderer>().size.y/2 * transform.localScale);
     }
-    void tryFindPlayer()
+    IEnumerator tryFindPlayer()
     {
         if (NetworkManager.Singleton != null)
         {
-            Debug.Log(1);
+            //Debug.Log(1);
             var localClient = NetworkManager.Singleton.LocalClient;
-            Debug.Log(localClient);
+            //Debug.Log(localClient);
             if (localClient != null && localClient.PlayerObject != null)
             {
-                Debug.Log(2);
+                //Debug.Log(2);
                 playerCam = localClient.PlayerObject.GetComponent<cameraController>();
-            }
-        }
+            } else yield return null;
+            
+        }else yield return null;
+    }
+    public void faceDirChange()
+    {
+        facingDirect = (int)playerCam.currentcamRot.eulerAngles.y/90;
+        if(facingDirect>3)facingDirect-=4;
+        visSkin.sprite = spriteFaces[facingDirect];
     }
 }

@@ -28,7 +28,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.03, y: 0.03, z: 0.03}
+  m_LocalScale: {x: 0.02, y: 0.02, z: 0.02}
   m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 8088705343512304414}
@@ -82,15 +82,15 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_MaskInteraction: 0
-  m_Sprite: {fileID: 21300000, guid: c7de4f9dae04d104a9bc43a90154a670, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 9e217ea618423be4abd3dd8e3ee67484, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 7.51, y: 7.15}
+  m_Size: {x: 23.8, y: 23.8}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 0
+  m_WasSpriteAssigned: 1
   m_SpriteSortPoint: 0
   m_BlendShapeWeights: []
 --- !u!114 &5366848901030452770
@@ -107,16 +107,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::facingCamVis
   ShowTopMostFoldoutHeaderGroup: 1
   playerCam: {fileID: 5087673007963608671}
-  playerCon: {fileID: 0}
+  playerCon: {fileID: 2653118439820563349}
   parentTR: {fileID: 8088705343512304414}
   visSkin: {fileID: 0}
   facingDirect: 0
   spriteFaces:
   - {fileID: 21300000, guid: 9e217ea618423be4abd3dd8e3ee67484, type: 3}
   - {fileID: 21300000, guid: 46ddc2f3b824f8d46bce2e37b8f2ade9, type: 3}
-  - {fileID: 21300000, guid: e5aac7910c3c38540af31cc827d3cbb9, type: 3}
   - {fileID: 21300000, guid: ee3f4f68340868449b7563b66475381a, type: 3}
+  - {fileID: 21300000, guid: e5aac7910c3c38540af31cc827d3cbb9, type: 3}
   if4Sided: 1
+  tempDir: 0
 --- !u!1 &2821451087132053058
 GameObject:
   m_ObjectHideFlags: 0
@@ -305,7 +306,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Unity.Netcode.Runtime::Unity.Netcode.NetworkObject
-  GlobalObjectIdHash: 725674800
+  GlobalObjectIdHash: 307972916
   InScenePlacedSourceGlobalObjectIdHash: 1356263662
   m_InScenePlacedDisabledByDefault: 0
   DeferredDespawnTick: 0
@@ -344,7 +345,7 @@ MonoBehaviour:
       MinSecondsBetweenUpdates: 0
       MaxSecondsBetweenUpdates: 0
     m_InternalValue: 0
-  fl: 0
+  velEularReading: {x: 0, y: 0, z: 0}
 --- !u!114 &-3603717627758588634
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -406,7 +407,7 @@ MonoBehaviour:
   ShowTopMostFoldoutHeaderGroup: 1
   camTR: {fileID: 4199577871196520502}
   distanceFromPL: 2
-  rotationOfPos: 45
+  rotationOfPos: 60
   camtransitionTime: 5
   camRot: {x: 0, y: 0, z: 0, w: 0}
   currentcamRot: {x: 0, y: 0, z: 0, w: 1}

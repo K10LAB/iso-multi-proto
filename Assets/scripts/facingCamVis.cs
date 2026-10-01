@@ -18,6 +18,7 @@ public class facingCamVis : NetworkBehaviour
     //north=0,west=1,south=2,east=3
     [SerializeField] public Sprite[] spriteFaces = new Sprite[4];
     [SerializeField] bool if4Sided;
+    //[SerializeField] int tempDir;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -35,11 +36,12 @@ public class facingCamVis : NetworkBehaviour
     void Update()
     {
         
-        if (playerCam == null)return;
+        if (playerCam == null || playerCon == null)return;
         
         transform.rotation = playerCam.camRot * Quaternion.Euler(-90, 0, 0);
-        transform.position = parentTR.position + transform.rotation * (visSkin.size.y/2 * transform.localScale.y * Vector3.up);
+        transform.position = transform.parent.position + transform.rotation * (visSkin.size.y/2 * transform.localScale.y * Vector3.up);
         if(if4Sided)faceDirChange();
+        
         
         //Debug.Log(gameObject.GetComponent<SpriteRenderer>().size.y/2 * transform.localScale);
     }
@@ -54,14 +56,16 @@ public class facingCamVis : NetworkBehaviour
             {
                 //Debug.Log(2);
                 playerCam = localClient.PlayerObject.GetComponent<cameraController>();
+                playerCon = localClient.PlayerObject.GetComponent<playerController>();
+                
             } else yield return null;
             
         }else yield return null;
     }
     public void faceDirChange()
     {
-        facingDirect = (int)(playerCam.currentcamRot.eulerAngles.y + playerCon.movementDir.Value * 90)/90;
-        if(facingDirect>3)facingDirect-=4;
+        facingDirect = (int)playerCam.camRot.eulerAngles.y/90;
+        
         visSkin.sprite = spriteFaces[facingDirect];
     }
 }

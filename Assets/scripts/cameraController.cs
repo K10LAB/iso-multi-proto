@@ -27,8 +27,8 @@ public class cameraController : NetworkBehaviour
         } else
         {
             camTR.gameObject.SetActive(true);
-            camRot = Quaternion.Euler(rotationOfPos, 0, 0);
-            currentcamRot = Quaternion.Euler(rotationOfPos, 0, 0);
+            camRot = Quaternion.Euler(rotationOfPos, 45, 0);
+            currentcamRot = Quaternion.Euler(rotationOfPos, 45, 0);
         }
         
         

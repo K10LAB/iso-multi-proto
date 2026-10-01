@@ -13,7 +13,7 @@ public class playerController : NetworkBehaviour
     [SerializeField] private float horizontalMovement;
     [SerializeField] private float verticalMovement;
     [SerializeField] public NetworkVariable<int> movementDir = new NetworkVariable<int>(0, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
-    [SerializeField] public float fl;
+    [SerializeField] public Vector3 velEularReading;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -35,10 +35,14 @@ public class playerController : NetworkBehaviour
         playerCT.linearVelocity = playerCam.currentcamRot * movementVector * moveSpeed;
         
         
+        
     }
     
     void inputKeys()
     {
+        velEularReading = Quaternion.LookRotation(playerCT.linearVelocity).eulerAngles;
+        if(velEularReading.y != 0){movementDir.Value = (int)(velEularReading.y/90);}
+        Debug.Log((int)(velEularReading.y/90));
         bool wP = Keyboard.current.wKey.isPressed;
         bool aP = Keyboard.current.aKey.isPressed;
         bool sP = Keyboard.current.sKey.isPressed;
@@ -47,28 +51,13 @@ public class playerController : NetworkBehaviour
         verticalMovement = 0f;
         if (Keyboard.current != null)
         {
-            if (wP)
-            {
-                horizontalMovement = -1f;
-                if(!sP)movementDir.Value = 2;
-            }
+            if (wP)horizontalMovement = -1f;
+                
+            if (sP)horizontalMovement = 1f;
 
-            if (sP)
-            {
-                horizontalMovement = 1f;
-                if(!wP)movementDir.Value = 4;
-            }
-
-            if (aP)
-            {
-                verticalMovement = -1f;
-                if(!dP)movementDir.Value = 1;
-            }
-            if (dP)
-            {
-                verticalMovement = 1f;
-                if(!aP)movementDir.Value = 3;
-            }
+            if (aP)verticalMovement = 1f;
+        
+            if (dP)verticalMovement = -1f;
             
             
             

@@ -10,6 +10,7 @@ public class facingCamVis : NetworkBehaviour
 {
     [SerializeField] cameraController playerCam;
     [SerializeField] playerController playerCon;
+    [SerializeField] bool ifPlayer;
 
     [SerializeField] Transform parentTR;
 
@@ -64,8 +65,7 @@ public class facingCamVis : NetworkBehaviour
     }
     public void faceDirChange()
     {
-        facingDirect = (int)playerCam.camRot.eulerAngles.y/90;
-        
-        visSkin.sprite = spriteFaces[facingDirect];
+        if(ifPlayer)facingDirect = playerCon.movementDir.Value;
+        visSkin.sprite = spriteFaces[((int)playerCam.camRot.eulerAngles.y/90+facingDirect)%4];
     }
 }

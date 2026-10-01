@@ -40,9 +40,14 @@ public class playerController : NetworkBehaviour
     
     void inputKeys()
     {
+        int roundVER = Mathf.RoundToInt(velEularReading.y);
         velEularReading = Quaternion.LookRotation(playerCT.linearVelocity).eulerAngles;
-        if(velEularReading.y != 0){movementDir.Value = (int)(velEularReading.y/90);}
+        if(roundVER == 45){movementDir.Value = 0;}
+        if(roundVER == 135){movementDir.Value = 3;}
+        if(roundVER == 225){movementDir.Value = 2;}
+        if(roundVER == 315){movementDir.Value = 1;}
         Debug.Log((int)(velEularReading.y/90));
+        Debug.Log("fort"+movementDir.Value);
         bool wP = Keyboard.current.wKey.isPressed;
         bool aP = Keyboard.current.aKey.isPressed;
         bool sP = Keyboard.current.sKey.isPressed;

@@ -12,7 +12,7 @@ public class playerController : NetworkBehaviour
     [SerializeField] private float moveSpeed;
     [SerializeField] private float horizontalMovement;
     [SerializeField] private float verticalMovement;
-    [SerializeField] public NetworkVariable<int> movementDir = new NetworkVariable<int>(0, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
+    [SerializeField] public int movementDir;
     [SerializeField] public Vector3 velEularReading;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -42,27 +42,21 @@ public class playerController : NetworkBehaviour
     {
         int roundVER = Mathf.RoundToInt(velEularReading.y);
         velEularReading = Quaternion.LookRotation(playerCT.linearVelocity).eulerAngles;
-        if(roundVER == 45){movementDir.Value = 0;}
-        if(roundVER == 135){movementDir.Value = 3;}
-        if(roundVER == 225){movementDir.Value = 2;}
-        if(roundVER == 315){movementDir.Value = 1;}
-        Debug.Log((int)(velEularReading.y/90));
-        Debug.Log("fort"+movementDir.Value);
-        bool wP = Keyboard.current.wKey.isPressed;
-        bool aP = Keyboard.current.aKey.isPressed;
-        bool sP = Keyboard.current.sKey.isPressed;
-        bool dP = Keyboard.current.dKey.isPressed;
+        if(roundVER == 45){movementDir = 0;}
+        if(roundVER == 135){movementDir = 3;}
+        if(roundVER == 225){movementDir = 2;}
+        if(roundVER == 315){movementDir = 1;}
         horizontalMovement = 0f;
         verticalMovement = 0f;
         if (Keyboard.current != null)
         {
-            if (wP)horizontalMovement = -1f;
+            if (Keyboard.current.wKey.isPressed)horizontalMovement = -1f;
                 
-            if (sP)horizontalMovement = 1f;
+            if (Keyboard.current.sKey.isPressed)horizontalMovement = 1f;
 
-            if (aP)verticalMovement = 1f;
+            if (Keyboard.current.aKey.isPressed)verticalMovement = 1f;
         
-            if (dP)verticalMovement = -1f;
+            if (Keyboard.current.dKey.isPressed)verticalMovement = -1f;
             
             
             

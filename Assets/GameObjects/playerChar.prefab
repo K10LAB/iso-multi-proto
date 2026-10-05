@@ -10,7 +10,6 @@ GameObject:
   m_Component:
   - component: {fileID: 2520906027215679382}
   - component: {fileID: 4799711962285020768}
-  - component: {fileID: 5366848901030452770}
   m_Layer: 0
   m_Name: visPlayer
   m_TagString: Untagged
@@ -93,31 +92,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_SpriteSortPoint: 0
   m_BlendShapeWeights: []
---- !u!114 &5366848901030452770
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1992342099997614547}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fbf030dcd4460724c8c623d49b0e4664, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::facingCamVis
-  ShowTopMostFoldoutHeaderGroup: 1
-  playerCam: {fileID: 5087673007963608671}
-  playerCon: {fileID: 2653118439820563349}
-  parentTR: {fileID: 8088705343512304414}
-  visSkin: {fileID: 0}
-  facingDirect: 0
-  spriteFaces:
-  - {fileID: 21300000, guid: 9e217ea618423be4abd3dd8e3ee67484, type: 3}
-  - {fileID: 21300000, guid: 46ddc2f3b824f8d46bce2e37b8f2ade9, type: 3}
-  - {fileID: 21300000, guid: ee3f4f68340868449b7563b66475381a, type: 3}
-  - {fileID: 21300000, guid: e5aac7910c3c38540af31cc827d3cbb9, type: 3}
-  if4Sided: 1
-  tempDir: 0
 --- !u!1 &2821451087132053058
 GameObject:
   m_ObjectHideFlags: 0
@@ -268,6 +242,7 @@ GameObject:
   - component: {fileID: 2653118439820563349}
   - component: {fileID: -3603717627758588634}
   - component: {fileID: 5087673007963608671}
+  - component: {fileID: 6303584876139214885}
   - component: {fileID: 9144670924527129385}
   - component: {fileID: 8546201650801252322}
   m_Layer: 0
@@ -306,14 +281,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Unity.Netcode.Runtime::Unity.Netcode.NetworkObject
-  GlobalObjectIdHash: 307972916
+  GlobalObjectIdHash: 1356263662
   InScenePlacedSourceGlobalObjectIdHash: 1356263662
   m_InScenePlacedDisabledByDefault: 0
   DeferredDespawnTick: 0
   Ownership: 1
   AlwaysReplicateAsRoot: 0
   SynchronizeTransform: 1
-  m_InScenePlaced: 1
+  m_InScenePlaced: 0
   ActiveSceneSynchronization: 0
   SceneMigrationSynchronization: 0
   SpawnWithObservers: 1
@@ -337,14 +312,10 @@ MonoBehaviour:
   playerCT: {fileID: 9144670924527129385}
   movementVector: {x: 0, y: 0, z: 0}
   playerCam: {fileID: 5087673007963608671}
+  playerVis: {fileID: 0}
   moveSpeed: 2
-  horizontalMovement: 0
-  verticalMovement: 0
-  movementDir:
-    UpdateTraits:
-      MinSecondsBetweenUpdates: 0
-      MaxSecondsBetweenUpdates: 0
-    m_InternalValue: 0
+  wsKeys: 0
+  adKeys: 0
   velEularReading: {x: 0, y: 0, z: 0}
 --- !u!114 &-3603717627758588634
 MonoBehaviour:
@@ -407,11 +378,39 @@ MonoBehaviour:
   ShowTopMostFoldoutHeaderGroup: 1
   camTR: {fileID: 4199577871196520502}
   distanceFromPL: 2
-  rotationOfPos: 60
+  rotationOfPos: 45
   camtransitionTime: 5
   camRot: {x: 0, y: 0, z: 0, w: 0}
   currentcamRot: {x: 0, y: 0, z: 0, w: 1}
   mouseZoom: 1
+--- !u!114 &6303584876139214885
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6305298293468871697}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fbf030dcd4460724c8c623d49b0e4664, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::facingCamVis
+  ShowTopMostFoldoutHeaderGroup: 1
+  cObj: {fileID: 0}
+  pObj: {fileID: 0}
+  playerCam: {fileID: 5087673007963608671}
+  playerCon: {fileID: 2653118439820563349}
+  faceDir:
+    UpdateTraits:
+      MinSecondsBetweenUpdates: 0
+      MaxSecondsBetweenUpdates: 0
+    m_InternalValue: 0
+  visSkin: {fileID: 0}
+  spriteFaces:
+  - {fileID: 21300000, guid: 9e217ea618423be4abd3dd8e3ee67484, type: 3}
+  - {fileID: 21300000, guid: 46ddc2f3b824f8d46bce2e37b8f2ade9, type: 3}
+  - {fileID: 21300000, guid: ee3f4f68340868449b7563b66475381a, type: 3}
+  - {fileID: 21300000, guid: e5aac7910c3c38540af31cc827d3cbb9, type: 3}
 --- !u!54 &9144670924527129385
 Rigidbody:
   m_ObjectHideFlags: 0

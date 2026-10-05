@@ -36,22 +36,11 @@ public class facingCamVis : NetworkBehaviour
     }
     IEnumerator tryFindPlayer()
     {
-        if (NetworkManager.Singleton != null)
-        {
-            //Debug.Log(1);
-            var localClient = NetworkManager.Singleton.LocalClient;
-            //Debug.Log(localClient);
-            if (localClient != null && localClient.PlayerObject != null)
-            {
-                //Debug.Log(2);
-                pObj = localClient.PlayerObject.gameObject;
-                playerCam = pObj.GetComponent<cameraController>();
-                playerCon = pObj.GetComponent<playerController>();
-                //playerCon = localClient.PlayerObject.GetComponent<playerController>();
-                
-            } else yield return null;
-            
-        }else yield return null;
+        
+        var localClient = NetworkManager.Singleton.LocalClient;
+        if(localClient.PlayerObject == null)yield return null;
+        pObj = localClient.PlayerObject.gameObject;
+        playerCam = pObj.GetComponent<cameraController>();
     }
     
 
@@ -62,7 +51,7 @@ public class facingCamVis : NetworkBehaviour
         if (playerCam == null)return;
         
         cObj.transform.rotation = playerCam.camRot * Quaternion.Euler(-90, 0, 0);
-        cObj.transform.position = cObj.transform.position + cObj.transform.rotation * (visSkin.size.y/2 * cObj.transform.localScale.y * Vector3.up);
+        cObj.transform.position = transform.position + cObj.transform.rotation * (visSkin.size.y/2 * cObj.transform.localScale.y * Vector3.up);
         faceDirChange();
         
         
@@ -71,7 +60,6 @@ public class facingCamVis : NetworkBehaviour
     
     public void faceDirChange()
     {
-        if(isMoving)faceDir.Value = playerCon.movementDir;
         visSkin.sprite = spriteFaces[((int)playerCam.camRot.eulerAngles.y/90 + faceDir.Value)%4];
     }
 }

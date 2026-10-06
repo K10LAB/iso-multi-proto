@@ -19,7 +19,8 @@ public class relayManager : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     [SerializeField]private TextMeshProUGUI joinText;
     [SerializeField]private TMP_InputField relayInput;
-    [SerializeField]private GameObject menuCanvas;
+    [SerializeField]private GameObject menuScreen;
+    [SerializeField]private GameObject loadingScreen;
     //[SerializeField]private Canvas gameCanvas;
     //[SerializeField]private Canvas loadingScreen;
 
@@ -51,10 +52,12 @@ public class relayManager : MonoBehaviour
     {
         
         //gameCanvas.enabled = false;
-        menuCanvas.SetActive(false);
+        menuScreen.SetActive(false);
+        loadingScreen.SetActive(true);
         //loadingScreen.enabled = true;
         string joinCode = "Join Code:" + await startHost();
         joinText.text = joinCode;
+        loadingScreen.SetActive(false);
 
         
         //loadingScreen.enabled = false;
@@ -69,9 +72,11 @@ public class relayManager : MonoBehaviour
     {
         
         //gameCanvas.enabled = false;
-        menuCanvas.SetActive(false);
+        menuScreen.SetActive(false);
+        loadingScreen.SetActive(true);
         //loadingScreen.enabled = true;
         await startClient(relayInput.text);
+        loadingScreen.SetActive(false);
         joinText.text = "Join Code:" + relayInput.text;
         
         //loadingScreen.enabled = false;
@@ -85,6 +90,7 @@ public class relayManager : MonoBehaviour
         
         //gameCanvas.enabled = false;
         //loadingScreen.enabled = true;
+        loadingScreen.SetActive(true);
         joinText.text = "";
         if(NetworkManager.Singleton.IsClient){
             NetworkManager.Singleton.Shutdown();
@@ -92,8 +98,9 @@ public class relayManager : MonoBehaviour
         {
             NetworkManager.Singleton.Shutdown();
         }
+        loadingScreen.SetActive(false);
         //loadingScreen.enabled = false;
-        menuCanvas.SetActive(true);
+        menuScreen.SetActive(true);
         
     }
 

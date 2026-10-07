@@ -1,20 +1,36 @@
 using UnityEngine;
+using UnityEngine.AI;
 using Unity.Netcode;
 
 public class enemyAi : NetworkBehaviour
 {
     // Start is called once before the first execution of Update after the MonoBehaviour is created
-    [SerializeField] private Transform playerChased;
+    //[SerializeField] private GameObject playerChased;
+
+    [SerializeField] private NavMeshAgent navAgent;
+
+    [SerializeField] private float chaseDistance;
+    [SerializeField] private float chaseSpeed;
 
     [SerializeField] private gameManager gM;
+
     void Start()
     {
+        gM = GameObject.Find("GameManager").GetComponent<gameManager>();
+        navAgent = GetComponent<NavMeshAgent>();
         
     }
 
     // Update is called once per frame
     void Update()
     {
+        chasePlayer();
+    }
+
+    void chasePlayer()
+    {
+        GameObject playerChased = null;
+        float closeDistance = chaseDistance;
         foreach (ulong clientId in gM.playerObjects)
         {
             Transform playerObject = gM.getClientPlayerObject(clientId).transform;
@@ -23,11 +39,12 @@ public class enemyAi : NetworkBehaviour
 
             float distanceToPlayer = directionToPlayer.magnitude;
 
-            if (playerObject != null)
+            if (distanceToPlayer < closeDistance)
             {
-                // Do something with the playerObject
-                Debug.Log($"Player Object for Client ID {clientId}: {playerObject.name}");
+                playerChased = playerObject.gameObject;
+                closeDistance = distanceToPlayer;
             }
         }
+        navAgent.SetDestination(playerChased?.transform.position ?? transform.position);
     }
 }

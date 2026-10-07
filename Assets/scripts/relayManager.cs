@@ -21,6 +21,7 @@ public class relayManager : MonoBehaviour
     [SerializeField]private TMP_InputField relayInput;
     [SerializeField]private GameObject menuScreen;
     [SerializeField]private GameObject loadingScreen;
+    
     //[SerializeField]private Canvas gameCanvas;
     //[SerializeField]private Canvas loadingScreen;
 
@@ -51,17 +52,13 @@ public class relayManager : MonoBehaviour
     public async void startRelay()
     {
         
-        //gameCanvas.enabled = false;
+        
         menuScreen.SetActive(false);
         loadingScreen.SetActive(true);
         //loadingScreen.enabled = true;
         string joinCode = "Join Code:" + await startHost();
         joinText.text = joinCode;
         loadingScreen.SetActive(false);
-
-        
-        //loadingScreen.enabled = false;
-        //gameCanvas.enabled = true;
         
         
         
@@ -71,10 +68,8 @@ public class relayManager : MonoBehaviour
     public async void joinRelay()
     {
         
-        //gameCanvas.enabled = false;
         menuScreen.SetActive(false);
         loadingScreen.SetActive(true);
-        //loadingScreen.enabled = true;
         await startClient(relayInput.text);
         loadingScreen.SetActive(false);
         joinText.text = "Join Code:" + relayInput.text;
@@ -91,6 +86,7 @@ public class relayManager : MonoBehaviour
         //gameCanvas.enabled = false;
         //loadingScreen.enabled = true;
         loadingScreen.SetActive(true);
+
         joinText.text = "";
         if(NetworkManager.Singleton.IsClient){
             NetworkManager.Singleton.Shutdown();
@@ -99,8 +95,9 @@ public class relayManager : MonoBehaviour
             NetworkManager.Singleton.Shutdown();
         }
         loadingScreen.SetActive(false);
-        //loadingScreen.enabled = false;
         menuScreen.SetActive(true);
+        //loadingScreen.enabled = false;
+        
         
     }
 

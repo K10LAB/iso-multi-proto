@@ -51,7 +51,7 @@ public class facingCamVis : NetworkBehaviour
         if (playerCam == null)return;
         
         cObj.transform.rotation = playerCam.camRot * Quaternion.Euler(-90, 0, 0);
-        cObj.transform.position = transform.position + cObj.transform.rotation * (visSkin.size.y/2 * cObj.transform.localScale.y * Vector3.up);
+        cObj.transform.position = transform.position + cObj.transform.rotation * (visSkin.size.y/2f * cObj.transform.localScale.y * Vector3.up);
         faceDirChange();
         
         

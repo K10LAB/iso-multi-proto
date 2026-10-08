@@ -1,6 +1,9 @@
 using UnityEngine;
+using System.Collections;
 using UnityEngine.AI;
 using Unity.Netcode;
+using System;
+using UnityEngine.Events;
 
 public class enemyAi : NetworkBehaviour
 {
@@ -9,8 +12,14 @@ public class enemyAi : NetworkBehaviour
 
     [SerializeField] private NavMeshAgent agentNav;
 
+
+    [SerializeField] private Action playerChased;
+    [SerializeField] private UnityEvent<GameObject> playerChasedEvent;
+
+    
+
     [SerializeField] private facingCamVis agentVis;
-    [SerializeField] private GameObject playerChased = null;
+    [SerializeField] private Transform destinationLastKnown;
 
     [SerializeField] private float chaseDistance;
     [SerializeField] private float chaseSpeed;
@@ -22,6 +31,7 @@ public class enemyAi : NetworkBehaviour
         //gM = GameObject.Find("GameManager").GetComponent<gameManager>();
         agentNav = GetComponent<NavMeshAgent>();
         agentVis = GetComponent<facingCamVis>();
+        //destinationLastKnown = transform;
     }
 
     // Update is called once per frame
@@ -29,12 +39,14 @@ public class enemyAi : NetworkBehaviour
     {
         chasePlayer();
         visChange();
+        OnDrawGizmos();
     }
 
     void chasePlayer()
     {
         
         float closeDistance = chaseDistance;
+        GameObject playerChased = null;
         foreach (var clientgObj in NetworkManager.Singleton.ConnectedClients)
         {
             Transform playerObject = clientgObj.Value.PlayerObject.transform;
@@ -47,12 +59,17 @@ public class enemyAi : NetworkBehaviour
             {
                 playerChased = playerObject.gameObject;
                 closeDistance = distanceToPlayer;
+            }  else if (playerChased != null && playerChased == playerObject.gameObject && distanceToPlayer >= chaseDistance)
+            {
+                playerChased = null;
             }
         }
-        agentNav.SetDestination(playerChased?.transform.position ?? transform.position);
+        destinationLastKnown = playerChased?.transform ?? transform;
+        agentNav.SetDestination(destinationLastKnown.position);
+        agentNav.speed = chaseSpeed;
     }
 
-    void OnDrawGizmosSelected()
+    void OnDrawGizmos()
     {
         Gizmos.color = Color.red;
         Gizmos.DrawWireSphere(transform.position, chaseDistance);
@@ -60,7 +77,7 @@ public class enemyAi : NetworkBehaviour
 
     void visChange()
     {
-        Vector3 directionToPlayer = playerChased.transform.position - transform.position;
+        Vector3 directionToPlayer = destinationLastKnown.position - transform.position;
 
         Quaternion lookRotation = Quaternion.LookRotation(directionToPlayer);
 

@@ -12,8 +12,8 @@ GameObject:
   - component: {fileID: 1250924505162361153}
   - component: {fileID: 3007389644047893850}
   - component: {fileID: 2215191069836678743}
-  - component: {fileID: 6127089094272787125}
   - component: {fileID: 8828228406631629535}
+  - component: {fileID: 2185785335333829338}
   m_Layer: 0
   m_Name: wolf
   m_TagString: Untagged
@@ -49,14 +49,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Unity.Netcode.Runtime::Unity.Netcode.NetworkObject
-  GlobalObjectIdHash: 4133303127
+  GlobalObjectIdHash: 1489058394
   InScenePlacedSourceGlobalObjectIdHash: 4133303127
   m_InScenePlacedDisabledByDefault: 0
   DeferredDespawnTick: 0
   Ownership: 1
   AlwaysReplicateAsRoot: 0
   SynchronizeTransform: 1
-  m_InScenePlaced: 0
+  m_InScenePlaced: 1
   ActiveSceneSynchronization: 0
   SceneMigrationSynchronization: 0
   SpawnWithObservers: 1
@@ -80,18 +80,17 @@ MonoBehaviour:
   cObj: {fileID: 0}
   pObj: {fileID: 0}
   playerCam: {fileID: 0}
-  playerCon: {fileID: 0}
   faceDir:
     UpdateTraits:
       MinSecondsBetweenUpdates: 0
       MaxSecondsBetweenUpdates: 0
-    m_InternalValue: 0
+    m_InternalValue: 1
   visSkin: {fileID: 0}
   spriteFaces:
   - {fileID: 21300000, guid: b22fbffa9ce384a4dbce78b51aef0be9, type: 3}
-  - {fileID: 21300000, guid: 031b6dc295a29314faa024bfe4a89b86, type: 3}
-  - {fileID: 21300000, guid: c74045077944ed3479eb5d6dd4b84628, type: 3}
   - {fileID: 21300000, guid: b92f20fd8d5a32946a66b72bc8f41830, type: 3}
+  - {fileID: 21300000, guid: c74045077944ed3479eb5d6dd4b84628, type: 3}
+  - {fileID: 21300000, guid: 031b6dc295a29314faa024bfe4a89b86, type: 3}
 --- !u!114 &2215191069836678743
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -138,24 +137,6 @@ MonoBehaviour:
   SwitchTransformSpaceWhenParented: 0
   Interpolate: 1
   SlerpPosition: 0
---- !u!114 &6127089094272787125
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7018876420574353599}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0e1594d6d115c2648a46bb578a36c450, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::enemyAi
-  ShowTopMostFoldoutHeaderGroup: 1
-  agentNav: {fileID: 0}
-  agentVis: {fileID: 0}
-  playerChased: {fileID: 0}
-  chaseDistance: 1
-  chaseSpeed: 2
 --- !u!195 &8828228406631629535
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -178,6 +159,27 @@ NavMeshAgent:
   m_BaseOffset: 0
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
+--- !u!114 &2185785335333829338
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7018876420574353599}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5e50505a04fd8914d980a2fd70911a1a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::wolfStateMachine
+  ShowTopMostFoldoutHeaderGroup: 1
+  navAgent: {fileID: 8828228406631629535}
+  detectionMax: 0
+  detectionRate: 0
+  detectionLevel:
+    UpdateTraits:
+      MinSecondsBetweenUpdates: 0
+      MaxSecondsBetweenUpdates: 0
+    m_InternalValue: 0
 --- !u!1 &8857565338839586818
 GameObject:
   m_ObjectHideFlags: 0

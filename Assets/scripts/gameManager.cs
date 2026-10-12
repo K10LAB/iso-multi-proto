@@ -25,6 +25,7 @@ public class gameManager : NetworkBehaviour
         base.OnNetworkDespawn();
         NetworkManager.Singleton.OnClientConnectedCallback -= OnClientConnected;
         NetworkManager.Singleton.OnClientDisconnectCallback -= OnClientDisconnected;
+        
     } 
 
     void OnClientConnected(ulong clientId)

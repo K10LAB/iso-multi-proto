@@ -12,12 +12,6 @@ public class enemyAi : NetworkBehaviour
 
     [SerializeField] private NavMeshAgent agentNav;
 
-
-    [SerializeField] private Action playerChased;
-    [SerializeField] private UnityEvent<GameObject> playerChasedEvent;
-
-    
-
     [SerializeField] private facingCamVis agentVis;
     [SerializeField] private Transform destinationLastKnown;
 

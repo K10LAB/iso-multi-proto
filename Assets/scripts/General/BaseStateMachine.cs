@@ -28,6 +28,7 @@ public class StateManager<Estate> : NetworkBehaviour where Estate : Enum
     }
     void ChangeState(Estate nextState)
     {
+        Debug.Log("ChangeState");
         if(!IsServer || currentState == null)return;
         currentState.ExitState();
         currentState = states[nextState];

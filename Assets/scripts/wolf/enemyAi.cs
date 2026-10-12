@@ -28,18 +28,21 @@ public class enemyAi : NetworkBehaviour
 
     void Start()
     {
+
         //gM = GameObject.Find("GameManager").GetComponent<gameManager>();
         agentNav = GetComponent<NavMeshAgent>();
         agentVis = GetComponent<facingCamVis>();
+        
         //destinationLastKnown = transform;
     }
 
     // Update is called once per frame
     void Update()
     {
+        
         chasePlayer();
         visChange();
-        OnDrawGizmos();
+        
     }
 
     void chasePlayer()
@@ -81,7 +84,7 @@ public class enemyAi : NetworkBehaviour
 
         Quaternion lookRotation = Quaternion.LookRotation(directionToPlayer);
 
-        Debug.Log(lookRotation.eulerAngles.y);
+        //Debug.Log(lookRotation.eulerAngles.y);
 
         
         if (lookRotation.eulerAngles.y >= 0 && lookRotation.eulerAngles.y < 90)

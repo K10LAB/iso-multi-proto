@@ -14,7 +14,7 @@ public class facingCamVis : NetworkBehaviour
     [SerializeField] public GameObject pObj;
 
     [SerializeField] public cameraController playerCam;
-    [SerializeField] public playerController playerCon;
+
     
     [SerializeField] public NetworkVariable<int> faceDir = new NetworkVariable<int>(0, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
     

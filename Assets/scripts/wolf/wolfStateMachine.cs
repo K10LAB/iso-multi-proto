@@ -44,15 +44,16 @@ public class wolfStateMachine : StateManagerM<wolfStateMachine.wolfStates>
         context = new wolfContext
         (navAgent, detectionMax, detectionRate, detectionLevel, idleTimeMax, idleTimeMin, patrolSpeed, patrolPositions, 
         spawnPoint, chaseDistance,chaseSpeed);
-
         setupState();
         
     }
     public void setupState()
     {
-        //states.Add(wolfStates.Idle, new wolfIdleState(context, wolfStates.Idle));
-        states.Add(wolfStates.Patrol, new wolfIdleState(context, wolfStates.Patrol));
-        currentState = states[wolfStates.Patrol];
+        states.Add(wolfStates.Idle, new wolfIdleState(context, wolfStates.Idle));
+        states.Add(wolfStates.Patrol, new WolfPatrolState(context, wolfStates.Patrol));
+        currentState = states[wolfStates.Idle];
+        Debug.Log(currentState);
+
     }
 
     // Update is called once per frame

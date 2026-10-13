@@ -9,17 +9,25 @@ public class StateManagerM<Estate> : NetworkBehaviour where Estate : Enum
     protected Dictionary<Estate, BasedStateM<Estate>> states = new Dictionary<Estate, BasedStateM<Estate>>();
     protected BasedStateM<Estate> currentState;
 
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
+    protected NetworkVariable<Estate> networkCurrentState = new NetworkVariable<Estate>
+    (default(Estate), NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
     public override void OnNetworkSpawn()
     {
         base.OnNetworkSpawn();
-        if(IsServer && currentState != null)currentState.EnterState();
+        
+        networkCurrentState.OnValueChanged += changeNetworkState;
+
+        if(IsServer && currentState != null){
+            currentState.EnterState();
+            networkCurrentState.Value = currentState.stateKey;
+        }
     }
 
     void Update()
     {
+        
         if(!IsServer || currentState == null)return;
-
+        
         Estate nextState = currentState.NextState();
         if (nextState.Equals(currentState.stateKey))
         {
@@ -29,9 +37,12 @@ public class StateManagerM<Estate> : NetworkBehaviour where Estate : Enum
     void ChangeState(Estate nextState)
     {
         if(!IsServer || currentState == null)return;
+        Debug.Log(currentState);
+        Debug.Log("changeState");
         currentState.ExitState();
         currentState = states[nextState];
         currentState.EnterState();
+        Debug.Log(currentState);
         
     }
 
@@ -45,6 +56,23 @@ public class StateManagerM<Estate> : NetworkBehaviour where Estate : Enum
     {
         if(!IsServer || currentState == null)return;
         currentState.OnTriggerExit(other);
+    }
+
+    private void changeNetworkState(Estate old, Estate New)
+    {
+        if(IsServer)return;
+
+        if (states.ContainsKey(New))
+        {
+            currentState = states[New];
+        }
+    }
+    public override void OnNetworkDespawn()
+    {
+        base.OnNetworkDespawn();
+        
+        networkCurrentState.OnValueChanged -= changeNetworkState;
+
     }
 }
 public abstract class BasedStateM<EState>  where EState : Enum

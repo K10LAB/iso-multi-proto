@@ -19,7 +19,7 @@ public class WolfPatrolState : wolfBaseState
 
     public override wolfStateMachine.wolfStates NextState()
     {
-        return wolfStateMachine.wolfStates.Patrol;
+        return stateKey;
     }
 
     public override void OnTriggerEnter(Collider other)

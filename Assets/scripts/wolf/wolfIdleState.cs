@@ -16,7 +16,7 @@ public class wolfIdleState : wolfBaseState
 			detectionLevel.Value = 100f;
 			return wolfStateMachine.wolfStates.Patrol;
 		}
-		return wolfStateMachine.wolfStates.Idle;
+		return stateKey;
 		
 	}
 
@@ -29,7 +29,7 @@ public class wolfIdleState : wolfBaseState
     {
         randomWaitTime -= Time.deltaTime;
 		if(randomWaitTime<0) transitionToPatrol = true;
-		
+		Debug.Log(randomWaitTime);
 		
 		
     }

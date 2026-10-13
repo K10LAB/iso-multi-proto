@@ -19,7 +19,12 @@ public class wolfIdleState : wolfBaseState
 		return stateKey;
 		
 	}
-
+	public override void EnterState()
+    {
+        randomWaitTime = UnityEngine.Random.Range(idleTimeMin, idleTimeMax);
+		transitionToPatrol = false;
+		Debug.Log("Entering Idle");
+    }
 	public override void ExitState()
 	{
 		Debug.Log("Exiting Idle");
@@ -34,12 +39,7 @@ public class wolfIdleState : wolfBaseState
 		
     }
 
-	public override void EnterState()
-    {
-        randomWaitTime = UnityEngine.Random.Range(idleTimeMin, idleTimeMax);
-		transitionToPatrol = false;
-		Debug.Log("Entering Idle");
-    }
+	
     public override void OnTriggerExit(Collider other)
     {
         

@@ -180,6 +180,13 @@ MonoBehaviour:
       MinSecondsBetweenUpdates: 0
       MaxSecondsBetweenUpdates: 0
     m_InternalValue: 0
+  idleTimeMax: 10
+  idleTimeMin: 5
+  patrolSpeed: 0
+  patrolPositions: 0
+  spawnPoint: {x: 0, y: 0, z: 0}
+  chaseDistance: 0
+  chaseSpeed: 0
 --- !u!1 &8857565338839586818
 GameObject:
   m_ObjectHideFlags: 0

@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using System.Diagnostics;
 using Unity.Netcode;
 using Unity.Services.Lobbies.Models;
 using Unity.VisualScripting;
@@ -12,6 +13,9 @@ public class facingCamVis : NetworkBehaviour
     [SerializeField] public GameObject cObj;
 
     [SerializeField] public GameObject pObj;
+
+    [SerializeField] public SpriteRenderer stateVisual;
+    [SerializeField] public wolfStateMachine wSM;
 
     [SerializeField] public cameraController playerCam;
 
@@ -27,6 +31,7 @@ public class facingCamVis : NetworkBehaviour
     {
         cObj = transform.GetChild(0).gameObject;
         visSkin = cObj.GetComponent<SpriteRenderer>();
+        
     }
     public override void OnNetworkSpawn()
     {
@@ -49,7 +54,17 @@ public class facingCamVis : NetworkBehaviour
     {
         
         if (playerCam == null)return;
-        
+        switch (wSM.currentState.stateKey)
+        {
+            case wolfStateMachine.wolfStates.Idle:
+            
+            
+                break;
+            case wolfStateMachine.wolfStates.Patrol:
+                break;
+            case wolfStateMachine.wolfStates.Chase:
+                break;
+        }
         cObj.transform.rotation = playerCam.camRot * Quaternion.Euler(-90, 0, 0);
         cObj.transform.position = transform.position + cObj.transform.rotation * (visSkin.size.y/2f * cObj.transform.localScale.y * Vector3.up);
         faceDirChange();

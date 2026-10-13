@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.AI;
 using Unity.Netcode;
 using UnityEditor;
+using Unity.Mathematics;
 
 public class wolfStateMachine : StateManagerM<wolfStateMachine.wolfStates>
 {
@@ -31,20 +32,25 @@ public class wolfStateMachine : StateManagerM<wolfStateMachine.wolfStates>
 
     [SerializeField] private float chaseDistance;
     [SerializeField] private float chaseSpeed;
+    [SerializeField] private SpriteRenderer stateVisual;
+
+    
     wolfContext context;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     
-    public override void OnNetworkSpawn()
+    void Awake()
     {
-        base.OnNetworkSpawn();
+        //base.OnNetworkSpawn();
+        
         navAgent = GetComponent<NavMeshAgent>();
         spawnPoint = transform.position;
 
         context = new wolfContext
         (navAgent, detectionMax, detectionRate, detectionLevel, idleTimeMax, idleTimeMin, patrolSpeed, patrolPositions, 
-        spawnPoint, chaseDistance,chaseSpeed);
+        spawnPoint, chaseDistance,chaseSpeed, stateVisual);
         setupState();
+        if(NetworkManager.Singleton)GetComponent<NetworkObject>().Spawn();
         
     }
     public void setupState()
@@ -52,7 +58,7 @@ public class wolfStateMachine : StateManagerM<wolfStateMachine.wolfStates>
         states.Add(wolfStates.Idle, new wolfIdleState(context, wolfStates.Idle));
         states.Add(wolfStates.Patrol, new WolfPatrolState(context, wolfStates.Patrol));
         currentState = states[wolfStates.Idle];
-        Debug.Log(currentState);
+        
 
     }
 
@@ -76,10 +82,11 @@ public class wolfContext
 
     public readonly float chaseDistance;
     public readonly float chaseSpeed;
+    //public readonly SpriteRenderer stateVisual;
     
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
-    public wolfContext(NavMeshAgent pA, float dM, float dR, NetworkVariable<float> dL, float iTX, float iTN, float pS, int pP, Vector3 sP, float cD, float cS)
+    public wolfContext(NavMeshAgent pA, float dM, float dR, NetworkVariable<float> dL, float iTX, float iTN, float pS, int pP, Vector3 sP, float cD, float cS, SpriteRenderer sV)
     {
         navAgent = pA;
         detectionMax = dM;
@@ -92,6 +99,7 @@ public class wolfContext
         spawnPoint = sP;
         chaseDistance = cD;
         chaseSpeed = cS;
+        //stateVisual = sV;
     }
     
 }
@@ -112,6 +120,7 @@ public abstract class wolfBaseState : BasedStateM<wolfStateMachine.wolfStates>
 
     public readonly float chaseDistance;
     public readonly float chaseSpeed;
+    //public readonly SpriteRenderer stateVisual;
 
     public wolfBaseState(wolfContext context, wolfStateMachine.wolfStates stateKey) : base(stateKey)
     {
@@ -125,5 +134,6 @@ public abstract class wolfBaseState : BasedStateM<wolfStateMachine.wolfStates>
         spawnPoint = context.spawnPoint;
         chaseDistance = context.chaseDistance;
         chaseSpeed = context.chaseSpeed;
+        //stateVisual = context.stateVisual;
     }
 }

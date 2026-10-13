@@ -7,27 +7,32 @@ using Unity.Netcode;
 public class StateManagerM<Estate> : NetworkBehaviour where Estate : Enum
 {
     protected Dictionary<Estate, BasedStateM<Estate>> states = new Dictionary<Estate, BasedStateM<Estate>>();
-    protected BasedStateM<Estate> currentState;
+    public BasedStateM<Estate> currentState;
+    
+    
 
-    protected NetworkVariable<Estate> networkCurrentState = new NetworkVariable<Estate>
-    (default(Estate), NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
+    //protected NetworkVariable<Estate> networkCurrentState = new NetworkVariable<Estate>
+    //(default(Estate), NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
     public override void OnNetworkSpawn()
     {
         base.OnNetworkSpawn();
         
-        networkCurrentState.OnValueChanged += changeNetworkState;
+        //networkCurrentState.OnValueChanged += changeNetworkState;
+        Debug.Log("IsSpawned");
+        Debug.Log(currentState);
+        Debug.Log(IsHost);
+        if(!IsHost || currentState == null)return;
+        Debug.Log("startCode");
+        currentState.EnterState();
 
-        if(IsServer && currentState != null){
-            currentState.EnterState();
-            networkCurrentState.Value = currentState.stateKey;
-        }
+        //networkCurrentState.Value = currentState.stateKey;
+
     }
 
     void Update()
     {
-        
-        if(!IsServer || currentState == null)return;
-        
+
+        if(!IsHost || currentState == null)return;
         Estate nextState = currentState.NextState();
         if (nextState.Equals(currentState.stateKey))
         {
@@ -36,44 +41,46 @@ public class StateManagerM<Estate> : NetworkBehaviour where Estate : Enum
     }
     void ChangeState(Estate nextState)
     {
-        if(!IsServer || currentState == null)return;
-        Debug.Log(currentState);
-        Debug.Log("changeState");
+        if(!IsHost || currentState == null)return;
+        //Debug.Log(currentState);
+        //Debug.Log("changeState");
         currentState.ExitState();
         currentState = states[nextState];
+        //networkCurrentState.Value = currentState.stateKey;
+        
         currentState.EnterState();
-        Debug.Log(currentState);
+        //Debug.Log(currentState);
         
     }
 
     void OnTriggerEnter(Collider other)
     {
-        if(!IsServer || currentState == null)return;
+        if(!IsHost || currentState == null)return;
         currentState.OnTriggerEnter(other);
     }
 
     void OnTriggerExit(Collider other)
     {
-        if(!IsServer || currentState == null)return;
+        if(!IsHost || currentState == null)return;
         currentState.OnTriggerExit(other);
     }
 
     private void changeNetworkState(Estate old, Estate New)
     {
-        if(IsServer)return;
+        if(IsHost)return;
 
         if (states.ContainsKey(New))
         {
             currentState = states[New];
         }
     }
-    public override void OnNetworkDespawn()
-    {
-        base.OnNetworkDespawn();
+    //public override void OnNetworkDespawn()
+    //{
+        //base.OnNetworkDespawn();
         
-        networkCurrentState.OnValueChanged -= changeNetworkState;
+        //networkCurrentState.OnValueChanged -= changeNetworkState;
 
-    }
+    //}
 }
 public abstract class BasedStateM<EState>  where EState : Enum
 {

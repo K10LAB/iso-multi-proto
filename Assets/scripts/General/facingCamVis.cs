@@ -30,7 +30,7 @@ public class facingCamVis : NetworkBehaviour
     {
         cObj = transform.GetChild(0).gameObject;
         visSkin = cObj.GetComponent<SpriteRenderer>();
-        
+        StartCoroutine(tryFindPlayer());
     }
     public override void OnNetworkSpawn()
     {

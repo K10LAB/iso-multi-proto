@@ -10,15 +10,15 @@ public class wolfIdleState : wolfBaseState
     
 	public wolfIdleState(wolfContext context, wolfStateMachine.wolfStates state): base(context, state){}
 
-	//public override wolfStateMachine.wolfStates NextState()
-	//{
-		//if(transitionToPatrol) {
-		//	Debug.Log("transitioning to patrol");
-		//	detectionLevel.Value = 100f;
-		//	return wolfStateMachine.wolfStates.Patrol;
-		//}
-		//return stateKey;	
-	//}
+	public override wolfStateMachine.wolfStates NextState()
+	{
+		if(randomWaitTime<0) {
+			Debug.Log("transitioning to patrol");
+			detectionLevel.Value = 100f;
+			return wolfStateMachine.wolfStates.Patrol;
+		}
+		return stateKey;	
+	}
 	public override void EnterState()
     {
         randomWaitTime = UnityEngine.Random.Range(idleTimeMin, idleTimeMax);
@@ -34,7 +34,6 @@ public class wolfIdleState : wolfBaseState
 	public override void UpdateState()
     {
         randomWaitTime -= Time.deltaTime;
-		if(randomWaitTime<0) stateKey.Value = wolfStateMachine.wolfStates.Patrol;
 		Debug.Log(randomWaitTime);
 		
 		

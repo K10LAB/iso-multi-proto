@@ -41,16 +41,13 @@ public class wolfStateMachine : StateManagerM<wolfStateMachine.wolfStates>
     
     void Awake()
     {
-        //base.OnNetworkSpawn();
-        
         navAgent = GetComponent<NavMeshAgent>();
         spawnPoint = transform.position;
-
         context = new wolfContext
         (navAgent, detectionMax, detectionRate, detectionLevel, idleTimeMax, idleTimeMin, patrolSpeed, patrolPositions, 
         spawnPoint, chaseDistance,chaseSpeed);
         setupState();
-        if(NetworkManager.Singleton)GetComponent<NetworkObject>().Spawn();
+        
         
     }
     public void setupState()
@@ -58,6 +55,9 @@ public class wolfStateMachine : StateManagerM<wolfStateMachine.wolfStates>
         states.Add(wolfStates.Idle, new wolfIdleState(context, wolfStates.Idle));
         states.Add(wolfStates.Patrol, new WolfPatrolState(context, wolfStates.Patrol));
         currentState = states[wolfStates.Idle];
+        //currentState.stateKey.Value = wolfStates.Idle;
+        Debug.Log(currentState);
+        //Debug.Log(currentState.stateKey.Value);
         
 
     }

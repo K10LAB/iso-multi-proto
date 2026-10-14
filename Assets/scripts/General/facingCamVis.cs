@@ -1,6 +1,6 @@
 using System;
 using System.Collections;
-using System.Diagnostics;
+
 using Unity.Netcode;
 using Unity.Services.Lobbies.Models;
 using Unity.VisualScripting;
@@ -15,7 +15,6 @@ public class facingCamVis : NetworkBehaviour
     [SerializeField] public GameObject pObj;
 
     [SerializeField] public SpriteRenderer stateVisual;
-    [SerializeField] public wolfStateMachine wSM;
 
     [SerializeField] public cameraController playerCam;
 
@@ -27,7 +26,7 @@ public class facingCamVis : NetworkBehaviour
     [SerializeField] public Sprite[] spriteFaces = new Sprite[4];
     
     
-    void Start()
+    void Awake()
     {
         cObj = transform.GetChild(0).gameObject;
         visSkin = cObj.GetComponent<SpriteRenderer>();
@@ -36,17 +35,46 @@ public class facingCamVis : NetworkBehaviour
     public override void OnNetworkSpawn()
     {
         base.OnNetworkSpawn();
+        
         StartCoroutine(tryFindPlayer());
+        //wSM.networkCurrentState.OnValueChanged += onStateChange;
+        //onStateChange(default, wSM.networkCurrentState.Value);
+        
         
     }
     IEnumerator tryFindPlayer()
     {
         
         var localClient = NetworkManager.Singleton.LocalClient;
+        Debug.Log(localClient);
         if(localClient.PlayerObject == null)yield return null;
         pObj = localClient.PlayerObject.gameObject;
         playerCam = pObj.GetComponent<cameraController>();
     }
+
+    //public override void OnNetworkDespawn()
+    //{
+        //base.OnNetworkDespawn();
+        //wSM.networkCurrentState.OnValueChanged -=  onStateChange;
+    //}
+    /*
+    void onStateChange(wolfStateMachine.wolfStates old, wolfStateMachine.wolfStates New)
+    {
+        switch (New)
+        {
+            case wolfStateMachine.wolfStates.Idle:
+            stateVisual.color = Color.green;
+            break;
+            case wolfStateMachine.wolfStates.Patrol:
+            stateVisual.color = Color.yellow;
+            break;
+            case wolfStateMachine.wolfStates.Chase:
+            stateVisual.color = Color.red;
+            break;
+        }
+    }
+    */
+    
     
 
     // Update is called once per frame
@@ -54,17 +82,7 @@ public class facingCamVis : NetworkBehaviour
     {
         
         if (playerCam == null)return;
-        switch (wSM.currentState.stateKey)
-        {
-            case wolfStateMachine.wolfStates.Idle:
-            
-            
-                break;
-            case wolfStateMachine.wolfStates.Patrol:
-                break;
-            case wolfStateMachine.wolfStates.Chase:
-                break;
-        }
+        
         cObj.transform.rotation = playerCam.camRot * Quaternion.Euler(-90, 0, 0);
         cObj.transform.position = transform.position + cObj.transform.rotation * (visSkin.size.y/2f * cObj.transform.localScale.y * Vector3.up);
         faceDirChange();

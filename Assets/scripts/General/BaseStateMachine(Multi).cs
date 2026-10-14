@@ -7,7 +7,7 @@ using Unity.Netcode;
 public class StateManagerM<Estate> : NetworkBehaviour where Estate : Enum
 {
     protected Dictionary<Estate, BasedStateM<Estate>> states = new Dictionary<Estate, BasedStateM<Estate>>();
-    public BasedStateM<Estate> currentState;
+    protected BasedStateM<Estate> currentState;
     
     
 
@@ -17,15 +17,15 @@ public class StateManagerM<Estate> : NetworkBehaviour where Estate : Enum
     {
         base.OnNetworkSpawn();
         
-        //networkCurrentState.OnValueChanged += changeNetworkState;
+        currentState.stateKey.OnValueChanged += changeNetworkState;
         Debug.Log("IsSpawned");
         Debug.Log(currentState);
         Debug.Log(IsHost);
         if(!IsHost || currentState == null)return;
+
         Debug.Log("startCode");
         currentState.EnterState();
-
-        //networkCurrentState.Value = currentState.stateKey;
+        
 
     }
 
@@ -33,23 +33,22 @@ public class StateManagerM<Estate> : NetworkBehaviour where Estate : Enum
     {
 
         if(!IsHost || currentState == null)return;
+        currentState.UpdateState();
+        /*
         Estate nextState = currentState.NextState();
         if (nextState.Equals(currentState.stateKey))
         {
-            currentState.UpdateState();
+            
         } else ChangeState(nextState);
+        */
     }
     void ChangeState(Estate nextState)
     {
         if(!IsHost || currentState == null)return;
-        //Debug.Log(currentState);
-        //Debug.Log("changeState");
-        currentState.ExitState();
-        currentState = states[nextState];
-        //networkCurrentState.Value = currentState.stateKey;
         
-        currentState.EnterState();
-        //Debug.Log(currentState);
+        //networkCurrentState.Value = nextState;
+        
+        
         
     }
 
@@ -69,33 +68,39 @@ public class StateManagerM<Estate> : NetworkBehaviour where Estate : Enum
     {
         if(IsHost)return;
 
-        if (states.ContainsKey(New))
+        
+        if (!old.Equals(New))
         {
+            currentState.ExitState();
             currentState = states[New];
+            currentState.EnterState();
         }
     }
-    //public override void OnNetworkDespawn()
-    //{
-        //base.OnNetworkDespawn();
+    public override void OnNetworkDespawn()
+    {
+        base.OnNetworkDespawn();
         
-        //networkCurrentState.OnValueChanged -= changeNetworkState;
+        currentState.stateKey.OnValueChanged -= changeNetworkState;
 
-    //}
+    }
 }
 public abstract class BasedStateM<EState>  where EState : Enum
 {
     public BasedStateM(EState key)
     {
-        stateKey = key;
+        stateKey.Value = key;
     }
-    public EState stateKey{get; private set;}
+    public NetworkVariable<EState> stateKey = new NetworkVariable<EState>
+    (default, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
+
+    //public EState stateKey{get; private set;}
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     public abstract void EnterState();
     public abstract void UpdateState();
     public abstract void ExitState();
     public abstract void OnTriggerEnter(Collider other);
     public abstract void OnTriggerExit(Collider other);
-    public abstract EState NextState();
+    //public abstract EState NextState();
    
 }
 

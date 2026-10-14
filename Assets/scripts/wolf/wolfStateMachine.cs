@@ -32,7 +32,7 @@ public class wolfStateMachine : StateManagerM<wolfStateMachine.wolfStates>
 
     [SerializeField] private float chaseDistance;
     [SerializeField] private float chaseSpeed;
-    [SerializeField] private SpriteRenderer stateVisual;
+    //[SerializeField] private SpriteRenderer stateVisual;
 
     
     wolfContext context;
@@ -48,7 +48,7 @@ public class wolfStateMachine : StateManagerM<wolfStateMachine.wolfStates>
 
         context = new wolfContext
         (navAgent, detectionMax, detectionRate, detectionLevel, idleTimeMax, idleTimeMin, patrolSpeed, patrolPositions, 
-        spawnPoint, chaseDistance,chaseSpeed, stateVisual);
+        spawnPoint, chaseDistance,chaseSpeed);
         setupState();
         if(NetworkManager.Singleton)GetComponent<NetworkObject>().Spawn();
         
@@ -86,7 +86,7 @@ public class wolfContext
     
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
-    public wolfContext(NavMeshAgent pA, float dM, float dR, NetworkVariable<float> dL, float iTX, float iTN, float pS, int pP, Vector3 sP, float cD, float cS, SpriteRenderer sV)
+    public wolfContext(NavMeshAgent pA, float dM, float dR, NetworkVariable<float> dL, float iTX, float iTN, float pS, int pP, Vector3 sP, float cD, float cS)
     {
         navAgent = pA;
         detectionMax = dM;

@@ -9,7 +9,7 @@ public class WolfPatrolState : wolfBaseState
     {
         Debug.Log("Enter Patrol");
         currentPositionPoints = patrolPositions;
-        Debug.Log(currentPositionPoints);
+        
         navAgent.speed = patrolSpeed;
     }
 
@@ -22,20 +22,31 @@ public class WolfPatrolState : wolfBaseState
     {
         if (!navAgent.pathPending && navAgent.remainingDistance <= navAgent.stoppingDistance)
         {
-            Vector2 randomOffset = Random.insideUnitCircle * patrolRadius;
+
+            if (currentPositionPoints > 0)
+            {
+                Vector2 randomOffset = Random.insideUnitCircle * patrolRadius;
         
-            Vector3 newPatrolPosition = new Vector3(randomOffset.x, 0, randomOffset.y) + spawnPoint;
+                Vector3 newPatrolPosition = new Vector3(randomOffset.x, 0, randomOffset.y) + spawnPoint;
         
-            navAgent.SetDestination(newPatrolPosition);
-        
+                navAgent.SetDestination(newPatrolPosition);
+            } else if(currentPositionPoints>-1)navAgent.SetDestination(spawnPoint);
+            
             currentPositionPoints--;
             Debug.Log(currentPositionPoints);
         }
+
+        
+    }
+    void OnDrawGizmos()
+    {
+        Gizmos.color = Color.red;
+        Gizmos.DrawWireSphere(spawnPoint, patrolRadius);
     }
 
     public override wolfStateMachine.wolfStates NextState()
     {
-        if (currentPositionPoints == 0)
+        if (currentPositionPoints == -2)
         {
             return wolfStateMachine.wolfStates.Idle;
         }

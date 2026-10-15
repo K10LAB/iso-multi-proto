@@ -1320,8 +1320,12 @@ PrefabInstance:
       value: 597527358
       objectReference: {fileID: 0}
     - target: {fileID: 2185785335333829338, guid: 8cb59e1fc4a432240b3af807229d5b8a, type: 3}
+      propertyPath: patrolSpeed
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2185785335333829338, guid: 8cb59e1fc4a432240b3af807229d5b8a, type: 3}
       propertyPath: patrolRadius
-      value: 5
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 2614283679058524813, guid: 8cb59e1fc4a432240b3af807229d5b8a, type: 3}
       propertyPath: m_LocalPosition.x

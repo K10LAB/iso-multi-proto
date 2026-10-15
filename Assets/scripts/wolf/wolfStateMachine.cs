@@ -20,12 +20,14 @@ public class wolfStateMachine : StateManagerM<wolfStateMachine.wolfStates>
     [SerializeField] private NavMeshAgent navAgent;
     [SerializeField] private float detectionMax;
     [SerializeField] private float detectionRate;
-    [SerializeField] private NetworkVariable<float> detectionLevel = new NetworkVariable<float>
+    [SerializeField] public readonly NetworkVariable<float> detectionLevel = new NetworkVariable<float>
     (0f, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
     [SerializeField] private float idleTimeMax;
     [SerializeField] private float idleTimeMin;
 
     [SerializeField] private float patrolSpeed;
+
+    [SerializeField] private float patrolRadius;
 
     [SerializeField] private int patrolPositions;
     [SerializeField] private Vector3 spawnPoint;
@@ -44,10 +46,10 @@ public class wolfStateMachine : StateManagerM<wolfStateMachine.wolfStates>
         navAgent = GetComponent<NavMeshAgent>();
         spawnPoint = transform.position;
         context = new wolfContext
-        (navAgent, detectionMax, detectionRate, detectionLevel, idleTimeMax, idleTimeMin, patrolSpeed, patrolPositions, 
+        (navAgent, detectionMax, detectionRate, detectionLevel, idleTimeMax, idleTimeMin, patrolSpeed, patrolRadius, patrolPositions, 
         spawnPoint, chaseDistance,chaseSpeed);
         setupState();
-        
+        if(NetworkManager.Singleton!=null)GetComponent<NetworkObject>().Spawn();
         
     }
     public void setupState()
@@ -56,7 +58,7 @@ public class wolfStateMachine : StateManagerM<wolfStateMachine.wolfStates>
         states.Add(wolfStates.Patrol, new WolfPatrolState(context, wolfStates.Patrol));
         currentState = states[wolfStates.Idle];
         //currentState.stateKey.Value = wolfStates.Idle;
-        Debug.Log(currentState);
+        //Debug.Log(currentState);
         //Debug.Log(currentState.stateKey.Value);
         
 
@@ -76,6 +78,7 @@ public class wolfContext
     public readonly float idleTimeMin;
 
     public readonly float patrolSpeed;
+    public readonly float patrolRadius;
 
     public readonly int patrolPositions;
     public readonly Vector3 spawnPoint;
@@ -86,7 +89,7 @@ public class wolfContext
     
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
-    public wolfContext(NavMeshAgent pA, float dM, float dR, NetworkVariable<float> dL, float iTX, float iTN, float pS, int pP, Vector3 sP, float cD, float cS)
+    public wolfContext(NavMeshAgent pA, float dM, float dR, NetworkVariable<float> dL, float iTX, float iTN, float pS, float pR, int pP, Vector3 sP, float cD, float cS)
     {
         navAgent = pA;
         detectionMax = dM;
@@ -95,6 +98,7 @@ public class wolfContext
         idleTimeMax = iTX;
         idleTimeMin = iTN;
         patrolSpeed = pS;
+        patrolRadius = pR;
         patrolPositions = pP;
         spawnPoint = sP;
         chaseDistance = cD;
@@ -112,7 +116,8 @@ public abstract class wolfBaseState : BasedStateM<wolfStateMachine.wolfStates>
 
     public readonly float idleTimeMax;
     public readonly float idleTimeMin;
-
+    
+    public readonly float patrolRadius;
     public readonly float patrolSpeed;
 
     public readonly int patrolPositions;
@@ -131,9 +136,13 @@ public abstract class wolfBaseState : BasedStateM<wolfStateMachine.wolfStates>
         idleTimeMax = context.idleTimeMax;
         idleTimeMin = context.idleTimeMin;
         patrolPositions = context.patrolPositions;
+        patrolRadius = context.patrolRadius;
+        patrolSpeed = context.patrolSpeed;
         spawnPoint = context.spawnPoint;
         chaseDistance = context.chaseDistance;
         chaseSpeed = context.chaseSpeed;
         //stateVisual = context.stateVisual;
+
+        
     }
 }

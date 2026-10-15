@@ -11,26 +11,23 @@ public class StateManagerM<Estate> : NetworkBehaviour where Estate : Enum
     
     
 
-    //protected NetworkVariable<Estate> networkCurrentState = new NetworkVariable<Estate>
-    //(default(Estate), NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
-    public void Start()
+    public NetworkVariable<Estate> networkCurrentState = new NetworkVariable<Estate>
+    (default(Estate), NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
+    public override void OnNetworkSpawn()
     {
-        //base.OnNetworkSpawn();
+        base.OnNetworkSpawn();
         
-        //currentState.stateKey.OnValueChanged += changeNetworkState;
+        
+        //networkCurrentState.OnValueChanged += changeNetworkState;
         if(!IsHost || currentState == null)return;
         Debug.Log("startCode");
+        networkCurrentState.Value = currentState.stateKey;
         currentState.EnterState();
-        
-
     }
 
     void Update()
     {
-
         if(!IsHost || currentState == null)return;
-        
-        
         Estate nextState = currentState.NextState();
         if (nextState.Equals(currentState.stateKey))
         {
@@ -45,6 +42,7 @@ public class StateManagerM<Estate> : NetworkBehaviour where Estate : Enum
         currentState.ExitState();
         currentState = states[nextState];
         currentState.EnterState();
+        networkCurrentState.Value = currentState.stateKey;
         
         
         

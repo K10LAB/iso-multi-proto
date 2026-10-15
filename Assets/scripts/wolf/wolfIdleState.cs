@@ -2,6 +2,7 @@ using UnityEngine;
 using System;
 using UnityEngine.AI;
 using Unity.Services.Multiplayer;
+using Unity.VisualScripting;
 
 public class wolfIdleState : wolfBaseState
 {

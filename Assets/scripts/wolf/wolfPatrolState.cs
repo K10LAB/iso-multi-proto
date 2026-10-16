@@ -27,7 +27,7 @@ public class WolfPatrolState : wolfBaseState
             {
                 Vector2 randomOffset = Random.insideUnitCircle * patrolRadius;
         
-                Vector3 newPatrolPosition = new Vector3(randomOffset.x, 0, randomOffset.y) + spawnPoint;
+                Vector2 newPatrolPosition = new Vector2(randomOffset.x, randomOffset.y) + spawnPoint;
         
                 navAgent.SetDestination(newPatrolPosition);
             } else if(currentPositionPoints>-1)navAgent.SetDestination(spawnPoint);

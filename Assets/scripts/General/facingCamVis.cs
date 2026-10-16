@@ -40,11 +40,12 @@ public class facingCamVis : NetworkBehaviour
         base.OnNetworkSpawn();
         Debug.Log("camstartfind");
         
-        StartCoroutine(tryFindPlayer());
+        //StartCoroutine(tryFindPlayer());
        
         
         
     }
+    /*
     IEnumerator tryFindPlayer()
     {
         
@@ -60,6 +61,7 @@ public class facingCamVis : NetworkBehaviour
         
         
     }
+    */
     
     void Update()
     {

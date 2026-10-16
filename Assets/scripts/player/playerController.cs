@@ -6,10 +6,10 @@ using System.Collections.Generic;
 
 public class playerController : NetworkBehaviour
 {
-    [SerializeField] private Rigidbody playerCT;
-    [SerializeField] private Vector3 movementVector;
-    [SerializeField] cameraController playerCam;
-    [SerializeField] facingCamVis playerVis;
+    [SerializeField] private Rigidbody2D playerCT;
+    [SerializeField] private Vector2 movementVector;
+    //[SerializeField] cameraController playerCam;
+    //[SerializeField] facingCamVis playerVis;
     [SerializeField] private float moveSpeed;
     [SerializeField] private float wsKeys;
     [SerializeField] private float adKeys;
@@ -19,9 +19,10 @@ public class playerController : NetworkBehaviour
     void Start()
     {
         if(!IsOwner) return;
-        playerCT = gameObject.GetComponent<Rigidbody>();
-        playerVis = gameObject.GetComponent<facingCamVis>();
-        playerCam = gameObject.GetComponent<cameraController>();
+        transform.position = Vector2.zero;
+        playerCT = GetComponent<Rigidbody2D>();
+        //playerVis = gameObject.GetComponent<facingCamVis>();
+        //playerCam = gameObject.GetComponent<cameraController>();
     }
 
     // Update is called once per frame
@@ -29,7 +30,7 @@ public class playerController : NetworkBehaviour
     {
         if(!IsOwner) return;
         inputKeys();
-        faceDirChange();
+        
     }
 
     void FixedUpdate()
@@ -41,12 +42,13 @@ public class playerController : NetworkBehaviour
 
     void playerMovement()
     {
-        movementVector = new Vector3(adKeys, 0, wsKeys);
+        movementVector = new Vector2(adKeys, wsKeys);
         if (movementVector.magnitude > 1f)
         {
             movementVector.Normalize();
         }
-        playerCT.linearVelocity = playerCam.currentcamRot * movementVector * moveSpeed;
+        playerCT.linearVelocity = Quaternion.Euler(0, 45, 0) * movementVector * moveSpeed;
+        
     }
 
     void inputKeys()
@@ -56,17 +58,19 @@ public class playerController : NetworkBehaviour
         adKeys = 0f;
         if (Keyboard.current != null)
         {
-            if (Keyboard.current.wKey.isPressed)wsKeys += -1f;
+            if (Keyboard.current.wKey.isPressed)wsKeys += 1f;
                 
-            if (Keyboard.current.sKey.isPressed)wsKeys += 1f;
+            if (Keyboard.current.sKey.isPressed)wsKeys += -1f;
 
-            if (Keyboard.current.aKey.isPressed)adKeys += 1f;
+            if (Keyboard.current.aKey.isPressed)adKeys += -1f;
         
-            if (Keyboard.current.dKey.isPressed)adKeys += -1f;
+            if (Keyboard.current.dKey.isPressed)adKeys += 1f;
 
         }
         
     }
+
+    /*
 
     void faceDirChange()
     {
@@ -151,6 +155,8 @@ public class playerController : NetworkBehaviour
         
         
     }
+    */
     
     
 }
+

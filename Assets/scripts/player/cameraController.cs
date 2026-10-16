@@ -55,8 +55,8 @@ public class cameraController : NetworkBehaviour
 
     void camControla()
     {
-        if(Keyboard.current.qKey.wasPressedThisFrame) currentcamRot = Quaternion.Euler(currentcamRot.eulerAngles.x, currentcamRot.eulerAngles.y+90, 0);
-        if(Keyboard.current.eKey.wasPressedThisFrame) currentcamRot = Quaternion.Euler(currentcamRot.eulerAngles.x, currentcamRot.eulerAngles.y-90, 0);
+        //if(Keyboard.current.qKey.wasPressedThisFrame) currentcamRot = Quaternion.Euler(currentcamRot.eulerAngles.x, currentcamRot.eulerAngles.y+90, 0);
+        //if(Keyboard.current.eKey.wasPressedThisFrame) currentcamRot = Quaternion.Euler(currentcamRot.eulerAngles.x, currentcamRot.eulerAngles.y-90, 0);
 
         mouseZoom += Mouse.current.scroll.ReadValue().y/10f;
         mouseZoom = Mathf.Clamp(mouseZoom, 0f, 1f);

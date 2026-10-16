@@ -81,7 +81,7 @@ public class wolfContext
     public readonly float patrolRadius;
 
     public readonly int patrolPositions;
-    public readonly Vector3 spawnPoint;
+    public readonly Vector2 spawnPoint;
 
     public readonly float chaseDistance;
     public readonly float chaseSpeed;
@@ -121,7 +121,7 @@ public abstract class wolfBaseState : BasedStateM<wolfStateMachine.wolfStates>
     public readonly float patrolSpeed;
 
     public readonly int patrolPositions;
-    public readonly Vector3 spawnPoint;
+    public readonly Vector2 spawnPoint;
 
     public readonly float chaseDistance;
     public readonly float chaseSpeed;

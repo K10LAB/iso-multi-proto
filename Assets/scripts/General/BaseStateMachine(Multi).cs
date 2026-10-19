@@ -12,14 +12,14 @@ public class StateManagerM<Estate> : NetworkBehaviour where Estate : Enum
     
 
     public NetworkVariable<Estate> networkCurrentState = new NetworkVariable<Estate>
-    (default(Estate), NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
+    (default, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
     public override void OnNetworkSpawn()
     {
         base.OnNetworkSpawn();
         
         
         //networkCurrentState.OnValueChanged += changeNetworkState;
-        if(!IsHost || currentState == null)return;
+        if(!IsServer || currentState == null)return;
         Debug.Log("startCode");
         networkCurrentState.Value = currentState.stateKey;
         currentState.EnterState();
@@ -27,7 +27,7 @@ public class StateManagerM<Estate> : NetworkBehaviour where Estate : Enum
 
     void Update()
     {
-        if(!IsHost || currentState == null)return;
+        if(!IsServer || currentState == null)return;
         Estate nextState = currentState.NextState();
         if (nextState.Equals(currentState.stateKey))
         {
@@ -37,32 +37,33 @@ public class StateManagerM<Estate> : NetworkBehaviour where Estate : Enum
     }
     void ChangeState(Estate nextState)
     {
-        if(!IsHost || currentState == null)return;
+        if(!IsServer || currentState == null)return;
         
         currentState.ExitState();
         currentState = states[nextState];
-        currentState.EnterState();
         networkCurrentState.Value = currentState.stateKey;
+        currentState.EnterState();
+        
         
         
         
     }
 
-    void OnTriggerEnter(Collider other)
+    void OnTriggerEnter2D(Collider2D other)
     {
-        if(!IsHost || currentState == null)return;
-        currentState.OnTriggerEnter(other);
+        if(!IsServer || currentState == null)return;
+        currentState.OnTriggerEnter2D(other);
     }
 
-    void OnTriggerExit(Collider other)
+    void OnTriggerExit2D(Collider2D other)
     {
-        if(!IsHost || currentState == null)return;
-        currentState.OnTriggerExit(other);
+        if(!IsServer || currentState == null)return;
+        currentState.OnTriggerExit2D(other);
     }
 
     //private void changeNetworkState(Estate old, Estate New)
     //{
-        //if(IsHost)return;
+        //if(IsServer)return;
 
         
        //if (!old.Equals(New))
@@ -95,8 +96,8 @@ public abstract class BasedStateM<EState>  where EState : Enum
 
     public abstract void UpdateState();
     public abstract void ExitState();
-    public abstract void OnTriggerEnter(Collider other);
-    public abstract void OnTriggerExit(Collider other);
+    public abstract void OnTriggerEnter2D(Collider2D other);
+    public abstract void OnTriggerExit2D(Collider2D other);
     public abstract EState NextState();
    
 }

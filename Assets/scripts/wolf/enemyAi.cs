@@ -66,11 +66,7 @@ public class enemyAi : NetworkBehaviour
         agentNav.speed = chaseSpeed;
     }
 
-    void OnDrawGizmos()
-    {
-        Gizmos.color = Color.red;
-        Gizmos.DrawWireSphere(transform.position, chaseDistance);
-    }
+    
 
     void visChange()
     {

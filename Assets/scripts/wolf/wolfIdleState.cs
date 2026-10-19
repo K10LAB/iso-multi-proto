@@ -9,43 +9,40 @@ public class wolfIdleState : wolfBaseState
 	public float randomWaitTime;
 	
     
-	public wolfIdleState(wolfContext context, wolfStateMachine.wolfStates state): base(context, state){}
+	public wolfIdleState(wolfStateMachine context, wolfStateMachine.wolfStates state): base(context, state){}
 
 	public override wolfStateMachine.wolfStates NextState()
 	{
-		if(randomWaitTime<0) {
-			Debug.Log("transitioning to patrol");
-			detectionLevel.Value = 100f;
-			return wolfStateMachine.wolfStates.Patrol;
-		}
+		if(randomWaitTime<0)return wolfStateMachine.wolfStates.Patrol;
+		if(isChase.Value) return wolfStateMachine.wolfStates.Chase;
 		return stateKey;	
 	}
 	public override void EnterState()
     {
         randomWaitTime = UnityEngine.Random.Range(idleTimeMin, idleTimeMax);
-		
-		
 		Debug.Log("Entering Idle");
     }
 	public override void ExitState()
 	{
 		Debug.Log("Exiting Idle");
-	}
+		randomWaitTime = 0;
 
+	}
 	public override void UpdateState()
     {
-        randomWaitTime -= Time.deltaTime;
-		Debug.Log(randomWaitTime);
-		
-		
+        if(detectionChange())return;
+		randomWaitTime -= Time.deltaTime;
     }
+	
 
 	
-    public override void OnTriggerExit(Collider other)
+    public override void OnTriggerExit2D(Collider2D other)
     {
-        
+        playerListChange(false, other);
     }
-    public override void OnTriggerEnter(Collider other)
+    public override void OnTriggerEnter2D(Collider2D other)
 	{
+		playerListChange(true, other);
+		
 	}
 }

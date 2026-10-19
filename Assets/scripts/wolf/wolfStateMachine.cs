@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.AI;
@@ -17,98 +18,61 @@ public class wolfStateMachine : StateManagerM<wolfStateMachine.wolfStates>
         Chase,
         Attack
     }
-    [SerializeField] private NavMeshAgent navAgent;
-    [SerializeField] private float detectionMax;
-    [SerializeField] private float detectionRate;
+    
+    [NonSerialized] public HashSet<GameObject> playerList = new HashSet<GameObject>();
+    [SerializeField] public NetworkVariable<bool> isChase = new NetworkVariable<bool>
+    (false, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
+    [SerializeField] public NetworkVariable<float> faceDir = new NetworkVariable<float>
+    (0f, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
+    [SerializeField] public NavMeshAgent navAgent;
+    [SerializeField] public float detectionMax;
+    [SerializeField] public float detectionRate;
     [SerializeField] public readonly NetworkVariable<float> detectionLevel = new NetworkVariable<float>
     (0f, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
-    [SerializeField] private float idleTimeMax;
-    [SerializeField] private float idleTimeMin;
+    [SerializeField] public float idleTimeMax;
+    [SerializeField] public float idleTimeMin;
 
-    [SerializeField] private float patrolSpeed;
+    [SerializeField] public float patrolSpeed;
 
-    [SerializeField] private float patrolRadius;
+    [SerializeField] public float patrolRadius;
 
-    [SerializeField] private int patrolPositions;
-    [SerializeField] private Vector3 spawnPoint;
+    [SerializeField] public int patrolPositions;
+    [SerializeField] public Vector3 spawnPoint;
 
-    [SerializeField] private float chaseDistance;
-    [SerializeField] private float chaseSpeed;
-    //[SerializeField] private SpriteRenderer stateVisual;
+    [SerializeField] public CircleCollider2D detectionCollider;
+    [SerializeField] public float chaseSpeed;
+    
 
     
-    wolfContext context;
+    
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     
     void Awake()
     {
+        detectionCollider = GetComponent<CircleCollider2D>();
         navAgent = GetComponent<NavMeshAgent>();
         spawnPoint = transform.position;
-        context = new wolfContext
-        (navAgent, detectionMax, detectionRate, detectionLevel, idleTimeMax, idleTimeMin, patrolSpeed, patrolRadius, patrolPositions, 
-        spawnPoint, chaseDistance,chaseSpeed);
         setupState();
         if(NetworkManager.Singleton!=null)GetComponent<NetworkObject>().Spawn();
         
     }
     public void setupState()
     {
-        states.Add(wolfStates.Idle, new wolfIdleState(context, wolfStates.Idle));
-        states.Add(wolfStates.Patrol, new WolfPatrolState(context, wolfStates.Patrol));
+        states.Add(wolfStates.Idle, new wolfIdleState(this, wolfStates.Idle));
+        states.Add(wolfStates.Patrol, new WolfPatrolState(this, wolfStates.Patrol));
+        states.Add(wolfStates.Chase, new wolfChaseState(this, wolfStates.Chase));
         currentState = states[wolfStates.Idle];
-        //currentState.stateKey.Value = wolfStates.Idle;
-        //Debug.Log(currentState);
-        //Debug.Log(currentState.stateKey.Value);
-        
-
     }
-
-    // Update is called once per frame
-    
 }
-public class wolfContext
-{
-    public readonly NavMeshAgent navAgent;
-    public readonly float detectionMax;
-    public readonly float detectionRate;
-    public readonly NetworkVariable<float> detectionLevel;
 
-    public readonly float idleTimeMax;
-    public readonly float idleTimeMin;
-
-    public readonly float patrolSpeed;
-    public readonly float patrolRadius;
-
-    public readonly int patrolPositions;
-    public readonly Vector2 spawnPoint;
-
-    public readonly float chaseDistance;
-    public readonly float chaseSpeed;
-    //public readonly SpriteRenderer stateVisual;
     
 
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    public wolfContext(NavMeshAgent pA, float dM, float dR, NetworkVariable<float> dL, float iTX, float iTN, float pS, float pR, int pP, Vector3 sP, float cD, float cS)
-    {
-        navAgent = pA;
-        detectionMax = dM;
-        detectionRate = dR;
-        detectionLevel = dL;
-        idleTimeMax = iTX;
-        idleTimeMin = iTN;
-        patrolSpeed = pS;
-        patrolRadius = pR;
-        patrolPositions = pP;
-        spawnPoint = sP;
-        chaseDistance = cD;
-        chaseSpeed = cS;
-        //stateVisual = sV;
-    }
-    
-}
 public abstract class wolfBaseState : BasedStateM<wolfStateMachine.wolfStates>
 {
+    public readonly HashSet<GameObject> playerList = new HashSet<GameObject>();
+    public readonly NetworkVariable<bool> isChase;
+    public readonly NetworkVariable<float> faceDir;
     protected NavMeshAgent navAgent;
     public readonly float detectionMax;
     public readonly float detectionRate;
@@ -123,12 +87,17 @@ public abstract class wolfBaseState : BasedStateM<wolfStateMachine.wolfStates>
     public readonly int patrolPositions;
     public readonly Vector2 spawnPoint;
 
-    public readonly float chaseDistance;
+    public readonly CircleCollider2D detectionCollider;
     public readonly float chaseSpeed;
+
+    
     //public readonly SpriteRenderer stateVisual;
 
-    public wolfBaseState(wolfContext context, wolfStateMachine.wolfStates stateKey) : base(stateKey)
+    public wolfBaseState(wolfStateMachine context, wolfStateMachine.wolfStates stateKey) : base(stateKey)
     {
+        playerList = context.playerList;
+        isChase = context.isChase;
+        faceDir = context.faceDir;
         navAgent = context.navAgent;
         detectionMax = context.detectionMax;
         detectionRate = context.detectionRate;
@@ -139,10 +108,56 @@ public abstract class wolfBaseState : BasedStateM<wolfStateMachine.wolfStates>
         patrolRadius = context.patrolRadius;
         patrolSpeed = context.patrolSpeed;
         spawnPoint = context.spawnPoint;
-        chaseDistance = context.chaseDistance;
+        detectionCollider = context.detectionCollider;
         chaseSpeed = context.chaseSpeed;
-        //stateVisual = context.stateVisual;
+    }
 
+    public virtual void faceDirChange()
+    {
+        Vector2 flatDir = navAgent.pathEndPosition - navAgent.transform.position;
+        float mathDir = Mathf.Atan2(flatDir.x, flatDir.y) * Mathf.Rad2Deg;
+        if(navAgent.remainingDistance < navAgent.stoppingDistance + 0.1)return;
+        if (mathDir < 0)
+        {
+            faceDir.Value = 360f + mathDir;
+        } else faceDir.Value = mathDir;
+    }
+
+    public virtual bool detectionChange()
+    {
+        if(playerList.Count != 0){
+			if(detectionLevel.Value<detectionMax){
+				detectionLevel.Value += detectionRate * Time.deltaTime;
+				
+			}
+			else
+			{
+				isChase.Value = true;
+			}	
+		} else {
+            if(detectionLevel.Value > 0)
+            {
+                detectionLevel.Value -= detectionRate * Time.deltaTime;
+            } else
+            {
+                isChase.Value = false;
+            }
+        }
+        return playerList.Count != 0 || isChase.Value;
         
     }
+
+    public virtual void playerListChange(bool addOrMinus,Collider2D player)
+    {
+        Debug.Log("enterBuggle");
+        Debug.Log(player.CompareTag("Player"));
+        if (player.CompareTag("Player"))
+        {
+            Debug.Log("register");
+            if (addOrMinus)
+            {
+                playerList.Add(player.gameObject);
+            } else playerList.Remove(player.gameObject);
+        }
+    }    
 }

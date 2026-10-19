@@ -241,12 +241,11 @@ GameObject:
   - component: {fileID: 3977598785299421319}
   - component: {fileID: 2653118439820563349}
   - component: {fileID: -3603717627758588634}
-  - component: {fileID: 5087673007963608671}
   - component: {fileID: 6185071836363937532}
   - component: {fileID: -4469274953195451638}
   m_Layer: 0
   m_Name: playerChar
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -280,14 +279,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Unity.Netcode.Runtime::Unity.Netcode.NetworkObject
-  GlobalObjectIdHash: 614814153
+  GlobalObjectIdHash: 1356263662
   InScenePlacedSourceGlobalObjectIdHash: 1356263662
   m_InScenePlacedDisabledByDefault: 0
   DeferredDespawnTick: 0
   Ownership: 1
   AlwaysReplicateAsRoot: 0
   SynchronizeTransform: 1
-  m_InScenePlaced: 1
+  m_InScenePlaced: 0
   ActiveSceneSynchronization: 0
   SceneMigrationSynchronization: 0
   SpawnWithObservers: 1
@@ -360,28 +359,6 @@ MonoBehaviour:
   SwitchTransformSpaceWhenParented: 0
   Interpolate: 1
   SlerpPosition: 0
---- !u!114 &5087673007963608671
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6305298293468871697}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 39e2549d63bf1c149942c2e92d2556a1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::NewMonoBehaviourScript
-  ShowTopMostFoldoutHeaderGroup: 1
-  camTR: {fileID: 4199577871196520502}
-  distanceFromPL: 2
-  rotationOfPos: 45
-  camtransitionTime: 5
-  camRot: {x: 0, y: 0, z: 0, w: 0}
-  currentcamRot: {x: 0, y: 0, z: 0, w: 1}
-  maxFollowDistance: 0
-  mouseZoom: 1
-  posAfterMouse: {x: 0, y: 0, z: 0}
 --- !u!50 &6185071836363937532
 Rigidbody2D:
   serializedVersion: 5
@@ -444,4 +421,4 @@ CircleCollider2D:
   m_CompositeOperation: 0
   m_CompositeOrder: 0
   m_Offset: {x: 0, y: 0}
-  m_Radius: 0.5
+  m_Radius: 0.28

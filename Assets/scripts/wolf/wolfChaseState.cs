@@ -28,7 +28,6 @@ public class wolfChaseState : wolfBaseState
 	}
 	public override void UpdateState()
     {
-        
         if(playerList.Count() != 0){
             lastPlayer = playerList.Last();
             float closeDistance = detectionCollider.radius;
@@ -49,8 +48,8 @@ public class wolfChaseState : wolfBaseState
                 }  
             }
         }else navAgent.SetDestination(lastPlayer.transform.position);
-        
-       if(detectionChange()) return;
+        wolfMove();
+        if(detectionChange()) return;
     }
     
 	

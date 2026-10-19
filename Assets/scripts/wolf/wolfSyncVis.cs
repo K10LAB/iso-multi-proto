@@ -20,10 +20,7 @@ public class wolfSyncVis : NetworkBehaviour
     public void Awake()
     {
         wSM = GetComponent<wolfStateMachine>();
-        //visSkin = transform.GetChild(0).GetComponent<SpriteRenderer>();
-        //visState = transform.GetChild(1).GetComponent<SpriteRenderer>();
-        //visDetection = transform.GetChild(2).GetComponent<SpriteRenderer>();
-        //maskDetection = transform.GetChild(3).gameObject;
+        
     }
 
     public override void OnNetworkSpawn()

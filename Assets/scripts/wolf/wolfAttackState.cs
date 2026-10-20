@@ -17,6 +17,7 @@ public class wolfAttackState : wolfBaseState
 	public override void EnterState()
     {
         Debug.Log("enter attack");
+		
     }
 	public override void ExitState()
 	{
@@ -31,11 +32,11 @@ public class wolfAttackState : wolfBaseState
 	
     public override void OnTriggerExit2D(Collider2D other)
     {
-        playerListChange(false, other);
+        //playerListChange(false, other);
     }
     public override void OnTriggerEnter2D(Collider2D other)
 	{
-		playerListChange(true, other);
+		//playerListChange(true, other);
 		
 	}
 }

@@ -10,18 +10,20 @@ public class wolfChaseState : wolfBaseState
 {
 	public wolfChaseState(wolfStateMachine context, wolfStateMachine.wolfStates state): base(context, state){}
 
-    int range = 5;
+    
     GameObject lastPlayer;
 	public override wolfStateMachine.wolfStates NextState()
 	{
 		if(!isChase.Value) return wolfStateMachine.wolfStates.Patrol;
-        //if(!navAgent.pathPending && navAgent.remainingDistance <= range) return wolfStateMachine.wolfStates.Attack;
+
+        if(!navAgent.pathPending && navAgent.remainingDistance <= attackRange) return wolfStateMachine.wolfStates.Attack;
+        Debug.Log(navAgent.remainingDistance);
         navAgent.speed = chaseSpeed;
 		return stateKey;	
 	}
 	public override void EnterState()
     {
-        
+        chaseSetPostion();
     }
 	public override void ExitState()
 	{
@@ -30,6 +32,14 @@ public class wolfChaseState : wolfBaseState
 
 	}
 	public override void UpdateState()
+    {
+        chaseSetPostion();
+        wolfMove();
+        faceDirChange();
+        if(detectionChange()) return;
+    }
+
+    public void chaseSetPostion()
     {
         if(playerList.Count() != 0){
             lastPlayer = playerList.Last();
@@ -51,9 +61,6 @@ public class wolfChaseState : wolfBaseState
                 }  
             }
         }else navAgent.SetDestination(lastPlayer.transform.position);
-        wolfMove();
-        faceDirChange();
-        if(detectionChange()) return;
     }
     
 	

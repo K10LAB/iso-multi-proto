@@ -6,6 +6,7 @@ using UnityEngine.AI;
 using Unity.Netcode;
 using UnityEditor;
 using Unity.Mathematics;
+using Unity.Netcode.Components;
 
 public class wolfStateMachine : StateManagerM<wolfStateMachine.wolfStates>
 {
@@ -18,7 +19,7 @@ public class wolfStateMachine : StateManagerM<wolfStateMachine.wolfStates>
         Chase,
         Attack
     }
-    
+    [SerializeField] public float attackRange;
     [NonSerialized] public HashSet<GameObject> playerList = new HashSet<GameObject>();
     [SerializeField] public NetworkVariable<bool> isChase = new NetworkVariable<bool>
     (false, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
@@ -74,7 +75,8 @@ public class wolfStateMachine : StateManagerM<wolfStateMachine.wolfStates>
 
 public abstract class wolfBaseState : BasedStateM<wolfStateMachine.wolfStates>
 {
-    [SerializeField] public GameObject selfObj;
+
+    public readonly float attackRange;
     public readonly HashSet<GameObject> playerList = new HashSet<GameObject>();
     public readonly NetworkVariable<bool> isChase;
     public readonly NetworkVariable<float> faceDir;
@@ -100,6 +102,7 @@ public abstract class wolfBaseState : BasedStateM<wolfStateMachine.wolfStates>
 
     public wolfBaseState(wolfStateMachine context, wolfStateMachine.wolfStates stateKey) : base(stateKey)
     {
+        attackRange = context.attackRange;
         playerList = context.playerList;
         isChase = context.isChase;
         faceDir = context.faceDir;
@@ -130,7 +133,7 @@ public abstract class wolfBaseState : BasedStateM<wolfStateMachine.wolfStates>
 
     public virtual void wolfMove()
     {
-        if(!navAgent.pathPending && navAgent.remainingDistance>0.1f)navAgent.transform.position += navAgent.desiredVelocity * Time.deltaTime;
+        navAgent.transform.position += navAgent.desiredVelocity * Time.deltaTime;
         navAgent.nextPosition = navAgent.transform.position;
     }
 

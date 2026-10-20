@@ -18,7 +18,7 @@ public class wolfStateMachine : StateManagerM<wolfStateMachine.wolfStates>
         Chase,
         Attack
     }
-    [SerializeField] public GameObject selfObj;
+    
     [NonSerialized] public HashSet<GameObject> playerList = new HashSet<GameObject>();
     [SerializeField] public NetworkVariable<bool> isChase = new NetworkVariable<bool>
     (false, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
@@ -50,11 +50,11 @@ public class wolfStateMachine : StateManagerM<wolfStateMachine.wolfStates>
     
     void Awake()
     {
-        selfObj = gameObject;
-        detectionCollider = GetComponent<CircleCollider2D>();
-        navAgent = GetComponent<NavMeshAgent>();
-        //navAgent.updatePosition = false;
-        //navAgent.updateRotation = false;
+        
+        //detectionCollider = GetComponent<CircleCollider2D>();
+        //navAgent = GetComponent<NavMeshAgent>();
+        navAgent.updatePosition = false;
+        navAgent.updateRotation = false;
         spawnPoint = transform.position;
         setupState();
         if(NetworkManager.Singleton!=null)GetComponent<NetworkObject>().Spawn();
@@ -65,6 +65,7 @@ public class wolfStateMachine : StateManagerM<wolfStateMachine.wolfStates>
         states.Add(wolfStates.Idle, new wolfIdleState(this, wolfStates.Idle));
         states.Add(wolfStates.Patrol, new WolfPatrolState(this, wolfStates.Patrol));
         states.Add(wolfStates.Chase, new wolfChaseState(this, wolfStates.Chase));
+        states.Add(wolfStates.Attack, new wolfAttackState(this, wolfStates.Attack));
         currentState = states[wolfStates.Idle];
     }
 }
@@ -99,7 +100,6 @@ public abstract class wolfBaseState : BasedStateM<wolfStateMachine.wolfStates>
 
     public wolfBaseState(wolfStateMachine context, wolfStateMachine.wolfStates stateKey) : base(stateKey)
     {
-        selfObj = context.selfObj;
         playerList = context.playerList;
         isChase = context.isChase;
         faceDir = context.faceDir;
@@ -117,11 +117,8 @@ public abstract class wolfBaseState : BasedStateM<wolfStateMachine.wolfStates>
         chaseSpeed = context.chaseSpeed;
     }
 
-    public virtual void wolfMove()
+    public virtual void faceDirChange()
     {
-        //selfObj.transform.position = Vector2.Lerp(selfObj.transform.position, navAgent.nextPosition, Time.deltaTime * chaseSpeed);
-        //navAgent.nextPosition = selfObj.transform.position;
-
         Vector2 flatDir = navAgent.pathEndPosition - navAgent.transform.position;
         float mathDir = Mathf.Atan2(flatDir.x, flatDir.y) * Mathf.Rad2Deg;
         if(navAgent.remainingDistance < navAgent.stoppingDistance + 0.1)return;
@@ -129,6 +126,12 @@ public abstract class wolfBaseState : BasedStateM<wolfStateMachine.wolfStates>
         {
             faceDir.Value = 360f + mathDir;
         } else faceDir.Value = mathDir;
+    }
+
+    public virtual void wolfMove()
+    {
+        if(!navAgent.pathPending && navAgent.remainingDistance>0.1f)navAgent.transform.position += navAgent.desiredVelocity * Time.deltaTime;
+        navAgent.nextPosition = navAgent.transform.position;
     }
 
     public virtual bool detectionChange()

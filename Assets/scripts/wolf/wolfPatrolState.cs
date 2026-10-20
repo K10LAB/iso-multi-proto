@@ -18,15 +18,16 @@ public class WolfPatrolState : wolfBaseState
         navAgent.isStopped = true;
         if(detectionChange())return;
         navAgent.isStopped = false;
-        wolfMove();
+        faceDirChange();
         patrolSetPostion();
+        wolfMove();
     }
 
     
     
     public void patrolSetPostion()
     {
-        if (!navAgent.pathPending && navAgent.remainingDistance <= navAgent.stoppingDistance)
+        if (!navAgent.pathPending && navAgent.remainingDistance <= 0.11f)
         {
             if (currentPositionPoints > 0 && currentPositionPoints!=patrolPositions+1)
             {

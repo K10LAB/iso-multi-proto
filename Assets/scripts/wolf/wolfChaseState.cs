@@ -10,10 +10,12 @@ public class wolfChaseState : wolfBaseState
 {
 	public wolfChaseState(wolfStateMachine context, wolfStateMachine.wolfStates state): base(context, state){}
 
+    int range = 5;
     GameObject lastPlayer;
 	public override wolfStateMachine.wolfStates NextState()
 	{
 		if(!isChase.Value) return wolfStateMachine.wolfStates.Patrol;
+        //if(!navAgent.pathPending && navAgent.remainingDistance <= range) return wolfStateMachine.wolfStates.Attack;
         navAgent.speed = chaseSpeed;
 		return stateKey;	
 	}
@@ -24,6 +26,7 @@ public class wolfChaseState : wolfBaseState
 	public override void ExitState()
 	{
 		Debug.Log("left chase");
+        navAgent.ResetPath();
 
 	}
 	public override void UpdateState()
@@ -49,6 +52,7 @@ public class wolfChaseState : wolfBaseState
             }
         }else navAgent.SetDestination(lastPlayer.transform.position);
         wolfMove();
+        faceDirChange();
         if(detectionChange()) return;
     }
     

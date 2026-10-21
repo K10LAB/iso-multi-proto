@@ -352,6 +352,11 @@ PrefabInstance:
       addedObject: {fileID: 801270728}
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 8cb59e1fc4a432240b3af807229d5b8a, type: 3}
+--- !u!1 &60842369 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7018876420574353599, guid: 8cb59e1fc4a432240b3af807229d5b8a, type: 3}
+  m_PrefabInstance: {fileID: 60842368}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &69269810
 GameObject:
   m_ObjectHideFlags: 0
@@ -1638,10 +1643,23 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a62e7f0704462834ab9146d139bc80a6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::triggerDelegation
-  collider: {fileID: 0}
+  call: {fileID: 0}
+  isProcessing: 0
   Enter:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 60842369}
+        m_TargetAssemblyTypeName: 
+        m_MethodName: 
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: 
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   Exit:
     m_PersistentCalls:
       m_Calls: []

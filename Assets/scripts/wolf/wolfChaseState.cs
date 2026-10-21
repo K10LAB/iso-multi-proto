@@ -43,7 +43,7 @@ public class wolfChaseState : wolfBaseState
     {
         if(playerList.Count() != 0){
             lastPlayer = playerList.Last();
-            float closeDistance = detectionCollider.radius;
+            float closeDistance = detectionCollider.GetComponent<CircleCollider2D>().radius;
             foreach (GameObject player in playerList)
             {
                 

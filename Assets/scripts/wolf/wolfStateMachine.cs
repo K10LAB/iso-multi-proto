@@ -19,6 +19,7 @@ public class wolfStateMachine : StateManagerM<wolfStateMachine.wolfStates>
         Chase,
         Attack
     }
+    [SerializeField] public triggerDelegation actionDelegator;
     [SerializeField] public float attackRange;
     [NonSerialized] public HashSet<GameObject> playerList = new HashSet<GameObject>();
     [SerializeField] public NetworkVariable<bool> isChase = new NetworkVariable<bool>
@@ -130,6 +131,7 @@ public abstract class wolfBaseState : BasedStateM<wolfStateMachine.wolfStates>
             faceDir.Value = 360f + mathDir;
         } else faceDir.Value = mathDir;
     }
+    
 
     public virtual void wolfMove()
     {

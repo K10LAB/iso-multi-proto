@@ -19,7 +19,7 @@ public class wolfStateMachine : StateManagerM<wolfStateMachine.wolfStates>
         Chase,
         Attack
     }
-    [SerializeField] public triggerDelegation actionDelegator;
+    [SerializeField] public triggerDelegation masterDelegation;
     [SerializeField] public float attackRange;
     [NonSerialized] public HashSet<GameObject> playerList = new HashSet<GameObject>();
     [SerializeField] public NetworkVariable<bool> isChase = new NetworkVariable<bool>
@@ -42,6 +42,8 @@ public class wolfStateMachine : StateManagerM<wolfStateMachine.wolfStates>
     [SerializeField] public Vector3 spawnPoint;
 
     [SerializeField] public CircleCollider2D detectionCollider;
+
+    [SerializeField] public CircleCollider2D hitboxCollider;
     [SerializeField] public float chaseSpeed;
     
 
@@ -70,6 +72,8 @@ public class wolfStateMachine : StateManagerM<wolfStateMachine.wolfStates>
         states.Add(wolfStates.Attack, new wolfAttackState(this, wolfStates.Attack));
         currentState = states[wolfStates.Idle];
     }
+    
+   
 }
 
     
@@ -96,7 +100,9 @@ public abstract class wolfBaseState : BasedStateM<wolfStateMachine.wolfStates>
     public readonly Vector2 spawnPoint;
 
     public readonly CircleCollider2D detectionCollider;
+    public readonly CircleCollider2D hitboxCollider;
     public readonly float chaseSpeed;
+    public readonly triggerDelegation masterDelegation;
 
     
     //public readonly SpriteRenderer stateVisual;
@@ -118,7 +124,9 @@ public abstract class wolfBaseState : BasedStateM<wolfStateMachine.wolfStates>
         patrolSpeed = context.patrolSpeed;
         spawnPoint = context.spawnPoint;
         detectionCollider = context.detectionCollider;
+        hitboxCollider = context.hitboxCollider;
         chaseSpeed = context.chaseSpeed;
+        masterDelegation = context.masterDelegation;
     }
 
     public virtual void faceDirChange()
@@ -163,17 +171,23 @@ public abstract class wolfBaseState : BasedStateM<wolfStateMachine.wolfStates>
         
     }
 
-    public virtual void playerListChange(bool addOrMinus,Collider2D player)
+    public void playerListAdd(triggerDelegation.OnTriggerDelegation dele)
     {
-        Debug.Log("enterBuggle");
-        Debug.Log(player.CompareTag("Player"));
-        if (player.CompareTag("Player"))
+        if(dele.Self != detectionCollider)return;
+        if (dele.Other.CompareTag("Player"))
         {
-            Debug.Log("register");
-            if (addOrMinus)
-            {
-                playerList.Add(player.gameObject);
-            } else playerList.Remove(player.gameObject);
+            playerList.Add(dele.Other.gameObject);
         }
-    }    
+    }
+    public void playerListRemove(triggerDelegation.OnTriggerDelegation dele)
+    {
+        if(dele.Self != detectionCollider)return;
+        if (dele.Other.CompareTag("Player"))
+        {
+            playerList.Add(dele.Other.gameObject);
+        }
+    }
+    
+
+    
 }

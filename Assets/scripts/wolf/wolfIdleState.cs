@@ -15,13 +15,17 @@ public class wolfIdleState : wolfBaseState
 	{
 		if(randomWaitTime<0)return wolfStateMachine.wolfStates.Patrol;
 		if(isChase.Value) return wolfStateMachine.wolfStates.Chase;
-		return stateKey;	
+		return stateKey;
 	}
 	public override void EnterState()
     {
         randomWaitTime = UnityEngine.Random.Range(idleTimeMin, idleTimeMax);
 		Debug.Log("Entering Idle");
+		masterDelegation.Enter += playerListAdd;
+		masterDelegation.Exit += playerListRemove;
     }
+
+
 	public override void ExitState()
 	{
 		Debug.Log("Exiting Idle");
@@ -38,11 +42,11 @@ public class wolfIdleState : wolfBaseState
 	
     public override void OnTriggerExit2D(Collider2D other)
     {
-        playerListChange(false, other);
+        //playerListChange(false, other);
     }
     public override void OnTriggerEnter2D(Collider2D other)
 	{
-		playerListChange(true, other);
+		//playerListChange(true, other);
 		
 	}
 }

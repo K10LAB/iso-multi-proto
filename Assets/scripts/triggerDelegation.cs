@@ -5,26 +5,26 @@ using UnityEngine.Events;
 
 public class triggerDelegation : MonoBehaviour
 {
-    public Collider2D call;
-    public bool isProcessing;
-    void Awake()
-    {
-        call = GetComponent<Collider2D>();
-        
-    }
+    [SerializeField]public Collider2D detectionCollider;
+    [SerializeField]public Collider2D hitboxCollider;
+    [SerializeField]public bool isProcessingDetection;
+    [SerializeField]public bool isProcessingHitBox;
     
-    public UnityEvent<OnTriggerDelegation> Enter;
-    public UnityEvent<OnTriggerDelegation> Exit;
+    public UnityAction<OnTriggerDelegation> Enter;
+    public UnityAction<OnTriggerDelegation> Exit;
 
     void OnTriggerEnter2D(Collider2D other)
     {
-        if(isProcessing){Enter.Invoke(new OnTriggerDelegation(call, other)); }
+        if(isProcessingDetection)Enter.Invoke(new OnTriggerDelegation(detectionCollider, other)); 
+        if(isProcessingHitBox)Enter.Invoke(new OnTriggerDelegation(hitboxCollider, other)); 
     } 
     void OnTriggerExit2D(Collider2D other)
     {
-        if(isProcessing){Exit.Invoke(new OnTriggerDelegation(call, other)); }
+        if(isProcessingDetection)Exit.Invoke(new OnTriggerDelegation(detectionCollider, other));
+        if(isProcessingHitBox)Exit.Invoke(new OnTriggerDelegation(hitboxCollider, other));
     } 
 
+    
     public struct OnTriggerDelegation
     {
         public Collider2D Self { get; private set;}

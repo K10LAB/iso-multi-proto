@@ -49,11 +49,11 @@ public class WolfPatrolState : wolfBaseState
 
     public override void OnTriggerExit2D(Collider2D other)
     {
-        playerListChange(false, other);
+        //playerListChange(false, other);
     }
     public override void OnTriggerEnter2D(Collider2D other)
 	{
-		playerListChange(true, other);
+		//playerListChange(true, other);
 	}
 
     public override void ExitState()

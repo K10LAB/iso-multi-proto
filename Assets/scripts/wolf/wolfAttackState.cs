@@ -31,11 +31,11 @@ public class wolfAttackState : wolfBaseState
 	public override void UpdateState()
     {
 
-        chargeCurrent.Value += Time.deltaTime;
+        
 		if (chargeCurrent.Value >= chargeRate)
 		{
 			attackD.attack();
-		}
+		} else chargeCurrent.Value += Time.deltaTime;
     }
     
 	

@@ -13,7 +13,8 @@ public class triggerDelegation : NetworkBehaviour
     [SerializeField]public bool isProcessingHitBox;
     
     public UnityEvent<OnTriggerDelegation> Enter;
-    public UnityAction<OnTriggerDelegation> Exit;
+
+    public UnityEvent<OnTriggerDelegation> Exit;
 
     void OnTriggerEnter2D(Collider2D other)
     {

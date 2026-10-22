@@ -7,6 +7,7 @@ using Unity.Netcode;
 using UnityEditor;
 using Unity.Mathematics;
 using Unity.Netcode.Components;
+using System.Net.Mail;
 
 public class wolfStateMachine : StateManagerM<wolfStateMachine.wolfStates>
 {
@@ -19,7 +20,13 @@ public class wolfStateMachine : StateManagerM<wolfStateMachine.wolfStates>
         Chase,
         Attack
     }
-    [SerializeField] public triggerDelegation masterDelegation;
+    [SerializeField] public float attackCoolDown;
+    [SerializeField] public float chargeRange;
+    [SerializeField] public float chargeRate;
+    [SerializeField] public NetworkVariable<float> chargeCurrent = new NetworkVariable<float>
+    (0f, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
+    [SerializeField] public triggerDelegation triggerD;
+    [SerializeField] public attackDelegation attackD;
     [SerializeField] public float attackRange;
     [NonSerialized] public HashSet<GameObject> playerList = new HashSet<GameObject>();
     [SerializeField] public NetworkVariable<bool> isChase = new NetworkVariable<bool>
@@ -41,9 +48,9 @@ public class wolfStateMachine : StateManagerM<wolfStateMachine.wolfStates>
     [SerializeField] public int patrolPositions;
     [SerializeField] public Vector3 spawnPoint;
 
-    [SerializeField] public CircleCollider2D detectionCollider;
+    //[SerializeField] public CircleCollider2D detectionCollider;
 
-    [SerializeField] public CircleCollider2D hitboxCollider;
+    //[SerializeField] public CircleCollider2D hitboxCollider;
     [SerializeField] public float chaseSpeed;
     
 
@@ -72,7 +79,26 @@ public class wolfStateMachine : StateManagerM<wolfStateMachine.wolfStates>
         states.Add(wolfStates.Attack, new wolfAttackState(this, wolfStates.Attack));
         currentState = states[wolfStates.Idle];
     }
-    
+    public void playerListAdd(triggerDelegation.OnTriggerDelegation dele)
+    {
+        if(dele.Self != triggerD.detectionCollider)return;
+        if (dele.Other.CompareTag("Player"))
+        {
+            playerList.Add(dele.Other.gameObject);
+        }
+    }
+    public void playerListRemove(triggerDelegation.OnTriggerDelegation dele)
+    {
+        if(dele.Self != triggerD.detectionCollider)return;
+        if (dele.Other.CompareTag("Player"))
+        {
+            playerList.Add(dele.Other.gameObject);
+        }
+    }
+    public void wolfAttack(attackDelegation.attackSystem dele)
+    {
+        
+    }
    
 }
 
@@ -80,9 +106,11 @@ public class wolfStateMachine : StateManagerM<wolfStateMachine.wolfStates>
 
 public abstract class wolfBaseState : BasedStateM<wolfStateMachine.wolfStates>
 {
-
+    [SerializeField] public float chargeRange;
+    [SerializeField] public float chargeRate;
+    [SerializeField] public NetworkVariable<float> chargeCurrent;
     public readonly float attackRange;
-    public readonly HashSet<GameObject> playerList = new HashSet<GameObject>();
+    public readonly HashSet<GameObject> playerList;
     public readonly NetworkVariable<bool> isChase;
     public readonly NetworkVariable<float> faceDir;
     protected NavMeshAgent navAgent;
@@ -99,10 +127,12 @@ public abstract class wolfBaseState : BasedStateM<wolfStateMachine.wolfStates>
     public readonly int patrolPositions;
     public readonly Vector2 spawnPoint;
 
-    public readonly CircleCollider2D detectionCollider;
-    public readonly CircleCollider2D hitboxCollider;
+    //public readonly CircleCollider2D detectionCollider;
+    //public readonly CircleCollider2D hitboxCollider;
     public readonly float chaseSpeed;
-    public readonly triggerDelegation masterDelegation;
+    public readonly triggerDelegation triggerD;
+    public readonly attackDelegation attackD;
+    public float attackCoolDown;
 
     
     //public readonly SpriteRenderer stateVisual;
@@ -123,10 +153,14 @@ public abstract class wolfBaseState : BasedStateM<wolfStateMachine.wolfStates>
         patrolRadius = context.patrolRadius;
         patrolSpeed = context.patrolSpeed;
         spawnPoint = context.spawnPoint;
-        detectionCollider = context.detectionCollider;
-        hitboxCollider = context.hitboxCollider;
+        chargeRange = context.chargeRange;
+        chargeCurrent = context.chargeCurrent;
+        chargeRate = context.chargeRate;
         chaseSpeed = context.chaseSpeed;
-        masterDelegation = context.masterDelegation;
+        triggerD = context.triggerD;
+        attackD = context.attackD;
+        attackCoolDown = context.attackCoolDown;
+        
     }
 
     public virtual void faceDirChange()
@@ -151,8 +185,7 @@ public abstract class wolfBaseState : BasedStateM<wolfStateMachine.wolfStates>
     {
         if(playerList.Count != 0){
 			if(detectionLevel.Value<detectionMax){
-				detectionLevel.Value += detectionRate * Time.deltaTime;
-				
+				detectionLevel.Value += detectionRate * Time.deltaTime;	
 			}
 			else
 			{
@@ -167,26 +200,13 @@ public abstract class wolfBaseState : BasedStateM<wolfStateMachine.wolfStates>
                 isChase.Value = false;
             }
         }
-        return playerList.Count != 0 || isChase.Value;
         
+        return playerList.Count != 0 || isChase.Value;
     }
 
-    public void playerListAdd(triggerDelegation.OnTriggerDelegation dele)
-    {
-        if(dele.Self != detectionCollider)return;
-        if (dele.Other.CompareTag("Player"))
-        {
-            playerList.Add(dele.Other.gameObject);
-        }
-    }
-    public void playerListRemove(triggerDelegation.OnTriggerDelegation dele)
-    {
-        if(dele.Self != detectionCollider)return;
-        if (dele.Other.CompareTag("Player"))
-        {
-            playerList.Add(dele.Other.gameObject);
-        }
-    }
+    
+
+    
     
 
     

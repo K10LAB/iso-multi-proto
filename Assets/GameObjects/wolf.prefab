@@ -106,7 +106,9 @@ GameObject:
   - component: {fileID: 8537141892098220985}
   - component: {fileID: 8828228406631629535}
   - component: {fileID: 955891204386835357}
+  - component: {fileID: 9063409957709374469}
   - component: {fileID: 4290576227057476116}
+  - component: {fileID: 8743083571315418072}
   m_Layer: 0
   m_Name: wolf
   m_TagString: Untagged
@@ -145,14 +147,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Unity.Netcode.Runtime::Unity.Netcode.NetworkObject
-  GlobalObjectIdHash: 4133303127
+  GlobalObjectIdHash: 1450416517
   InScenePlacedSourceGlobalObjectIdHash: 4133303127
   m_InScenePlacedDisabledByDefault: 0
   DeferredDespawnTick: 0
   Ownership: 1
   AlwaysReplicateAsRoot: 0
   SynchronizeTransform: 1
-  m_InScenePlaced: 0
+  m_InScenePlaced: 1
   ActiveSceneSynchronization: 0
   SceneMigrationSynchronization: 0
   SpawnWithObservers: 1
@@ -224,6 +226,7 @@ MonoBehaviour:
       MinSecondsBetweenUpdates: 0
       MaxSecondsBetweenUpdates: 0
     m_InternalValue: 0
+  attackRange: 0.3
   isChase:
     UpdateTraits:
       MinSecondsBetweenUpdates: 0
@@ -237,14 +240,15 @@ MonoBehaviour:
   navAgent: {fileID: 8828228406631629535}
   detectionMax: 100
   detectionRate: 33
-  idleTimeMax: 10
-  idleTimeMin: 5
+  idleTimeMax: 5
+  idleTimeMin: 3
   patrolSpeed: 1
   patrolRadius: 3
   patrolPositions: 3
   spawnPoint: {x: 0, y: 0, z: 0}
-  detectionCollider: {fileID: 0}
-  chaseSpeed: 3
+  detectionCollider: {fileID: 4290576227057476116}
+  hitboxCollider: {fileID: 0}
+  chaseSpeed: 2
 --- !u!114 &8537141892098220985
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -305,6 +309,53 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7e39f6090724e4a4a8aadeb042afa2bc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: NavMeshPlus::NavMeshPlus.Extensions.AgentOverride2d
+--- !u!114 &9063409957709374469
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7018876420574353599}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a62e7f0704462834ab9146d139bc80a6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::triggerDelegation
+  ShowTopMostFoldoutHeaderGroup: 1
+  detectionCollider: {fileID: 4290576227057476116}
+  hitboxCollider: {fileID: 8743083571315418072}
+  isProcessingDetection: 0
+  isProcessingHitBox: 0
+  Enter:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 2185785335333829338}
+        m_TargetAssemblyTypeName: wolfStateMachine, Assembly-CSharp
+        m_MethodName: playerListAdd
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  Exit:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 2185785335333829338}
+        m_TargetAssemblyTypeName: wolfStateMachine, Assembly-CSharp
+        m_MethodName: playerListRemove
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!58 &4290576227057476116
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -341,6 +392,52 @@ CircleCollider2D:
   m_CompositeOrder: 0
   m_Offset: {x: 0, y: 0}
   m_Radius: 1
+--- !u!61 &8743083571315418072
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7018876420574353599}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_CompositeOperation: 0
+  m_CompositeOrder: 0
+  m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0, y: 0}
+    oldSize: {x: 0, y: 0}
+    newSize: {x: 0, y: 0}
+    adaptiveTilingThreshold: 0
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  m_Size: {x: 0.42, y: 0.54}
+  m_EdgeRadius: 0
 --- !u!1 &7727233561727359833
 GameObject:
   m_ObjectHideFlags: 0

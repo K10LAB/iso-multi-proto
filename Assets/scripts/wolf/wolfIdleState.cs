@@ -21,8 +21,7 @@ public class wolfIdleState : wolfBaseState
     {
         randomWaitTime = UnityEngine.Random.Range(idleTimeMin, idleTimeMax);
 		Debug.Log("Entering Idle");
-		masterDelegation.Enter += playerListAdd;
-		masterDelegation.Exit += playerListRemove;
+		
     }
 
 
@@ -40,13 +39,5 @@ public class wolfIdleState : wolfBaseState
 	
 
 	
-    public override void OnTriggerExit2D(Collider2D other)
-    {
-        //playerListChange(false, other);
-    }
-    public override void OnTriggerEnter2D(Collider2D other)
-	{
-		//playerListChange(true, other);
-		
-	}
+    
 }

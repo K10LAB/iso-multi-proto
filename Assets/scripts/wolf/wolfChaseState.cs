@@ -16,7 +16,7 @@ public class wolfChaseState : wolfBaseState
 	{
 		if(!isChase.Value) return wolfStateMachine.wolfStates.Patrol;
 
-        if(!navAgent.pathPending && navAgent.remainingDistance <= attackRange) return wolfStateMachine.wolfStates.Attack;
+        if(chargeCurrent.Value>=attackCoolDown) return wolfStateMachine.wolfStates.Attack;
         Debug.Log(navAgent.remainingDistance);
         navAgent.speed = chaseSpeed;
 		return stateKey;	
@@ -29,6 +29,7 @@ public class wolfChaseState : wolfBaseState
 	{
 		Debug.Log("left chase");
         navAgent.ResetPath();
+        chargeCurrent.Value = 0;
 
 	}
 	public override void UpdateState()
@@ -36,6 +37,7 @@ public class wolfChaseState : wolfBaseState
         chaseSetPostion();
         wolfMove();
         faceDirChange();
+        chargeCurrent.Value += Time.deltaTime;
         if(detectionChange()) return;
     }
 
@@ -43,7 +45,7 @@ public class wolfChaseState : wolfBaseState
     {
         if(playerList.Count() != 0){
             lastPlayer = playerList.Last();
-            float closeDistance = detectionCollider.GetComponent<CircleCollider2D>().radius;
+            float closeDistance = triggerD.detectionCollider.GetComponent<CircleCollider2D>().radius;
             foreach (GameObject player in playerList)
             {
                 
@@ -64,13 +66,5 @@ public class wolfChaseState : wolfBaseState
     }
     
 	
-    public override void OnTriggerExit2D(Collider2D other)
-    {
-        //playerListChange(false, other);
-    }
-    public override void OnTriggerEnter2D(Collider2D other)
-	{
-		//playerListChange(true, other);
-		
-	}
+    
 }

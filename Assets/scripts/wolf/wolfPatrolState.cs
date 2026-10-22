@@ -11,6 +11,7 @@ public class WolfPatrolState : wolfBaseState
         currentPositionPoints = patrolPositions+1;
         patrolSetPostion();
         navAgent.speed = patrolSpeed;
+        
     }
 
     public override void UpdateState()
@@ -47,14 +48,7 @@ public class WolfPatrolState : wolfBaseState
         return stateKey;
     }
 
-    public override void OnTriggerExit2D(Collider2D other)
-    {
-        //playerListChange(false, other);
-    }
-    public override void OnTriggerEnter2D(Collider2D other)
-	{
-		//playerListChange(true, other);
-	}
+    
 
     public override void ExitState()
     {

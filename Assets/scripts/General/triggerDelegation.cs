@@ -1,25 +1,29 @@
+using NUnit.Framework;
+using Unity.Netcode;
 using Unity.VisualScripting;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.Events;
 
-public class triggerDelegation : MonoBehaviour
+public class triggerDelegation : NetworkBehaviour
 {
     [SerializeField]public Collider2D detectionCollider;
     [SerializeField]public Collider2D hitboxCollider;
     [SerializeField]public bool isProcessingDetection;
     [SerializeField]public bool isProcessingHitBox;
     
-    public UnityAction<OnTriggerDelegation> Enter;
+    public UnityEvent<OnTriggerDelegation> Enter;
     public UnityAction<OnTriggerDelegation> Exit;
 
     void OnTriggerEnter2D(Collider2D other)
     {
+        if(!IsServer) return;
         if(isProcessingDetection)Enter.Invoke(new OnTriggerDelegation(detectionCollider, other)); 
         if(isProcessingHitBox)Enter.Invoke(new OnTriggerDelegation(hitboxCollider, other)); 
     } 
     void OnTriggerExit2D(Collider2D other)
     {
+        if(!IsServer) return;
         if(isProcessingDetection)Exit.Invoke(new OnTriggerDelegation(detectionCollider, other));
         if(isProcessingHitBox)Exit.Invoke(new OnTriggerDelegation(hitboxCollider, other));
     } 

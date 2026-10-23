@@ -1,25 +1,41 @@
 using Unity.VisualScripting;
 using UnityEngine;
 
-public class slashAttack : MonoBehaviour
+public class slashAttack : wolfAttackState
 {
     // Start is called once before the first execution of Update after the MonoBehaviour is created
-    public GameObject projectile{get; set;}
-    public SpriteRenderer projectileSprite{get; set;}
-    public float attackRange{get; set;}
-    public float attackSpeed{get; set;}
-    public float colliderWidth{get; set;}
-    public float colliderLength{get; set;}
-    public GameObject source{get; set;}
-    public Vector2 rspawnPoint{get; set;}
-    void Awake()
-    {
+    //public GameObject projectile{get; set;}
+    public slashAttack(wolfStateMachine context, wolfStateMachine.wolfStates state): base(context, state){}
+    
+    
+	public override wolfStateMachine.wolfStates NextState()
+	{
+		//if(attackEnded) return wolfStateMachine.wolfStates.Chase;
+		return stateKey;
         
-    }
+	}
+	public override void EnterState()
+    {
+        Debug.Log("enter attack");
+		triggerD.isProcessingDetection = false;
 
-    // Update is called once per frame
-    void Update()
-    {
-        
     }
+	public override void ExitState()
+	{
+		triggerD.isProcessingDetection = true;
+		
+
+	}
+	public override void UpdateState()
+    {
+
+        
+		if (chargeCurrent.Value >= chargeRate)
+		{
+			
+		} else chargeCurrent.Value += Time.deltaTime;
+    }
+    
+	
+   
 }

@@ -11,12 +11,12 @@ public class wolfChaseState : wolfBaseState
 	public wolfChaseState(wolfStateMachine context, wolfStateMachine.wolfStates state): base(context, state){}
 
     
-    GameObject lastPlayer;
+    
 	public override wolfStateMachine.wolfStates NextState()
 	{
 		if(!isChase.Value) return wolfStateMachine.wolfStates.Patrol;
 
-        if(chargeCurrent.Value>=attackCoolDown) return wolfStateMachine.wolfStates.Attack;
+        if(navAgent.remainingDistance<attackRange&&chargeCurrent.Value>=attackCoolDown) return wolfStateMachine.wolfStates.Attack;
         Debug.Log(navAgent.remainingDistance);
         navAgent.speed = chaseSpeed;
 		return stateKey;	
@@ -44,12 +44,13 @@ public class wolfChaseState : wolfBaseState
     public void chaseSetPostion()
     {
         if(playerList.Count() != 0){
-            lastPlayer = playerList.Last();
+            playerFocus = playerList.Last();
             float closeDistance = triggerD.detectionCollider.GetComponent<CircleCollider2D>().radius;
             foreach (GameObject player in playerList)
             {
-                
-                Transform playerT = player.transform;
+                playerFocus = player;
+
+                Transform playerT = playerFocus.transform;
 
                 Vector3 directionToPlayer = playerT.position - navAgent.transform.position;
 
@@ -62,7 +63,7 @@ public class wolfChaseState : wolfBaseState
                     closeDistance = distanceToPlayer;
                 }  
             }
-        }else navAgent.SetDestination(lastPlayer.transform.position);
+        }else navAgent.SetDestination(playerFocus.transform.position);
     }
     
 	

@@ -16,7 +16,7 @@ public class wolfChaseState : wolfBaseState
 	{
 		if(!isChase.Value) return wolfStateMachine.wolfStates.Patrol;
 
-        if(navAgent.remainingDistance<attackRange&&chargeCurrent.Value>=attackCoolDown) return wolfStateMachine.wolfStates.Attack;
+        if(navAgent.remainingDistance<attackD.attackRange&&chargeCurrent.Value>=attackD.attackCoolDown) return wolfStateMachine.wolfStates.Attack1;
         Debug.Log(navAgent.remainingDistance);
         navAgent.speed = chaseSpeed;
 		return stateKey;	

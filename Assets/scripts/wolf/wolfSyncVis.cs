@@ -84,7 +84,7 @@ public class wolfSyncVis : NetworkBehaviour
             case wolfStateMachine.wolfStates.Chase:
             visState.color = Color.red;
             break;
-            case wolfStateMachine.wolfStates.Attack:
+            case wolfStateMachine.wolfStates.Attack1:
             visState.color = Color.orange;
             break;
         }

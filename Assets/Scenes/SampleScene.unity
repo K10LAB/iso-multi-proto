@@ -1204,6 +1204,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: wolf
       objectReference: {fileID: 0}
+    - target: {fileID: 8074705311284700612, guid: 8cb59e1fc4a432240b3af807229d5b8a, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 9063409957709374469, guid: 8cb59e1fc4a432240b3af807229d5b8a, type: 3}
       propertyPath: isProcessingHitBox
       value: 0
@@ -2172,7 +2176,7 @@ Transform:
   m_GameObject: {fileID: 1382574092}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.46462, y: -0.60384, z: 0}
+  m_LocalPosition: {x: 1.593, y: -0.36, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -2190,6 +2194,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2d30ff04f1ccd0048926fa92f7a20b22, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::slashAttack
+  c: {fileID: 0}
 --- !u!1 &1445397427
 GameObject:
   m_ObjectHideFlags: 0

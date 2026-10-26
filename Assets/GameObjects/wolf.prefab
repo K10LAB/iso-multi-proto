@@ -147,7 +147,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Unity.Netcode.Runtime::Unity.Netcode.NetworkObject
-  GlobalObjectIdHash: 1450416517
+  GlobalObjectIdHash: 4090462439
   InScenePlacedSourceGlobalObjectIdHash: 4133303127
   m_InScenePlacedDisabledByDefault: 0
   DeferredDespawnTick: 0
@@ -226,6 +226,13 @@ MonoBehaviour:
       MinSecondsBetweenUpdates: 0
       MaxSecondsBetweenUpdates: 0
     m_InternalValue: 0
+  chargeCurrent:
+    UpdateTraits:
+      MinSecondsBetweenUpdates: 0
+      MaxSecondsBetweenUpdates: 0
+    m_InternalValue: 0
+  triggerD: {fileID: 0}
+  attackD: {fileID: 0}
   attackRange: 0.3
   isChase:
     UpdateTraits:
@@ -246,8 +253,6 @@ MonoBehaviour:
   patrolRadius: 3
   patrolPositions: 3
   spawnPoint: {x: 0, y: 0, z: 0}
-  detectionCollider: {fileID: 4290576227057476116}
-  hitboxCollider: {fileID: 0}
   chaseSpeed: 2
 --- !u!114 &8537141892098220985
 MonoBehaviour:

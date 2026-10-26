@@ -18,7 +18,8 @@ public class wolfStateMachine : StateManagerM<wolfStateMachine.wolfStates>
         Idle,
         Patrol,
         Chase,
-        Attack
+        Attack1,
+        attack2
     }
     
 
@@ -80,7 +81,7 @@ public class wolfStateMachine : StateManagerM<wolfStateMachine.wolfStates>
         states.Add(wolfStates.Idle, new wolfIdleState(this, wolfStates.Idle));
         states.Add(wolfStates.Patrol, new WolfPatrolState(this, wolfStates.Patrol));
         states.Add(wolfStates.Chase, new wolfChaseState(this, wolfStates.Chase));
-        states.Add(wolfStates.Attack, new wolfAttackState(this, wolfStates.Attack));
+        states.Add(wolfStates.Attack1, new wolfAttackState(this, wolfStates.Attack1));
         currentState = states[wolfStates.Idle];
     }
     public void playerListAdd(triggerDelegation.OnTriggerDelegation dele)
@@ -93,9 +94,13 @@ public class wolfStateMachine : StateManagerM<wolfStateMachine.wolfStates>
     }
     public void attackSlot1(attackDelegation.attackSystem dele)
     {
-        
-        attackD.mostRecentProj = Instantiate(attackD.attackGObj, transform.position, transform.rotation);
-        
+        GameObject proj = Instantiate(attackD.attackGObj, transform.position, transform.rotation);
+        attackContext projContext = proj.GetComponent<attackContext>();
+        projContext.colliderWidth = dele.colliderWidth;
+        projContext.colliderLength = dele.colliderLength;
+        projContext.attackRange = dele.attackRange;
+        projContext.attackSpeed = dele.attackSpeed;
+        projContext.source = dele.source;
     }
     public void playerListRemove(triggerDelegation.OnTriggerDelegation dele)
     {

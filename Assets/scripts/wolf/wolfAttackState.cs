@@ -27,11 +27,11 @@ public class wolfAttackState : wolfBaseState
 	public override void UpdateState()
 	{
 		
-		//if(attackC.attackActive) return;
+		
 		chargeCurrent.Value += Time.deltaTime;
 		if(chargeCurrent.Value > attackC.chargeRate/burstTime)
 		{
-			attackD.attack(0);
+			attackD.attack(attackD.attackContexts.IndexOf(attackC));
 			chargeCurrent.Value = 0;
 			attackCount--;
 		}

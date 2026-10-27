@@ -7,6 +7,8 @@ public class attackDelegation : NetworkBehaviour
 {
     [SerializeField] public List<attackContext> attackContexts = new List<attackContext>();
     [SerializeField] public List<UnityEvent<attackSystem>> Attack = new List<UnityEvent<attackSystem>>();
+    
+    [SerializeField] public attackContext currentContext;
 
     public void attack(int i)
     {

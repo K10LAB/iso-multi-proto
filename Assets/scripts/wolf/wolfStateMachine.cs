@@ -30,9 +30,6 @@ public class wolfStateMachine : StateManagerM<wolfStateMachine.wolfStates>
     [SerializeField] public triggerDelegation triggerD;
     [SerializeField] public attackDelegation attackD;
 
-    [SerializeField] public attackContext attackC;
-
-    [SerializeField] public float attackRange;
     [NonSerialized] public HashSet<GameObject> playerList = new HashSet<GameObject>();
     [SerializeField] public NetworkVariable<bool> isChase = new NetworkVariable<bool>
     (false, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
@@ -66,7 +63,7 @@ public class wolfStateMachine : StateManagerM<wolfStateMachine.wolfStates>
     
     void Awake()
     {
-        attackC = attackD.attackContexts[0];
+        
         
         //detectionCollider = GetComponent<CircleCollider2D>();
         //navAgent = GetComponent<NavMeshAgent>();
@@ -94,15 +91,16 @@ public class wolfStateMachine : StateManagerM<wolfStateMachine.wolfStates>
             playerList.Add(dele.Other.gameObject);
         }
     }
+
     public void melee(attackDelegation.attackSystem dele)
     {
-        dele.c.attackGObj.SetActive(true);
-        
+        dele.c.attackGObj.GetComponent<attackDelegation>().currentContext = dele.c;
     }
     public void range(attackDelegation.attackSystem dele)
     {
-        GameObject proj = Instantiate(attackC.attackGObj, transform.position, transform.rotation);
+        GameObject proj = Instantiate(dele.c.attackGObj, transform.position, transform.rotation);
     }
+
     public void playerListRemove(triggerDelegation.OnTriggerDelegation dele)
     {
         if(dele.Self != triggerD.detectionCollider)return;
@@ -145,7 +143,7 @@ public abstract class wolfBaseState : BasedStateM<wolfStateMachine.wolfStates>
     public readonly triggerDelegation triggerD;
     public readonly attackDelegation attackD;
 
-    public readonly attackContext attackC;
+    public attackContext attackC;
     
 
     
@@ -172,17 +170,18 @@ public abstract class wolfBaseState : BasedStateM<wolfStateMachine.wolfStates>
         
         chaseSpeed = context.chaseSpeed;
         triggerD = context.triggerD;
-        attackC = context.attackC;
-        
-    
-        
+        changeAttackContext(0);
+    }
+    public virtual void changeAttackContext(int i)
+    {
+        attackC = attackD.attackContexts[i];
     }
 
     public virtual void faceDirChange()
     {
-        Vector2 flatDir = navAgent.pathEndPosition - navAgent.transform.position;
+        Vector2 flatDir = cloestPlayer().transform.position - navAgent.transform.position;
         float mathDir = Mathf.Atan2(flatDir.x, flatDir.y) * Mathf.Rad2Deg;
-        if(navAgent.remainingDistance < navAgent.stoppingDistance + 0.1)return;
+        if(Mathf.Abs(faceDir.Value) < navAgent.stoppingDistance + 0.1)return;
         if (mathDir < 0)
         {
             faceDir.Value = 360f + mathDir;
@@ -217,6 +216,31 @@ public abstract class wolfBaseState : BasedStateM<wolfStateMachine.wolfStates>
         }
         
         return playerList.Count != 0 || isChase.Value;
+    }
+
+    public virtual GameObject cloestPlayer()
+    {
+        if(playerList.Count != 0){
+            float closeDistance = triggerD.detectionCollider.GetComponent<CircleCollider2D>().radius;
+            foreach (GameObject player in playerList)
+            {
+                playerFocus = player;
+
+                Transform playerT = playerFocus.transform;
+
+                Vector3 directionToPlayer = playerT.position - navAgent.transform.position;
+
+                float distanceToPlayer = directionToPlayer.magnitude;
+               
+                if (distanceToPlayer <= closeDistance)
+                {
+                    Debug.Log(navAgent.pathEndPosition);
+                    navAgent.SetDestination(playerT.position);
+                    closeDistance = distanceToPlayer;
+                }  
+            }
+        }
+        return playerFocus;
     }
 
     

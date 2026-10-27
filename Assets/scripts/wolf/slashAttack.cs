@@ -7,7 +7,8 @@ public class slashAttack : MonoBehaviour
 
     public void Start()
     {
-        c = GetComponent<attackContext>();
+
+        c = GetComponent<attackDelegation>().currentContext;
     }
 
     

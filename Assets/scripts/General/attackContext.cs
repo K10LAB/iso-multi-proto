@@ -2,8 +2,6 @@ using UnityEngine;
 
 public class attackContext : ScriptableObject
 {
-    public float colliderWidth;
-    public float colliderLength;
     public float attackRange;
     public float attackSpeed;
     public GameObject source;

@@ -35,7 +35,6 @@ public class wolfChaseState : wolfBaseState
 	public override void UpdateState()
     {
         chaseSetPostion();
-        wolfMove();
         faceDirChange();
         if(attackC.attackCoolDown>chargeCurrent.Value)chargeCurrent.Value += Time.deltaTime;
         if(detectionChange()) return;
@@ -43,28 +42,12 @@ public class wolfChaseState : wolfBaseState
 
     public void chaseSetPostion()
     {
-        if(playerList.Count() != 0){
-            playerFocus = playerList.Last();
-            float closeDistance = triggerD.detectionCollider.GetComponent<CircleCollider2D>().radius;
-            foreach (GameObject player in playerList)
-            {
-                playerFocus = player;
-
-                Transform playerT = playerFocus.transform;
-
-                Vector3 directionToPlayer = playerT.position - navAgent.transform.position;
-
-                float distanceToPlayer = directionToPlayer.magnitude;
-               
-                if (distanceToPlayer <= closeDistance)
-                {
-                    Debug.Log(navAgent.pathEndPosition);
-                    navAgent.SetDestination(playerT.position);
-                    closeDistance = distanceToPlayer;
-                }  
-            }
-        }else navAgent.SetDestination(playerFocus.transform.position);
+        GameObject ji = cloestPlayer();
+        if(ji == null)return;
+        navAgent.SetDestination(ji.transform.position);
+        wolfMove();
     }
+    
     
 	
     

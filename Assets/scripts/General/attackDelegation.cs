@@ -1,51 +1,24 @@
 using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.Events;
+using System.Collections.Generic;
 
 public class attackDelegation : NetworkBehaviour
 {
-    public UnityEvent<attackSystem> Attack1;
+    [SerializeField] public List<attackContext> attackContexts = new List<attackContext>();
+    [SerializeField] public List<UnityEvent<attackSystem>> Attack = new List<UnityEvent<attackSystem>>();
 
-    public bool attackEnded;
-    public float burstTime;
-    public int burstCount;
-    public float colliderWidth;
-    public float colliderLength;
-    public float attackRange;
-    public float attackSpeed;
-    
-    public readonly float chargeRate;
-
-    public int attackCount;
-    public GameObject source{get; set;}
-    public GameObject attackGObj;
-
-    public bool attackActive;
-    public float attackCoolDown;
-
-    //public float attackRange;
-
-    public void attack()
+    public void attack(int i)
     {
-        Attack1.Invoke(new attackSystem(colliderWidth, colliderLength, attackRange, attackSpeed, source));
+        Attack[i].Invoke(new attackSystem(attackContexts[i]));
     }
     public struct attackSystem
     {
-    
-        public float colliderWidth;
-        public float colliderLength;
-        public float attackRange;
-        public float attackSpeed;
-        public GameObject source;
+        public attackContext c;
         //public int attackCount{get; set;}
-        public attackSystem(float colliderWidth, float colliderLength, float attackDuration, float attackSpeed, GameObject source)
+        public attackSystem(attackContext c)
         {
-            this.colliderWidth = colliderWidth;
-            this.colliderLength = colliderLength;
-            this.attackRange =  attackDuration;
-            this.source = source;
-            this.attackSpeed = attackSpeed;
-            
+            this.c = c;
         }
     }
 }

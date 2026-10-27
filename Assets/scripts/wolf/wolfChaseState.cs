@@ -16,8 +16,8 @@ public class wolfChaseState : wolfBaseState
 	{
 		if(!isChase.Value) return wolfStateMachine.wolfStates.Patrol;
 
-        if(navAgent.remainingDistance<attackD.attackRange&&chargeCurrent.Value>=attackD.attackCoolDown) return wolfStateMachine.wolfStates.Attack1;
-        Debug.Log(navAgent.remainingDistance);
+        if(navAgent.remainingDistance<attackC.attackRange &&chargeCurrent.Value>=attackC.attackCoolDown) return wolfStateMachine.wolfStates.Attack;
+        
         navAgent.speed = chaseSpeed;
 		return stateKey;	
 	}
@@ -37,7 +37,7 @@ public class wolfChaseState : wolfBaseState
         chaseSetPostion();
         wolfMove();
         faceDirChange();
-        chargeCurrent.Value += Time.deltaTime;
+        if(attackC.attackCoolDown>chargeCurrent.Value)chargeCurrent.Value += Time.deltaTime;
         if(detectionChange()) return;
     }
 

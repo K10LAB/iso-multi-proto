@@ -18,8 +18,7 @@ public class wolfStateMachine : StateManagerM<wolfStateMachine.wolfStates>
         Idle,
         Patrol,
         Chase,
-        Attack1,
-        attack2
+        Attack,
     }
     
 
@@ -30,6 +29,9 @@ public class wolfStateMachine : StateManagerM<wolfStateMachine.wolfStates>
     (0f, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
     [SerializeField] public triggerDelegation triggerD;
     [SerializeField] public attackDelegation attackD;
+
+    [SerializeField] public attackContext attackC;
+
     [SerializeField] public float attackRange;
     [NonSerialized] public HashSet<GameObject> playerList = new HashSet<GameObject>();
     [SerializeField] public NetworkVariable<bool> isChase = new NetworkVariable<bool>
@@ -64,7 +66,7 @@ public class wolfStateMachine : StateManagerM<wolfStateMachine.wolfStates>
     
     void Awake()
     {
-        
+        attackC = attackD.attackContexts[0];
         
         //detectionCollider = GetComponent<CircleCollider2D>();
         //navAgent = GetComponent<NavMeshAgent>();
@@ -81,7 +83,7 @@ public class wolfStateMachine : StateManagerM<wolfStateMachine.wolfStates>
         states.Add(wolfStates.Idle, new wolfIdleState(this, wolfStates.Idle));
         states.Add(wolfStates.Patrol, new WolfPatrolState(this, wolfStates.Patrol));
         states.Add(wolfStates.Chase, new wolfChaseState(this, wolfStates.Chase));
-        states.Add(wolfStates.Attack1, new wolfAttackState(this, wolfStates.Attack1));
+        states.Add(wolfStates.Attack, new wolfAttackState(this, wolfStates.Attack));
         currentState = states[wolfStates.Idle];
     }
     public void playerListAdd(triggerDelegation.OnTriggerDelegation dele)
@@ -92,15 +94,14 @@ public class wolfStateMachine : StateManagerM<wolfStateMachine.wolfStates>
             playerList.Add(dele.Other.gameObject);
         }
     }
-    public void attackSlot1(attackDelegation.attackSystem dele)
+    public void melee(attackDelegation.attackSystem dele)
     {
-        GameObject proj = Instantiate(attackD.attackGObj, transform.position, transform.rotation);
-        attackContext projContext = proj.GetComponent<attackContext>();
-        projContext.colliderWidth = dele.colliderWidth;
-        projContext.colliderLength = dele.colliderLength;
-        projContext.attackRange = dele.attackRange;
-        projContext.attackSpeed = dele.attackSpeed;
-        projContext.source = dele.source;
+        dele.c.attackGObj.SetActive(true);
+        
+    }
+    public void range(attackDelegation.attackSystem dele)
+    {
+        GameObject proj = Instantiate(attackC.attackGObj, transform.position, transform.rotation);
     }
     public void playerListRemove(triggerDelegation.OnTriggerDelegation dele)
     {
@@ -143,6 +144,8 @@ public abstract class wolfBaseState : BasedStateM<wolfStateMachine.wolfStates>
     public readonly float chaseSpeed;
     public readonly triggerDelegation triggerD;
     public readonly attackDelegation attackD;
+
+    public readonly attackContext attackC;
     
 
     
@@ -169,6 +172,7 @@ public abstract class wolfBaseState : BasedStateM<wolfStateMachine.wolfStates>
         
         chaseSpeed = context.chaseSpeed;
         triggerD = context.triggerD;
+        attackC = context.attackC;
         
     
         

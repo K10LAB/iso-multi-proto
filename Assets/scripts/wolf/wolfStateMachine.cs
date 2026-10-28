@@ -94,7 +94,7 @@ public class wolfStateMachine : StateManagerM<wolfStateMachine.wolfStates>
 
     public void melee(attackDelegation.attackSystem dele)
     {
-        dele.c.attackGObj.GetComponent<attackDelegation>().currentContext = dele.c;
+        dele.c.attackGObj.SetActive(true);
     }
     public void range(attackDelegation.attackSystem dele)
     {

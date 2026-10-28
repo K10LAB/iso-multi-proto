@@ -18,29 +18,22 @@ public class wolfAttackState : wolfBaseState
 	
 	public override void EnterState()
 	{
-
 		if(attackCount==0)attackCount = attackC.attackCount;
-		
-		
 	}
 
 	public override void UpdateState()
 	{
-		
-		
 		chargeCurrent.Value += Time.deltaTime;
 		if(chargeCurrent.Value > attackC.chargeRate/burstTime)
 		{
-			attackD.attack(attackD.attackContexts.IndexOf(attackC));
 			chargeCurrent.Value = 0;
 			attackCount--;
+			attackD.attack(attackD.attackContexts.IndexOf(attackC));
 		}
 		if(attackCount%attackC.burstCount!=0)
 		{
 			burstTime = attackC.burstTime;
 		} else burstTime = 1;
-		
-		
 	}
 
 	public override wolfStateMachine.wolfStates NextState()

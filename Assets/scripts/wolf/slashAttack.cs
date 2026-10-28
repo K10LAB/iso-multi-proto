@@ -5,11 +5,11 @@ public class slashAttack : MonoBehaviour
 {
     public attackContext c;
 
-    public void Start()
+    public void Intialize(attackDelegation.attackSystem dele)
     {
-
-        c = GetComponent<attackDelegation>().currentContext;
+        c = dele.c;
     }
+    
 
     
 }

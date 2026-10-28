@@ -1,14 +1,14 @@
 using UnityEngine;
-
-public class attackContext : ScriptableObject
+[System.Serializable]
+public class attackContext
 {
-    public float attackRange;
-    public float attackSpeed;
+    public float chargeRate;
+    public float attackCoolDown;
+    public int attackCount;
     public GameObject source;
     public GameObject attackGObj;
-    public readonly float chargeRate;
-    public int attackCount;
-    public float attackCoolDown;
+    public float attackRange;
+    public float attackSpeed;
     public float burstCount;
     public float burstTime;
 }

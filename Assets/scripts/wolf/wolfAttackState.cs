@@ -38,8 +38,8 @@ public class wolfAttackState : wolfBaseState
 
 	public override wolfStateMachine.wolfStates NextState()
 	{
-		float distCheck = (playerFocus.transform.position - navAgent.transform.position).magnitude;
-		if(attackC.attackRange > distCheck && attackCount>0) return wolfStateMachine.wolfStates.Chase;
+		
+		if(attackC.attackRange < distCheck() || attackCount<0) return wolfStateMachine.wolfStates.Chase;
 		return stateKey;
 	}
 

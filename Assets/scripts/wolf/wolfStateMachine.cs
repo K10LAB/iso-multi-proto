@@ -54,6 +54,7 @@ public class wolfStateMachine : StateManagerM<wolfStateMachine.wolfStates>
 
     //[SerializeField] public CircleCollider2D hitboxCollider;
     [SerializeField] public float chaseSpeed;
+    public attackContext attackC;
     
 
     
@@ -64,6 +65,7 @@ public class wolfStateMachine : StateManagerM<wolfStateMachine.wolfStates>
     void Awake()
     {
         
+        attackC = attackD.attackContexts[0];
         
         //detectionCollider = GetComponent<CircleCollider2D>();
         //navAgent = GetComponent<NavMeshAgent>();
@@ -91,6 +93,14 @@ public class wolfStateMachine : StateManagerM<wolfStateMachine.wolfStates>
             playerList.Add(dele.Other.gameObject);
         }
     }
+    public void playerListRemove(triggerDelegation.OnTriggerDelegation dele)
+    {
+        if(dele.Self != triggerD.detectionCollider)return;
+        if (dele.Other.CompareTag("Player"))
+        {
+            playerList.Remove(dele.Other.gameObject);
+        }
+    }
 
     public void melee(attackDelegation.attackSystem dele)
     {
@@ -101,14 +111,7 @@ public class wolfStateMachine : StateManagerM<wolfStateMachine.wolfStates>
         GameObject proj = Instantiate(dele.c.attackGObj, transform.position, transform.rotation);
     }
 
-    public void playerListRemove(triggerDelegation.OnTriggerDelegation dele)
-    {
-        if(dele.Self != triggerD.detectionCollider)return;
-        if (dele.Other.CompareTag("Player"))
-        {
-            playerList.Add(dele.Other.gameObject);
-        }
-    }
+    
     
    
 }
@@ -170,7 +173,7 @@ public abstract class wolfBaseState : BasedStateM<wolfStateMachine.wolfStates>
         
         chaseSpeed = context.chaseSpeed;
         triggerD = context.triggerD;
-        changeAttackContext(0);
+        attackC = context.attackC;        
     }
     public virtual void changeAttackContext(int i)
     {
@@ -180,6 +183,7 @@ public abstract class wolfBaseState : BasedStateM<wolfStateMachine.wolfStates>
     public virtual void faceDirChange()
     {
         Vector2 flatDir = cloestPlayer().transform.position - navAgent.transform.position;
+        if(cloestPlayer() == null) flatDir = navAgent.pathEndPosition;
         float mathDir = Mathf.Atan2(flatDir.x, flatDir.y) * Mathf.Rad2Deg;
         if(Mathf.Abs(faceDir.Value) < navAgent.stoppingDistance + 0.1)return;
         if (mathDir < 0)
@@ -220,6 +224,7 @@ public abstract class wolfBaseState : BasedStateM<wolfStateMachine.wolfStates>
 
     public virtual GameObject cloestPlayer()
     {
+        
         if(playerList.Count != 0){
             float closeDistance = triggerD.detectionCollider.GetComponent<CircleCollider2D>().radius;
             foreach (GameObject player in playerList)
@@ -241,6 +246,10 @@ public abstract class wolfBaseState : BasedStateM<wolfStateMachine.wolfStates>
             }
         }
         return playerFocus;
+    }
+
+    public virtual float distCheck(){
+     return (cloestPlayer().transform.position - navAgent.transform.position).magnitude;
     }
 
     

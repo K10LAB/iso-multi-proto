@@ -6,7 +6,9 @@ public class attackContext
     public float attackCoolDown;
     public int attackCount;
     public GameObject source;
-    public GameObject attackGObj;
+    public GameObject attackGobj;
+
+    public Sprite melAttackSkin;
     public float attackRange;
     public float attackSpeed;
     public float burstCount;

@@ -102,13 +102,14 @@ public class wolfStateMachine : StateManagerM<wolfStateMachine.wolfStates>
         }
     }
 
-    public void melee(attackDelegation.attackSystem dele)
+    public void melee(triggerDelegation.OnTriggerDelegation dele)
     {
-        dele.c.attackGObj.SetActive(true);
+        triggerD.isProcessingMelee = true;
+
     }
     public void range(attackDelegation.attackSystem dele)
     {
-        GameObject proj = Instantiate(dele.c.attackGObj, transform.position, transform.rotation);
+        GameObject proj = Instantiate(dele.c.attackGobj, transform.position, transform.rotation);
     }
 
     
@@ -180,10 +181,9 @@ public abstract class wolfBaseState : BasedStateM<wolfStateMachine.wolfStates>
         attackC = attackD.attackContexts[i];
     }
 
-    public virtual void faceDirChange()
+    public virtual void faceDirChange(Vector2 flatDir)
     {
-        Vector2 flatDir = cloestPlayer().transform.position - navAgent.transform.position;
-        if(cloestPlayer() == null) flatDir = navAgent.pathEndPosition;
+        flatDir -= new Vector2(navAgent.transform.position.x, navAgent.transform.position.y);
         float mathDir = Mathf.Atan2(flatDir.x, flatDir.y) * Mathf.Rad2Deg;
         if(Mathf.Abs(faceDir.Value) < navAgent.stoppingDistance + 0.1)return;
         if (mathDir < 0)
@@ -218,8 +218,13 @@ public abstract class wolfBaseState : BasedStateM<wolfStateMachine.wolfStates>
                 isChase.Value = false;
             }
         }
+        if(playerList.Count != 0 || isChase.Value)
+        {
+            faceDirChange(cloestPlayer().transform.position);
+            return true;
+        }
+        return false;
         
-        return playerList.Count != 0 || isChase.Value;
     }
 
     public virtual GameObject cloestPlayer()
@@ -229,9 +234,8 @@ public abstract class wolfBaseState : BasedStateM<wolfStateMachine.wolfStates>
             float closeDistance = triggerD.detectionCollider.GetComponent<CircleCollider2D>().radius;
             foreach (GameObject player in playerList)
             {
-                playerFocus = player;
 
-                Transform playerT = playerFocus.transform;
+                Transform playerT = player.transform;
 
                 Vector3 directionToPlayer = playerT.position - navAgent.transform.position;
 
@@ -239,8 +243,7 @@ public abstract class wolfBaseState : BasedStateM<wolfStateMachine.wolfStates>
                
                 if (distanceToPlayer <= closeDistance)
                 {
-                    Debug.Log(navAgent.pathEndPosition);
-                    navAgent.SetDestination(playerT.position);
+                    playerFocus = player;
                     closeDistance = distanceToPlayer;
                 }  
             }
@@ -249,7 +252,7 @@ public abstract class wolfBaseState : BasedStateM<wolfStateMachine.wolfStates>
     }
 
     public virtual float distCheck(){
-     return (cloestPlayer().transform.position - navAgent.transform.position).magnitude;
+        return (cloestPlayer().transform.position - navAgent.transform.position).magnitude;
     }
 
     

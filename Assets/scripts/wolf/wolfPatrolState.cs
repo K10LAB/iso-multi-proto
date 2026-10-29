@@ -16,12 +16,15 @@ public class WolfPatrolState : wolfBaseState
 
     public override void UpdateState()
     {
+        
         navAgent.isStopped = true;
         if(detectionChange())return;
         navAgent.isStopped = false;
-        faceDirChange();
         patrolSetPostion();
+        faceDirChange(navAgent.pathEndPosition);
         wolfMove();
+        
+        
     }
 
     

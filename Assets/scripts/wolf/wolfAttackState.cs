@@ -23,6 +23,7 @@ public class wolfAttackState : wolfBaseState
 
 	public override void UpdateState()
 	{
+		faceDirChange(playerFocus.transform.position);
 		chargeCurrent.Value += Time.deltaTime;
 		if(chargeCurrent.Value > attackC.chargeRate/burstTime)
 		{

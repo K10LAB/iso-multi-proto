@@ -33,8 +33,10 @@ public class wolfIdleState : wolfBaseState
 	}
 	public override void UpdateState()
     {
+		
         if(detectionChange())return;
 		randomWaitTime -= Time.deltaTime;
+		
     }
 	
 

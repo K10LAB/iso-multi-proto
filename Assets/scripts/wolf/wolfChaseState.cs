@@ -35,7 +35,6 @@ public class wolfChaseState : wolfBaseState
 	public override void UpdateState()
     {
         chaseSetPostion();
-        faceDirChange();
         if(attackC.attackCoolDown>chargeCurrent.Value)chargeCurrent.Value += Time.deltaTime;
         if(detectionChange()) return;
     }

@@ -1152,6 +1152,26 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 504354779397879652, guid: 8cb59e1fc4a432240b3af807229d5b8a, type: 3}
+      propertyPath: m_Name
+      value: melee
+      objectReference: {fileID: 0}
+    - target: {fileID: 504354779397879652, guid: 8cb59e1fc4a432240b3af807229d5b8a, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 576642035159617897, guid: 8cb59e1fc4a432240b3af807229d5b8a, type: 3}
+      propertyPath: attackContexts.Array.data[0].attackGobj
+      value: 
+      objectReference: {fileID: 1409984346}
+    - target: {fileID: 576642035159617897, guid: 8cb59e1fc4a432240b3af807229d5b8a, type: 3}
+      propertyPath: attackContexts.Array.data[0].melAttackSkin
+      value: 
+      objectReference: {fileID: 21300000, guid: 5fadda5182db6d240ae7503fa8ed39df, type: 3}
+    - target: {fileID: 616052809343375824, guid: 8cb59e1fc4a432240b3af807229d5b8a, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 1250924505162361153, guid: 8cb59e1fc4a432240b3af807229d5b8a, type: 3}
       propertyPath: m_InScenePlaced
       value: 1
@@ -1208,10 +1228,26 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5841052250149365633, guid: 8cb59e1fc4a432240b3af807229d5b8a, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5841052250149365633, guid: 8cb59e1fc4a432240b3af807229d5b8a, type: 3}
+      propertyPath: m_SortingOrder
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 7018876420574353599, guid: 8cb59e1fc4a432240b3af807229d5b8a, type: 3}
       propertyPath: m_Name
       value: wolf
       objectReference: {fileID: 0}
+    - target: {fileID: 7452728925321939173, guid: 8cb59e1fc4a432240b3af807229d5b8a, type: 3}
+      propertyPath: m_ConstrainProportionsScale
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 9063409957709374469, guid: 8cb59e1fc4a432240b3af807229d5b8a, type: 3}
+      propertyPath: meleeCollider
+      value: 
+      objectReference: {fileID: 1409984347}
     - target: {fileID: 9063409957709374469, guid: 8cb59e1fc4a432240b3af807229d5b8a, type: 3}
       propertyPath: isProcessingDetection
       value: 1
@@ -2111,6 +2147,16 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1325253386}
   m_CullTransparentMesh: 1
+--- !u!1 &1409984346 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 504354779397879652, guid: 8cb59e1fc4a432240b3af807229d5b8a, type: 3}
+  m_PrefabInstance: {fileID: 619994789}
+  m_PrefabAsset: {fileID: 0}
+--- !u!61 &1409984347 stripped
+BoxCollider2D:
+  m_CorrespondingSourceObject: {fileID: 3664148013941917889, guid: 8cb59e1fc4a432240b3af807229d5b8a, type: 3}
+  m_PrefabInstance: {fileID: 619994789}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1445397427
 GameObject:
   m_ObjectHideFlags: 0

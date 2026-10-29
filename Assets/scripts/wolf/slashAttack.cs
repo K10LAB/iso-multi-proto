@@ -8,6 +8,8 @@ public class slashAttack : MonoBehaviour
     public void Initialized(attackDelegation.attackSystem dele)
     {
         c = dele.c;
+
+        Debug.Log("Here is attack");
     }
 
 

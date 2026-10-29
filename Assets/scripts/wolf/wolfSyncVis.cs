@@ -11,7 +11,7 @@ public class wolfSyncVis : NetworkBehaviour
     [SerializeField] private SpriteRenderer visDetection;
 
     [SerializeField] private GameObject maskDetection;
-    public float testVis;
+    
 
     [SerializeField] List<Sprite> spriteList = new List<Sprite>(6);
     

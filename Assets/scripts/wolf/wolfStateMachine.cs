@@ -31,8 +31,9 @@ public class wolfStateMachine : StateManagerM<wolfStateMachine.wolfStates>
     [SerializeField] public attackDelegation attackD;
 
     [NonSerialized] public HashSet<GameObject> playerList = new HashSet<GameObject>();
-    [SerializeField] public NetworkVariable<bool> isChase = new NetworkVariable<bool>
+    /*[SerializeField] public NetworkVariable<bool> isChase = new NetworkVariable<bool>
     (false, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
+    */
     [SerializeField] public NetworkVariable<float> faceDir = new NetworkVariable<float>
     (0f, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
     [SerializeField] public NavMeshAgent navAgent;
@@ -125,7 +126,7 @@ public abstract class wolfBaseState : BasedStateM<wolfStateMachine.wolfStates>
     public readonly NetworkVariable<float> chargeCurrent;
     
     public readonly HashSet<GameObject> playerList;
-    public readonly NetworkVariable<bool> isChase;
+    //public readonly NetworkVariable<bool> isChase;
     public readonly NetworkVariable<float> faceDir;
     protected NavMeshAgent navAgent;
     public readonly float detectionMax;
@@ -157,7 +158,7 @@ public abstract class wolfBaseState : BasedStateM<wolfStateMachine.wolfStates>
     {
         
         playerList = context.playerList;
-        isChase = context.isChase;
+        //isChase = context.isChase;
         faceDir = context.faceDir;
         navAgent = context.navAgent;
         detectionMax = context.detectionMax;
@@ -202,25 +203,17 @@ public abstract class wolfBaseState : BasedStateM<wolfStateMachine.wolfStates>
     public virtual bool detectionChange()
     {
         if(playerList.Count != 0){
-			if(detectionLevel.Value<detectionMax){
+			if(detectionLevel.Value<=detectionMax){
 				detectionLevel.Value += detectionRate * Time.deltaTime;	
 			}
-			else
-			{
-				isChase.Value = true;
-			}	
-		} else {
-            if(detectionLevel.Value > 0)
-            {
-                detectionLevel.Value -= detectionRate * Time.deltaTime;
-            } else
-            {
-                isChase.Value = false;
-            }
-        }
-        if(playerList.Count != 0 || isChase.Value)
+		} else if(detectionLevel.Value >= 0)
         {
-            faceDirChange(cloestPlayer().transform.position);
+            detectionLevel.Value -= detectionRate * Time.deltaTime;
+        }
+        
+        if(playerList.Count != 0)
+        {
+            if(playerFocus)faceDirChange(cloestPlayer().transform.position);
             return true;
         }
         return false;

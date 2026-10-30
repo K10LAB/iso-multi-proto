@@ -10,6 +10,7 @@ public class attackContext
 
     public Sprite melAttackSkin;
     public float attackRange;
+    public float chaseRange;
     public float attackSpeed;
     public float burstCount;
     public float burstTime;

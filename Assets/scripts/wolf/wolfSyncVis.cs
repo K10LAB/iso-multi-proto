@@ -33,9 +33,6 @@ public class wolfSyncVis : NetworkBehaviour
         wSM.networkCurrentState.OnValueChanged += onStateChange;
         onStateChange(default, wSM.networkCurrentState.Value);
 
-        wSM.isChase.OnValueChanged += onChaseChange;
-        onChaseChange(false, wSM.isChase.Value);
-
         wSM.detectionLevel.OnValueChanged += onDetectionChange;
         onDetectionChange(0f, wSM.detectionLevel.Value);
     }
@@ -47,19 +44,14 @@ public class wolfSyncVis : NetworkBehaviour
     }
     public void onDetectionChange(float Old, float New)
     {
-        maskDetection.transform.localPosition = new Vector2(0, 0.3374f + New*0.003281f);
-    }
-
-    public void onChaseChange(bool Old, bool New)
-    {
-        if (New)
-        {
-            visDetection.sprite = spriteList[4];
-            visDetection.color = Color.red;
-        } else
+        maskDetection.transform.localPosition = new Vector2(0, -3.5f + New/wSM.detectionMax*3.5f);
+        if (New<=0)
         {
             visDetection.sprite = spriteList[5];
             visDetection.color = Color.yellow;
+        } else if(New>=wSM.detectionMax){
+            visDetection.sprite = spriteList[4];
+            visDetection.color = Color.red;
         }
     }
 

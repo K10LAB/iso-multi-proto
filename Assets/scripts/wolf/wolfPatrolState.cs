@@ -16,15 +16,11 @@ public class WolfPatrolState : wolfBaseState
 
     public override void UpdateState()
     {
-        
         navAgent.isStopped = true;
         if(detectionChange())return;
         navAgent.isStopped = false;
         patrolSetPostion();
-        faceDirChange(navAgent.pathEndPosition);
         wolfMove();
-        
-        
     }
 
     
@@ -41,12 +37,13 @@ public class WolfPatrolState : wolfBaseState
             } else if(currentPositionPoints>-1)navAgent.SetDestination(spawnPoint);
             currentPositionPoints--;
         }
+        faceDirChange(navAgent.pathEndPosition);
     }
     public override wolfStateMachine.wolfStates NextState()
     {
         if (currentPositionPoints == -2)return wolfStateMachine.wolfStates.Idle;
         
-        if (isChase.Value)return wolfStateMachine.wolfStates.Chase;
+        if (detectionLevel.Value>=detectionMax)return wolfStateMachine.wolfStates.Chase;
 
         return stateKey;
     }

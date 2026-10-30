@@ -40,7 +40,7 @@ public class wolfAttackState : wolfBaseState
 	public override wolfStateMachine.wolfStates NextState()
 	{
 		
-		if(attackC.attackRange < distCheck() || attackCount<0) return wolfStateMachine.wolfStates.Chase;
+		if(attackC.attackRange < distCheck()) return wolfStateMachine.wolfStates.Chase;
 		return stateKey;
 	}
 

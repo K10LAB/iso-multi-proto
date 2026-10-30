@@ -14,15 +14,16 @@ public class wolfChaseState : wolfBaseState
     
 	public override wolfStateMachine.wolfStates NextState()
 	{
-		if(!isChase.Value) return wolfStateMachine.wolfStates.Patrol;
+		if(detectionLevel.Value<=0) return wolfStateMachine.wolfStates.Patrol;
 
-        if(distCheck()<attackC.attackRange &&chargeCurrent.Value>=attackC.attackCoolDown) return wolfStateMachine.wolfStates.Attack;
+        if(distCheck()<attackC.attackRange*attackC.chaseRange &&chargeCurrent.Value>=attackC.attackCoolDown) return wolfStateMachine.wolfStates.Attack;
         
-        navAgent.speed = chaseSpeed;
+        
 		return stateKey;	
 	}
 	public override void EnterState()
     {
+        navAgent.speed = chaseSpeed;
         chaseSetPostion();
     }
 	public override void ExitState()
@@ -35,7 +36,7 @@ public class wolfChaseState : wolfBaseState
 	public override void UpdateState()
     {
         chaseSetPostion();
-        if(attackC.attackCoolDown>chargeCurrent.Value)chargeCurrent.Value += Time.deltaTime;
+        if(attackC.attackCoolDown>=chargeCurrent.Value)chargeCurrent.Value += Time.deltaTime;
         if(detectionChange()) return;
     }
 

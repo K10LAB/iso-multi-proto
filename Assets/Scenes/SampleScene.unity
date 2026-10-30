@@ -1165,13 +1165,13 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1409984346}
     - target: {fileID: 576642035159617897, guid: 8cb59e1fc4a432240b3af807229d5b8a, type: 3}
+      propertyPath: attackContexts.Array.data[0].chaseRange
+      value: 0.6
+      objectReference: {fileID: 0}
+    - target: {fileID: 576642035159617897, guid: 8cb59e1fc4a432240b3af807229d5b8a, type: 3}
       propertyPath: attackContexts.Array.data[0].melAttackSkin
       value: 
       objectReference: {fileID: 21300000, guid: 5fadda5182db6d240ae7503fa8ed39df, type: 3}
-    - target: {fileID: 616052809343375824, guid: 8cb59e1fc4a432240b3af807229d5b8a, type: 3}
-      propertyPath: m_Enabled
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 1250924505162361153, guid: 8cb59e1fc4a432240b3af807229d5b8a, type: 3}
       propertyPath: m_InScenePlaced
       value: 1
@@ -1180,14 +1180,6 @@ PrefabInstance:
       propertyPath: GlobalObjectIdHash
       value: 4090462439
       objectReference: {fileID: 0}
-    - target: {fileID: 2185785335333829338, guid: 8cb59e1fc4a432240b3af807229d5b8a, type: 3}
-      propertyPath: attackD
-      value: 
-      objectReference: {fileID: 619994792}
-    - target: {fileID: 2185785335333829338, guid: 8cb59e1fc4a432240b3af807229d5b8a, type: 3}
-      propertyPath: triggerD
-      value: 
-      objectReference: {fileID: 619994795}
     - target: {fileID: 2614283679058524813, guid: 8cb59e1fc4a432240b3af807229d5b8a, type: 3}
       propertyPath: m_LocalPosition.x
       value: 3.587
@@ -1236,6 +1228,14 @@ PrefabInstance:
       propertyPath: m_SortingOrder
       value: 2
       objectReference: {fileID: 0}
+    - target: {fileID: 6552935135658596020, guid: 8cb59e1fc4a432240b3af807229d5b8a, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6552935135658596020, guid: 8cb59e1fc4a432240b3af807229d5b8a, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -3.5
+      objectReference: {fileID: 0}
     - target: {fileID: 7018876420574353599, guid: 8cb59e1fc4a432240b3af807229d5b8a, type: 3}
       propertyPath: m_Name
       value: wolf
@@ -1248,37 +1248,11 @@ PrefabInstance:
       propertyPath: meleeCollider
       value: 
       objectReference: {fileID: 1409984347}
-    - target: {fileID: 9063409957709374469, guid: 8cb59e1fc4a432240b3af807229d5b8a, type: 3}
-      propertyPath: isProcessingDetection
-      value: 1
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 8cb59e1fc4a432240b3af807229d5b8a, type: 3}
---- !u!114 &619994792 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 576642035159617897, guid: 8cb59e1fc4a432240b3af807229d5b8a, type: 3}
-  m_PrefabInstance: {fileID: 619994789}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d4d1b09f831d6a94b8b94ab201914fa3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::attackDelegation
---- !u!114 &619994795 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 9063409957709374469, guid: 8cb59e1fc4a432240b3af807229d5b8a, type: 3}
-  m_PrefabInstance: {fileID: 619994789}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a62e7f0704462834ab9146d139bc80a6, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::triggerDelegation
 --- !u!1 &636781271
 GameObject:
   m_ObjectHideFlags: 0

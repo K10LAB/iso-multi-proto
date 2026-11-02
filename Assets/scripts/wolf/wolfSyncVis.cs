@@ -44,7 +44,14 @@ public class wolfSyncVis : NetworkBehaviour
     }
     public void onDetectionChange(float Old, float New)
     {
-        maskDetection.transform.localPosition = new Vector2(0, -3.5f + New/wSM.detectionMax*3.5f);
+
+        Sprite d = visDetection.sprite;
+        float xT = d.rect.width/d.pixelsPerUnit;
+        //float yT = d.rect.height/d.pixelsPerUnit;
+        //maskDetection.GetComponent<SpriteMask>().;
+
+        maskDetection.transform.localPosition = new Vector2(0, -xT + New/wSM.detectionMax*xT);
+        
         if (New<=0)
         {
             visDetection.sprite = spriteList[6];

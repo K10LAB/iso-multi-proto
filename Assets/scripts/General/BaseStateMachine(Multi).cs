@@ -28,6 +28,7 @@ public class StateManagerM<Estate> : NetworkBehaviour where Estate : Enum
     void Update()
     {
         if(!IsServer || currentState == null)return;
+        
         Estate nextState = currentState.NextState();
         if (nextState.Equals(currentState.stateKey))
         {

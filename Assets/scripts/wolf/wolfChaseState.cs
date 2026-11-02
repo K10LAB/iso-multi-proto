@@ -16,7 +16,7 @@ public class wolfChaseState : wolfBaseState
 	{
 		if(detectionLevel.Value<=0) return wolfStateMachine.wolfStates.Patrol;
 
-        if(playerFocus != null && distCheck()<attackC.attackRange*attackC.chaseRange && chargeCurrent.Value>=attackC.attackCoolDown) return wolfStateMachine.wolfStates.Attack;
+        if(distCheck()<attackC.attackRange*attackC.chaseRange && chargeCurrent.Value>=attackC.attackCoolDown) return wolfStateMachine.wolfStates.Attack;
         
         
 		return stateKey;	
@@ -28,7 +28,7 @@ public class wolfChaseState : wolfBaseState
     }
 	public override void ExitState()
 	{
-		Debug.Log("left chase");
+		
         navAgent.ResetPath();
         chargeCurrent.Value = 0;
 
@@ -43,7 +43,9 @@ public class wolfChaseState : wolfBaseState
 
     public void chaseSetPostion()
     {
+       
         GameObject ji = closestPlayer();
+        
         if(ji == null)return;
         navAgent.SetDestination(ji.transform.position);
         wolfMove();

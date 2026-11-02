@@ -26,11 +26,11 @@ Transform:
   m_GameObject: {fileID: 448447231782979457}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: -3.5, z: 0}
-  m_LocalScale: {x: 2.3, y: 3.7100503, z: 2.3}
-  m_ConstrainProportionsScale: 1
+  m_LocalPosition: {x: 0.052919865, y: 0.079, z: 0}
+  m_LocalScale: {x: 0.23, y: 0.37100503, z: 0}
+  m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 410065313026568332}
+  m_Father: {fileID: 8162198803715822889}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!331 &1136924920937603723
 SpriteMask:
@@ -104,7 +104,7 @@ GameObject:
   - component: {fileID: 616052809343375824}
   - component: {fileID: 3664148013941917889}
   m_Layer: 0
-  m_Name: melee
+  m_Name: MainAttack
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -197,18 +197,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2d30ff04f1ccd0048926fa92f7a20b22, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::slashAttack
-  c:
-    chargeRate: 0
-    attackCoolDown: 0
-    attackCount: 0
-    source: {fileID: 0}
-    attackGobj: {fileID: 0}
-    melAttackSkin: {fileID: 0}
-    attackRange: 0
-    chaseRange: 0
-    attackSpeed: 0
-    burstCount: 0
-    burstTime: 0
+  exit:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!61 &3664148013941917889
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -296,7 +287,7 @@ Transform:
   m_Children:
   - {fileID: 5046835951524804609}
   - {fileID: 5214127559089147004}
-  - {fileID: 410065313026568332}
+  - {fileID: 8162198803715822889}
   - {fileID: 7452728925321939173}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -312,7 +303,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Unity.Netcode.Runtime::Unity.Netcode.NetworkObject
-  GlobalObjectIdHash: 4090462439
+  GlobalObjectIdHash: 787752373
   InScenePlacedSourceGlobalObjectIdHash: 4133303127
   m_InScenePlacedDisabledByDefault: 0
   DeferredDespawnTick: 0
@@ -414,6 +405,7 @@ MonoBehaviour:
   spawnPoint: {x: 0, y: 0, z: 0}
   chaseSpeed: 2
   attackC:
+    Type: 0
     chargeRate: 0
     attackCoolDown: 0
     attackCount: 0
@@ -425,6 +417,9 @@ MonoBehaviour:
     attackSpeed: 0
     burstCount: 0
     burstTime: 0
+    AttackSys:
+      m_PersistentCalls:
+        m_Calls: []
 --- !u!114 &8537141892098220985
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -631,7 +626,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::attackDelegation
   ShowTopMostFoldoutHeaderGroup: 1
   attackContexts:
-  - chargeRate: 5
+  - Type: 0
+    chargeRate: 5
     attackCoolDown: 0
     attackCount: 999
     source: {fileID: 7018876420574353599}
@@ -640,47 +636,35 @@ MonoBehaviour:
     attackRange: 1
     chaseRange: 0.6
     attackSpeed: 1
-    burstCount: 0
+    burstCount: 1
     burstTime: 0
-  Attack:
-  - m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 7018876420574353599}
-        m_TargetAssemblyTypeName: 
-        m_MethodName: 
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: 
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-      - m_Target: {fileID: 504354779397879652}
-        m_TargetAssemblyTypeName: 
-        m_MethodName: 
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: 
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-  currentContext:
-    chargeRate: 0
-    attackCoolDown: 0
-    attackCount: 0
-    source: {fileID: 7018876420574353599}
-    attackGobj: {fileID: 0}
-    melAttackSkin: {fileID: 0}
-    attackRange: 1
-    chaseRange: 0
-    attackSpeed: 1
-    burstCount: 0
-    burstTime: 0
+    AttackSys:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 616052809343375824}
+          m_TargetAssemblyTypeName: slashAttack, Assembly-CSharp
+          m_MethodName: Initialized
+          m_Mode: 0
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+        - m_Target: {fileID: 2185785335333829338}
+          m_TargetAssemblyTypeName: wolfStateMachine, Assembly-CSharp
+          m_MethodName: attackStart
+          m_Mode: 0
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
 --- !u!1 &7727233561727359833
 GameObject:
   m_ObjectHideFlags: 0
@@ -707,12 +691,11 @@ Transform:
   m_GameObject: {fileID: 7727233561727359833}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.686, z: 0}
-  m_LocalScale: {x: 0.1, y: 0.1, z: 0.1}
+  m_LocalPosition: {x: 0.052919865, y: 0.441, z: 0}
+  m_LocalScale: {x: 0.1, y: 0.1, z: 0}
   m_ConstrainProportionsScale: 1
-  m_Children:
-  - {fileID: 6552935135658596020}
-  m_Father: {fileID: 2614283679058524813}
+  m_Children: []
+  m_Father: {fileID: 8162198803715822889}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &5455273945305868803
 SpriteRenderer:
@@ -774,6 +757,53 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_SpriteSortPoint: 0
   m_BlendShapeWeights: []
+--- !u!1 &8016050523365444028
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 8162198803715822889}
+  - component: {fileID: 4728884541593971672}
+  m_Layer: 0
+  m_Name: maskDetect
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &8162198803715822889
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8016050523365444028}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -0.052919865, y: 0.21331999, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 410065313026568332}
+  - {fileID: 6552935135658596020}
+  m_Father: {fileID: 2614283679058524813}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!210 &4728884541593971672
+SortingGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8016050523365444028}
+  m_Enabled: 1
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
+  m_SortAtRoot: 0
+  m_Sort3DAs2D: 0
 --- !u!1 &8074705311284700612
 GameObject:
   m_ObjectHideFlags: 0
@@ -893,8 +923,8 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.031000001, y: 0.044500005, z: 0.2}
-  m_ConstrainProportionsScale: 1
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 2614283679058524813}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -946,15 +976,15 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_MaskInteraction: 0
-  m_Sprite: {fileID: 21300000, guid: c74045077944ed3479eb5d6dd4b84628, type: 3}
+  m_MaskInteraction: 2
+  m_Sprite: {fileID: 1573246976, guid: 540ad0ac258e97f47907e23369341e6a, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
-  m_DrawMode: 1
-  m_Size: {x: 12, y: 12}
+  m_DrawMode: 0
+  m_Size: {x: 0.34, y: 0.6}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 0
+  m_WasSpriteAssigned: 1
   m_SpriteSortPoint: 0
   m_BlendShapeWeights: []

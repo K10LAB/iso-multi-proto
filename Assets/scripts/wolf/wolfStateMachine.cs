@@ -8,6 +8,7 @@ using UnityEditor;
 using Unity.Mathematics;
 using Unity.Netcode.Components;
 using System.Net.Mail;
+using System.Runtime.Serialization;
 
 public class wolfStateMachine : StateManagerM<wolfStateMachine.wolfStates>
 {
@@ -55,6 +56,8 @@ public class wolfStateMachine : StateManagerM<wolfStateMachine.wolfStates>
 
     //[SerializeField] public CircleCollider2D hitboxCollider;
     [SerializeField] public float chaseSpeed;
+
+    [SerializeField] public attackDelegation.attackContext attackC;
     
     
 
@@ -79,12 +82,13 @@ public class wolfStateMachine : StateManagerM<wolfStateMachine.wolfStates>
     }
     public void setupState()
     {
-        
+        attackC = attackD.attackContexts[0];
         states.Add(wolfStates.Idle, new wolfIdleState(this, wolfStates.Idle));
         currentState = states[wolfStates.Idle];
         states.Add(wolfStates.Patrol, new WolfPatrolState(this, wolfStates.Patrol));
         states.Add(wolfStates.Chase, new wolfChaseState(this, wolfStates.Chase));
         states.Add(wolfStates.Attack, new wolfAttackState(this, wolfStates.Attack));
+
         
     }
     public void playerListAdd(triggerDelegation.OnTriggerDelegation dele)
@@ -191,7 +195,7 @@ public abstract class wolfBaseState : BasedStateM<wolfStateMachine.wolfStates>
         
         chaseSpeed = context.chaseSpeed;
         triggerD = context.triggerD;
-           
+        attackC = context.attackC;
     }
     public virtual void changeAttackContext(int i)
     {
@@ -226,13 +230,21 @@ public abstract class wolfBaseState : BasedStateM<wolfStateMachine.wolfStates>
         {
             detectionLevel.Value -= detectionRate * Time.deltaTime;
         }
-        return playerList.Count != 0;
+    
+        if(playerList.Count != 0)
+        {
+            
+            closestPlayer();
+            return true;
+        }
+        return false;
+        
     }
 
     public virtual GameObject closestPlayer()
     {
         
-        if(playerList.Count != 0){
+        if(playerList.Count !=0){
             float closeDistance = triggerD.detectionCollider.GetComponent<CircleCollider2D>().radius;
             foreach (GameObject player in playerList)
             {
@@ -242,11 +254,12 @@ public abstract class wolfBaseState : BasedStateM<wolfStateMachine.wolfStates>
                 Vector3 directionToPlayer = playerT.position - navAgent.transform.position;
 
                 float distanceToPlayer = directionToPlayer.magnitude;
-               
+                
                 if (distanceToPlayer <= closeDistance)
                 {
                     playerFocus = player;
                     closeDistance = distanceToPlayer;
+                    
                 }  
             }
         }

@@ -6,7 +6,7 @@ using Unity.VisualScripting;
 
 public class wolfIdleState : wolfBaseState
 {
-	public float randomWaitTime;
+	public float randomWaitTime = 1;
 	
     
 	public wolfIdleState(wolfStateMachine context, wolfStateMachine.wolfStates state): base(context, state){}

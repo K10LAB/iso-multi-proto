@@ -20,7 +20,9 @@ public class wolfIdleState : wolfBaseState
 	public override void EnterState()
     {
         randomWaitTime = UnityEngine.Random.Range(idleTimeMin, idleTimeMax);
+		
 		Debug.Log("Entering Idle");
+		faceDir.Value = -1f;
 		
     }
 
@@ -33,8 +35,9 @@ public class wolfIdleState : wolfBaseState
 	}
 	public override void UpdateState()
     {
-		
+		faceDir.Value = -1f;
         if(detectionChange())return;
+		
 		randomWaitTime -= Time.deltaTime;
 		
     }

@@ -26,7 +26,7 @@ Transform:
   m_GameObject: {fileID: 448447231782979457}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: -8.07, z: 0}
+  m_LocalPosition: {x: 0, y: -3.5, z: 0}
   m_LocalScale: {x: 2.3, y: 3.7100503, z: 2.3}
   m_ConstrainProportionsScale: 1
   m_Children: []
@@ -443,12 +443,14 @@ MonoBehaviour:
   visDetection: {fileID: 5455273945305868803}
   maskDetection: {fileID: 448447231782979457}
   spriteList:
-  - {fileID: 21300000, guid: c74045077944ed3479eb5d6dd4b84628, type: 3}
-  - {fileID: 21300000, guid: 031b6dc295a29314faa024bfe4a89b86, type: 3}
-  - {fileID: 21300000, guid: b22fbffa9ce384a4dbce78b51aef0be9, type: 3}
-  - {fileID: 21300000, guid: b92f20fd8d5a32946a66b72bc8f41830, type: 3}
-  - {fileID: 1694117605, guid: 9f127671be864d24a93d5eaff536ee4b, type: 3}
+  - {fileID: -429167484, guid: 540ad0ac258e97f47907e23369341e6a, type: 3}
+  - {fileID: -1157363485, guid: 540ad0ac258e97f47907e23369341e6a, type: 3}
+  - {fileID: 1573246976, guid: 540ad0ac258e97f47907e23369341e6a, type: 3}
+  - {fileID: -1869197604, guid: 540ad0ac258e97f47907e23369341e6a, type: 3}
+  - {fileID: 768532058, guid: 540ad0ac258e97f47907e23369341e6a, type: 3}
+  - {fileID: 1426054927, guid: 540ad0ac258e97f47907e23369341e6a, type: 3}
   - {fileID: 899144004, guid: 9f127671be864d24a93d5eaff536ee4b, type: 3}
+  - {fileID: 1694117605, guid: 9f127671be864d24a93d5eaff536ee4b, type: 3}
   wSM: {fileID: 2185785335333829338}
 --- !u!195 &8828228406631629535
 NavMeshAgent:
@@ -953,6 +955,6 @@ SpriteRenderer:
   m_Size: {x: 12, y: 12}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
+  m_WasSpriteAssigned: 0
   m_SpriteSortPoint: 0
   m_BlendShapeWeights: []

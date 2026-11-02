@@ -13,7 +13,8 @@ public class StateManager<Estate> : NetworkBehaviour where Estate : Enum
     public override void OnNetworkSpawn()
     {
         base.OnNetworkSpawn();
-        if(IsServer && currentState != null)currentState.EnterState();
+        if(!IsServer || currentState == null)return;
+        currentState.EnterState();
     }
 
     void Update()

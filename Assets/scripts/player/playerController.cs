@@ -3,6 +3,7 @@ using Unity.Netcode;
 using UnityEngine;
 using System.Linq;  
 using System.Collections.Generic;
+using Unity.VisualScripting;
 
 public class playerController : NetworkBehaviour
 {
@@ -15,6 +16,9 @@ public class playerController : NetworkBehaviour
     [SerializeField] private float adKeys;
     
     [SerializeField] public Vector3 velEularReading;
+
+    [SerializeField] public SpriteRenderer playerVis;
+    [SerializeField] public Sprite[] spriteList; 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -53,7 +57,6 @@ public class playerController : NetworkBehaviour
 
     void inputKeys()
     {
-        
         wsKeys = 0f;
         adKeys = 0f;
         if (Keyboard.current != null)
@@ -67,96 +70,18 @@ public class playerController : NetworkBehaviour
             if (Keyboard.current.dKey.isPressed)adKeys += 1f;
 
         }
-        
+        faceDirChange();
     }
 
-    /*
+    
 
     void faceDirChange()
     {
-        switch(playerCam.currentcamRot.eulerAngles.y)
-        {
-            case 45:
-                if(adKeys == 0)
-                {
-                    if(wsKeys == 1)
-                    {
-                        playerVis.faceDir.Value = 0;
-                    }else if (wsKeys == -1)
-                    {
-                        playerVis.faceDir.Value = 2;
-                    }
-                } else if (adKeys == 1)
-                {
-                    playerVis.faceDir.Value = 3;
-                } else if (adKeys == -1)
-                {
-                    playerVis.faceDir.Value = 1;
-                }
-            break;
-
-            case 135:
-            if(adKeys == 0)
-                {
-                    if(wsKeys == 1)
-                    {
-                        playerVis.faceDir.Value = 3;
-                    }else if (wsKeys == -1)
-                    {
-                        playerVis.faceDir.Value = 1;
-                    }
-                } else if (adKeys == 1)
-                {
-                    playerVis.faceDir.Value = 2;
-                } else if (adKeys == -1)
-                {
-                    playerVis.faceDir.Value = 0;
-                }
-            break;
-
-            case 225:
-                if(adKeys == 0)
-                {
-                    if(wsKeys == 1)
-                    {
-                        playerVis.faceDir.Value = 2;
-                    }else if (wsKeys == -1)
-                    {
-                        playerVis.faceDir.Value = 0;
-                    }
-                } else if (adKeys == 1)
-                {
-                    playerVis.faceDir.Value = 1;
-                } else if (adKeys == -1)
-                {
-                    playerVis.faceDir.Value = 3;
-                }
-            break;
-
-            case 315:
-                if(adKeys == 0)
-                {
-                    if(wsKeys == 1)
-                    {
-                        playerVis.faceDir.Value = 1;
-                    }else if (wsKeys == -1)
-                    {
-                        playerVis.faceDir.Value = 3;
-                    }
-                } else if (adKeys == 1)
-                {
-                    playerVis.faceDir.Value = 0;
-                } else if (adKeys == -1)
-                {
-                    playerVis.faceDir.Value = 2;
-                }
-            break;
-        }
-        
-        
+        if(wsKeys>0)playerVis.sprite = adKeys != 0 ? spriteList[0] : spriteList[1];
+        else if(wsKeys<0)playerVis.sprite = adKeys != 0 ? spriteList[3] : spriteList[4];
+        else playerVis.sprite = spriteList[2];
+        if(adKeys>0)playerVis.flipX=true;
+        if(adKeys<0)playerVis.flipX=false;
     }
-    */
-    
-    
 }
 

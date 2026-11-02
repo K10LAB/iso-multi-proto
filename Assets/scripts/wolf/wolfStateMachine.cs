@@ -55,7 +55,7 @@ public class wolfStateMachine : StateManagerM<wolfStateMachine.wolfStates>
 
     //[SerializeField] public CircleCollider2D hitboxCollider;
     [SerializeField] public float chaseSpeed;
-    public attackContext attackC;
+    
     
 
     
@@ -65,26 +65,27 @@ public class wolfStateMachine : StateManagerM<wolfStateMachine.wolfStates>
     
     void Awake()
     {
-        
-        attackC = attackD.attackContexts[0];
-        
-        //detectionCollider = GetComponent<CircleCollider2D>();
-        //navAgent = GetComponent<NavMeshAgent>();
         navAgent.updatePosition = false;
         navAgent.updateRotation = false;
         spawnPoint = transform.position;
-        setupState();
-        if(NetworkManager.Singleton!=null)GetComponent<NetworkObject>().Spawn();
+    }
+
+    public override void OnNetworkSpawn()
+    {
+        base.OnNetworkSpawn();
+        if(!IsServer) return;
         
+        setupState();
     }
     public void setupState()
     {
         
         states.Add(wolfStates.Idle, new wolfIdleState(this, wolfStates.Idle));
+        currentState = states[wolfStates.Idle];
         states.Add(wolfStates.Patrol, new WolfPatrolState(this, wolfStates.Patrol));
         states.Add(wolfStates.Chase, new wolfChaseState(this, wolfStates.Chase));
         states.Add(wolfStates.Attack, new wolfAttackState(this, wolfStates.Attack));
-        currentState = states[wolfStates.Idle];
+        
     }
     public void playerListAdd(triggerDelegation.OnTriggerDelegation dele)
     {
@@ -103,15 +104,28 @@ public class wolfStateMachine : StateManagerM<wolfStateMachine.wolfStates>
         }
     }
 
-    public void melee(triggerDelegation.OnTriggerDelegation dele)
+    public void attackStart(attackDelegation.attackSystem dele)
     {
-        triggerD.isProcessingMelee = true;
+        switch (dele.c.Type)
+        {
+            case attackDelegation.attackContext.attackType.Melee:
+            triggerD.isProcessingMelee = true;
+            break;
 
+        }
     }
-    public void range(attackDelegation.attackSystem dele)
+
+    public void attackEnd(attackDelegation.attackSystem dele)
     {
-        GameObject proj = Instantiate(dele.c.attackGobj, transform.position, transform.rotation);
+        switch (dele.c.Type)
+        {
+            case attackDelegation.attackContext.attackType.Melee:
+            triggerD.isProcessingMelee = false;
+            break;
+        }
+        chargeCurrent.Value = 0;
     }
+    
 
     
     
@@ -148,7 +162,9 @@ public abstract class wolfBaseState : BasedStateM<wolfStateMachine.wolfStates>
     public readonly triggerDelegation triggerD;
     public readonly attackDelegation attackD;
 
-    public attackContext attackC;
+    public attackDelegation.attackContext attackC;
+
+    
     
 
     
@@ -175,7 +191,7 @@ public abstract class wolfBaseState : BasedStateM<wolfStateMachine.wolfStates>
         
         chaseSpeed = context.chaseSpeed;
         triggerD = context.triggerD;
-        attackC = context.attackC;        
+           
     }
     public virtual void changeAttackContext(int i)
     {
@@ -210,17 +226,10 @@ public abstract class wolfBaseState : BasedStateM<wolfStateMachine.wolfStates>
         {
             detectionLevel.Value -= detectionRate * Time.deltaTime;
         }
-        
-        if(playerList.Count != 0)
-        {
-            if(playerFocus)faceDirChange(cloestPlayer().transform.position);
-            return true;
-        }
-        return false;
-        
+        return playerList.Count != 0;
     }
 
-    public virtual GameObject cloestPlayer()
+    public virtual GameObject closestPlayer()
     {
         
         if(playerList.Count != 0){
@@ -245,13 +254,8 @@ public abstract class wolfBaseState : BasedStateM<wolfStateMachine.wolfStates>
     }
 
     public virtual float distCheck(){
-        return (cloestPlayer().transform.position - navAgent.transform.position).magnitude;
+        closestPlayer();
+        return (playerFocus.transform.position - navAgent.transform.position).magnitude;
     }
-
-    
-
-    
-    
-
     
 }

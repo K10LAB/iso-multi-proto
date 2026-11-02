@@ -27,7 +27,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.02, y: 0.02, z: 0.02}
+  m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
   m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 8088705343512304414}
@@ -89,7 +89,7 @@ SpriteRenderer:
   m_Size: {x: 23.8, y: 23.8}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
+  m_WasSpriteAssigned: 0
   m_SpriteSortPoint: 0
   m_BlendShapeWeights: []
 --- !u!1 &2821451087132053058
@@ -311,7 +311,7 @@ MonoBehaviour:
   Ownership: 1
   AlwaysReplicateAsRoot: 0
   SynchronizeTransform: 1
-  m_InScenePlaced: 0
+  m_InScenePlaced: 1
   ActiveSceneSynchronization: 0
   SceneMigrationSynchronization: 0
   SpawnWithObservers: 1
@@ -338,6 +338,13 @@ MonoBehaviour:
   wsKeys: 0
   adKeys: 0
   velEularReading: {x: 0, y: 0, z: 0}
+  playerVis: {fileID: 4799711962285020768}
+  spriteList:
+  - {fileID: 738576207, guid: e17edc8d05eeaea4da6e0918aadaf3e3, type: 3}
+  - {fileID: -476200367, guid: e17edc8d05eeaea4da6e0918aadaf3e3, type: 3}
+  - {fileID: -1919831310, guid: e17edc8d05eeaea4da6e0918aadaf3e3, type: 3}
+  - {fileID: 1164078119, guid: e17edc8d05eeaea4da6e0918aadaf3e3, type: 3}
+  - {fileID: 680453916, guid: e17edc8d05eeaea4da6e0918aadaf3e3, type: 3}
 --- !u!114 &-3603717627758588634
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: b22fbffa9ce384a4dbce78b51aef0be9
+guid: e17edc8d05eeaea4da6e0918aadaf3e3
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -43,7 +43,7 @@ TextureImporter:
   nPOTScale: 0
   lightmap: 0
   compressionQuality: 50
-  spriteMode: 1
+  spriteMode: 2
   spriteExtrude: 1
   spriteMeshType: 1
   alignment: 0
@@ -108,12 +108,122 @@ TextureImporter:
     forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
-    sprites: []
+    sprites:
+    - serializedVersion: 2
+      name: tempWiz_0
+      rect:
+        serializedVersion: 2
+        x: 122
+        y: 235
+        width: 48
+        height: 76
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 72b206a487d790146a9dfc08f7277abf
+      internalID: -1919831310
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tempWiz_1
+      rect:
+        serializedVersion: 2
+        x: 160
+        y: 327
+        width: 48
+        height: 76
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 5a0811fbf329d584ab2e961b38ae75e1
+      internalID: 738576207
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tempWiz_2
+      rect:
+        serializedVersion: 2
+        x: 259
+        y: 354
+        width: 48
+        height: 76
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c641edb39036858428d0cc5f68ac6730
+      internalID: -476200367
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tempWiz_3
+      rect:
+        serializedVersion: 2
+        x: 155
+        y: 139
+        width: 48
+        height: 76
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b4214d8c7d148c44fb94c7f0cf9bde6b
+      internalID: 1164078119
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tempWiz_4
+      rect:
+        serializedVersion: 2
+        x: 252
+        y: 110
+        width: 48
+        height: 76
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 7c7bbb8ab00b80e42841dab76b4a58db
+      internalID: 680453916
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     outline: []
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 5e97eb03825dee720800000000000000
+    spriteID: 764ffa5bcc1b35c43b9dd016aad710b8
     internalID: 0
     vertices: []
     indices: 
@@ -122,7 +232,12 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      tempWiz_0: -1919831310
+      tempWiz_1: 738576207
+      tempWiz_2: -476200367
+      tempWiz_3: 1164078119
+      tempWiz_4: 680453916
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

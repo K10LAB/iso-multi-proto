@@ -47,20 +47,24 @@ public class wolfSyncVis : NetworkBehaviour
         maskDetection.transform.localPosition = new Vector2(0, -3.5f + New/wSM.detectionMax*3.5f);
         if (New<=0)
         {
-            visDetection.sprite = spriteList[5];
+            visDetection.sprite = spriteList[6];
             visDetection.color = Color.yellow;
         } else if(New>=wSM.detectionMax){
-            visDetection.sprite = spriteList[4];
+            visDetection.sprite = spriteList[7];
             visDetection.color = Color.red;
         }
     }
 
     public void onFaceDirChange(float Old, float New)
-    {        
-        if(New>=315 || New<45)visSkin.sprite = spriteList[0];
-        if(New>=45 && New<135)visSkin.sprite = spriteList[1];
-        if(New>=135 && New<225)visSkin.sprite = spriteList[2];
-        if(New>=225 && New<315)visSkin.sprite = spriteList[3];
+    {
+        
+        visSkin.flipX=!(New>180);
+        if(New>337.5f || New >= 0 && New<=22.5f)visSkin.sprite = spriteList[0];
+        if(New>22.5f && New<=67.5f || New>202.5f && New<=247.5f)visSkin.sprite = spriteList[1];
+        if(New>67.5f && New<=112.5f || New>247.5f && New<=292.5f)visSkin.sprite = spriteList[2];
+        if(New>112.5f && New<=157.5f || New>292.5f && New<=337.5f)visSkin.sprite = spriteList[3];
+        if(New>157.5f && New<=202.5f)visSkin.sprite = spriteList[4];
+        if(New<=-1f)visSkin.sprite = spriteList[5];
         
     }    
     void onStateChange(wolfStateMachine.wolfStates Old, wolfStateMachine.wolfStates New)
@@ -69,6 +73,7 @@ public class wolfSyncVis : NetworkBehaviour
         {
             case wolfStateMachine.wolfStates.Idle:
             visState.color = Color.green;
+            
             break;
             case wolfStateMachine.wolfStates.Patrol:
             visState.color = Color.yellow;

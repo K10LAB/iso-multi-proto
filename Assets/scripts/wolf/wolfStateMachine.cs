@@ -223,19 +223,15 @@ public abstract class wolfBaseState : BasedStateM<wolfStateMachine.wolfStates>
     public virtual bool detectionChange()
     {
         if(playerList.Count != 0){
+            
 			if(detectionLevel.Value<=detectionMax){
 				detectionLevel.Value += detectionRate * Time.deltaTime;	
 			}
+            closestPlayer();
+            return true;
 		} else if(detectionLevel.Value >= 0)
         {
             detectionLevel.Value -= detectionRate * Time.deltaTime;
-        }
-    
-        if(playerList.Count != 0)
-        {
-            
-            closestPlayer();
-            return true;
         }
         return false;
         
@@ -245,7 +241,7 @@ public abstract class wolfBaseState : BasedStateM<wolfStateMachine.wolfStates>
     {
         
         if(playerList.Count !=0){
-            float closeDistance = triggerD.detectionCollider.GetComponent<CircleCollider2D>().radius;
+            float closeDistance = float.MaxValue;
             foreach (GameObject player in playerList)
             {
 
@@ -254,7 +250,7 @@ public abstract class wolfBaseState : BasedStateM<wolfStateMachine.wolfStates>
                 Vector3 directionToPlayer = playerT.position - navAgent.transform.position;
 
                 float distanceToPlayer = directionToPlayer.magnitude;
-                
+                Debug.Log(distanceToPlayer);
                 if (distanceToPlayer <= closeDistance)
                 {
                     playerFocus = player;
@@ -263,12 +259,12 @@ public abstract class wolfBaseState : BasedStateM<wolfStateMachine.wolfStates>
                 }  
             }
         }
+        
         return playerFocus;
     }
 
     public virtual float distCheck(){
-        closestPlayer();
-        return (playerFocus.transform.position - navAgent.transform.position).magnitude;
+        return (closestPlayer().transform.position - navAgent.transform.position).magnitude;
     }
     
 }

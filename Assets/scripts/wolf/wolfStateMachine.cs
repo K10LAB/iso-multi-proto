@@ -52,9 +52,7 @@ public class wolfStateMachine : StateManagerM<wolfStateMachine.wolfStates>
     [SerializeField] public int patrolPositions;
     [SerializeField] public Vector3 spawnPoint;
 
-    //[SerializeField] public CircleCollider2D detectionCollider;
-
-    //[SerializeField] public CircleCollider2D hitboxCollider;
+    
     [SerializeField] public float chaseSpeed;
 
     [SerializeField] public attackDelegation.attackContext attackC;
@@ -113,7 +111,7 @@ public class wolfStateMachine : StateManagerM<wolfStateMachine.wolfStates>
         switch (dele.c.Type)
         {
             case attackDelegation.attackContext.attackType.Melee:
-            triggerD.isProcessingMelee = true;
+            
             break;
 
         }
@@ -124,7 +122,7 @@ public class wolfStateMachine : StateManagerM<wolfStateMachine.wolfStates>
         switch (dele.c.Type)
         {
             case attackDelegation.attackContext.attackType.Melee:
-            triggerD.isProcessingMelee = false;
+            
             break;
         }
         chargeCurrent.Value = 0;
@@ -160,8 +158,7 @@ public abstract class wolfBaseState : BasedStateM<wolfStateMachine.wolfStates>
     public readonly int patrolPositions;
     public readonly Vector2 spawnPoint;
 
-    //public readonly CircleCollider2D detectionCollider;
-    //public readonly CircleCollider2D hitboxCollider;
+    
     public readonly float chaseSpeed;
     public readonly triggerDelegation triggerD;
     public readonly attackDelegation attackD;

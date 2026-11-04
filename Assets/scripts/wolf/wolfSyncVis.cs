@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using Unity.Netcode;
 using UnityEngine;
@@ -7,7 +8,7 @@ public class wolfSyncVis : NetworkBehaviour
     [SerializeField] private SpriteRenderer visState;
 
     [SerializeField] private SpriteRenderer visSkin;
-
+    
     [SerializeField] private SpriteRenderer visDetection;
 
     [SerializeField] private GameObject maskDetection;
@@ -45,12 +46,7 @@ public class wolfSyncVis : NetworkBehaviour
     public void onDetectionChange(float Old, float New)
     {
 
-        Sprite d = visDetection.sprite;
-        float xT = d.rect.width/d.pixelsPerUnit;
-        float yT = d.rect.height/d.pixelsPerUnit;
-        maskDetection.transform.localScale = new Vector2(xT, yT);
-        xT+=85f/d.pixelsPerUnit;
-        maskDetection.transform.localPosition = new Vector2(0, -xT * ((wSM.detectionMax-New)/wSM.detectionMax));
+        maskDetection.transform.localPosition = new Vector2(0, -2 * (1 - New/wSM.detectionMax));
         
         if (New<=0)
         {

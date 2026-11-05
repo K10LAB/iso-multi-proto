@@ -19,6 +19,8 @@ public class wolfAttackState : wolfBaseState
 	public override void EnterState()
 	{
 		if(attackCount==0)attackCount = attackC.attackCount+1;
+		attackD.attack(attackC);
+		
 	}
 
 	public override void UpdateState()
@@ -26,10 +28,7 @@ public class wolfAttackState : wolfBaseState
 		faceDirChange(playerFocus.transform.position);
 		if(chargeCurrent.Value==0)attackCount--;
 		chargeCurrent.Value += Time.deltaTime;
-		if(chargeCurrent.Value > attackC.chargeRate/burstTime)
-		{
-			attackD.attack(attackC);
-		}
+		
 		if(attackCount%attackC.burstCount!=0)
 		{
 			burstTime = attackC.burstTime;

@@ -32,8 +32,6 @@ public class attackDelegation : NetworkBehaviour
         public int attackCount;
         public GameObject source;
         public GameObject attackGobj;
-
-        public Sprite melAttackSkin;
         public float attackRange;
         public float chaseRange;
         public float attackSpeed;

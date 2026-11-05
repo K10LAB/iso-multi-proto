@@ -77,6 +77,7 @@ public class playerController : NetworkBehaviour
 
     void faceDirChange()
     {
+        if(wsKeys == 0 && adKeys == 0) return;
         if(wsKeys>0)playerVis.sprite = adKeys != 0 ? spriteList[0] : spriteList[1];
         else if(wsKeys<0)playerVis.sprite = adKeys != 0 ? spriteList[3] : spriteList[4];
         else playerVis.sprite = spriteList[2];

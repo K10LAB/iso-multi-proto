@@ -56,6 +56,7 @@ public class wolfStateMachine : StateManagerM<wolfStateMachine.wolfStates>
     [SerializeField] public float chaseSpeed;
 
     [SerializeField] public attackDelegation.attackContext attackC;
+    [SerializeField] public GameObject attackMod;
     
     
 
@@ -108,23 +109,12 @@ public class wolfStateMachine : StateManagerM<wolfStateMachine.wolfStates>
 
     public void attackStart(attackDelegation.attackSystem dele)
     {
-        switch (dele.c.Type)
-        {
-            case attackDelegation.attackContext.attackType.Melee:
-            
-            break;
-
-        }
+        attackMod.SetActive(true);
     }
 
     public void attackEnd(attackDelegation.attackSystem dele)
     {
-        switch (dele.c.Type)
-        {
-            case attackDelegation.attackContext.attackType.Melee:
-            
-            break;
-        }
+        attackMod.SetActive(false);
         chargeCurrent.Value = 0;
     }
     

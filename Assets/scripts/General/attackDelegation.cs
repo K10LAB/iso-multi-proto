@@ -5,6 +5,7 @@ using System.Collections.Generic;
 
 public class attackDelegation : NetworkBehaviour
 {
+    [SerializeField]public bool isAttacking;
     [SerializeField] public List<attackContext> attackContexts = new List<attackContext>();
     
     
@@ -21,12 +22,7 @@ public class attackDelegation : NetworkBehaviour
     [System.Serializable]
     public class attackContext
     {
-        public enum attackType
-        {
-            Range, 
-            Melee
-        }
-        public attackType Type;
+        
         public float chargeRate;
         public float attackCoolDown;
         public int attackCount;

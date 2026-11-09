@@ -14,36 +14,38 @@ public class wolfAttackState : wolfBaseState
 	public wolfAttackState(wolfStateMachine context, wolfStateMachine.wolfStates state): base(context, state){}
 	int attackCount;
 
-	float burstTime;
 	
 	public override void EnterState()
 	{
 		if(attackCount==0)attackCount = attackC.attackCount+1;
-		attackD.attack(attackC);
-		
 	}
 
 	public override void UpdateState()
 	{
-		faceDirChange(playerFocus.transform.position);
-		if(chargeCurrent.Value==0)attackCount--;
-		chargeCurrent.Value += Time.deltaTime;
-		
-		if(attackCount%attackC.burstCount!=0)
+		if (!attackD.isAttacking)
 		{
-			burstTime = attackC.burstTime;
-		} else burstTime = 1;
+			attackCount--;
+			if(attackCount!=0){
+				attackD.attack(attackC);
+			}else {
+				int currentIndex = attackD.attackContexts.IndexOf(attackC);
+				currentIndex = currentIndex + 1>attackD.attackContexts.Count ? 0 : currentIndex+1 ;
+				attackC = attackD.attackContexts[currentIndex];
+				attackCount = attackC.attackCount+1;
+			}
+		}
+		
 	}
 
 	public override wolfStateMachine.wolfStates NextState()
 	{
 		
-		if(attackC.attackRange < distCheck()) return wolfStateMachine.wolfStates.Chase;
+		if(attackC.attackRange < distCheck() && !attackD.isAttacking) return wolfStateMachine.wolfStates.Chase;
 		return stateKey;
 	}
 
 	public override void ExitState()
 	{
-		chargeCurrent.Value = 0;
+		
 	}
 }

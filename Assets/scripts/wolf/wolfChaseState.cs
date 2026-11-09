@@ -11,12 +11,12 @@ public class wolfChaseState : wolfBaseState
 	public wolfChaseState(wolfStateMachine context, wolfStateMachine.wolfStates state): base(context, state){}
 
     
-    
+    public float currentWait;
 	public override wolfStateMachine.wolfStates NextState()
 	{
 		if(detectionLevel.Value<=0) return wolfStateMachine.wolfStates.Patrol;
 
-        if(distCheck()<attackC.attackRange*attackC.chaseRange && chargeCurrent.Value>=attackC.attackCoolDown) return wolfStateMachine.wolfStates.Attack;
+        if(distCheck()<attackC.attackRange*attackC.chaseRange && currentWait<0) return wolfStateMachine.wolfStates.Attack;
         
         
 		return stateKey;	
@@ -24,20 +24,21 @@ public class wolfChaseState : wolfBaseState
 	public override void EnterState()
     {
         navAgent.speed = chaseSpeed;
+        if(currentWait<0)currentWait = attackC.attackCoolDown;
         chaseSetPostion();
     }
 	public override void ExitState()
 	{
 		
         navAgent.ResetPath();
-        chargeCurrent.Value = 0;
+        
 
 	}
 	public override void UpdateState()
     {
         chaseSetPostion();
         faceDirChange(playerFocus.transform.position);
-        if(attackC.attackCoolDown>=chargeCurrent.Value)chargeCurrent.Value += Time.deltaTime;
+        currentWait -= Time.deltaTime;
         if(detectionChange()) return;
     }
 

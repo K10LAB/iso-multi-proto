@@ -2,44 +2,44 @@ using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.Events;
 using System.Collections.Generic;
+using System;
+using Unity.VisualScripting;
 
 public class attackDelegation : NetworkBehaviour
 {
     [SerializeField]public bool isAttacking;
-    [SerializeField] public List<attackContext> attackContexts = new List<attackContext>();
+    [SerializeField]public List<attackContext> attackContexts = new List<attackContext>();
+
+    [SerializeField]public attackContext currentContext;
     
     
     //[SerializeField] public attackContext currentContext;
-    public struct attackSystem
+
+    public void changeContext(int i)
     {
-        public attackContext c;
-        //public int attackCount{get; set;}
-        public attackSystem(attackContext c)
+        currentContext = attackContexts[i];
+    }
+    public void performAttack()
+    {
+        foreach (attackMod f in currentContext.listOfAttacks)
         {
-            this.c = c;
+            f.Initialized();
         }
+        isAttacking = true;
+    }
+    public void checkAttack()
+    {
+        isAttacking = currentContext.listOfAttacks[currentContext.listOfAttacks.Count].processingAttack;
     }
     [System.Serializable]
     public class attackContext
     {
-        
-        public float chargeRate;
-        public float attackCoolDown;
         public int attackCount;
-        public GameObject source;
-        public GameObject attackGobj;
-        public float attackRange;
-        public float chaseRange;
-        public float attackSpeed;
-        public float burstCount;
-        public float burstTime;
-
-        public UnityEvent<attackSystem> AttackSys;
+        public int attackCountTemp;
+        public float attackAbSRange;
+        public List<attackMod> listOfAttacks;
     }
-    public void attack(attackContext currentContext)
-    {
-        currentContext.AttackSys.Invoke(new attackSystem(currentContext));
-    }
+    
     
 }
 

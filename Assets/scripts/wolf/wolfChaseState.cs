@@ -16,7 +16,7 @@ public class wolfChaseState : wolfBaseState
 	{
 		if(detectionLevel.Value<=0) return wolfStateMachine.wolfStates.Patrol;
 
-        if(distCheck()<attackC.attackRange*attackC.chaseRange && currentWait<0) return wolfStateMachine.wolfStates.Attack;
+        if(distCheck()<0) return wolfStateMachine.wolfStates.Attack;
         
         
 		return stateKey;	
@@ -24,7 +24,7 @@ public class wolfChaseState : wolfBaseState
 	public override void EnterState()
     {
         navAgent.speed = chaseSpeed;
-        if(currentWait<0)currentWait = attackC.attackCoolDown;
+        
         chaseSetPostion();
     }
 	public override void ExitState()

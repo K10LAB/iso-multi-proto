@@ -107,16 +107,7 @@ public class wolfStateMachine : StateManagerM<wolfStateMachine.wolfStates>
         }
     }
 
-    public void attackStart(attackDelegation.attackSystem dele)
-    {
-        attackMod.SetActive(true);
-    }
-
-    public void attackEnd(attackDelegation.attackSystem dele)
-    {
-        attackMod.SetActive(false);
-        chargeCurrent.Value = 0;
-    }
+    
     
 
     

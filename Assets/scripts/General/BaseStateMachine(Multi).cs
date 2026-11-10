@@ -18,7 +18,7 @@ public class StateManagerM<Estate> : NetworkBehaviour where Estate : Enum
         base.OnNetworkSpawn();
         
         
-        //networkCurrentState.OnValueChanged += changeNetworkState;
+        
         if(!IsServer || currentState == null)return;
         Debug.Log("startCode");
         networkCurrentState.Value = currentState.stateKey;
@@ -45,19 +45,7 @@ public class StateManagerM<Estate> : NetworkBehaviour where Estate : Enum
         networkCurrentState.Value = currentState.stateKey;
         currentState.EnterState();
     }
-    /*
-    void OnTriggerEnter2D(Collider2D other)
-    {
-        if(!IsServer || currentState == null)return;
-        currentState.OnTriggerEnter2D(other);
-    }
-
-    void OnTriggerExit2D(Collider2D other)
-    {
-        if(!IsServer || currentState == null)return;
-        currentState.OnTriggerExit2D(other);
-    }
-    */
+    
 
 }
 public abstract class BasedStateM<EState>  where EState : Enum

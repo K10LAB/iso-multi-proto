@@ -8,6 +8,11 @@ using Unity.VisualScripting;
 public class attackDelegation : NetworkBehaviour
 {
     [SerializeField]public bool isAttacking;
+    public float currentFaceDir;
+    public void curFace(float old, float New)
+    {
+        currentFaceDir = New;
+    }
     [SerializeField]public List<attackContext> attackContexts = new List<attackContext>();
 
     [SerializeField]public attackContext currentContext;
@@ -23,17 +28,18 @@ public class attackDelegation : NetworkBehaviour
     {
         foreach (attackMod f in currentContext.listOfAttacks)
         {
-            f.Initialized();
+            f.gameObject.SetActive(true);
         }
         isAttacking = true;
     }
     public void checkAttack()
     {
-        isAttacking = currentContext.listOfAttacks[currentContext.listOfAttacks.Count].processingAttack;
+        isAttacking = currentContext.attackMarker.isActiveAndEnabled;
     }
     [System.Serializable]
     public class attackContext
     {
+        public attackMod attackMarker;
         public int attackCount;
         public int attackCountTemp;
         public float attackAbSRange;

@@ -12,35 +12,29 @@ using UnityEngine.UIElements;
 public class wolfAttackState : wolfBaseState
 {
 	public wolfAttackState(wolfStateMachine context, wolfStateMachine.wolfStates state): base(context, state){}
-	int attackCount;
 
 	
 	public override void EnterState()
 	{
-		if(attackCount==0)attackCount = attackC.attackCount+1;
+		
 	}
 
 	public override void UpdateState()
 	{
+		
 		if (!attackD.isAttacking)
 		{
-			attackCount--;
-			if(attackCount!=0){
-				attackD.attack(attackC);
-			}else {
-				int currentIndex = attackD.attackContexts.IndexOf(attackC);
-				currentIndex = currentIndex + 1>attackD.attackContexts.Count ? 0 : currentIndex+1 ;
-				attackC = attackD.attackContexts[currentIndex];
-				attackCount = attackC.attackCount+1;
-			}
+			attackD.performAttack();
 		}
+		attackD.checkAttack();
+		faceDirChange(closestPlayer().transform.position);
 		
 	}
 
 	public override wolfStateMachine.wolfStates NextState()
 	{
 		
-		if(attackC.attackRange < distCheck() && !attackD.isAttacking) return wolfStateMachine.wolfStates.Chase;
+		if(attackD.currentContext.attackAbSRange < distCheck() && !attackD.isAttacking) return wolfStateMachine.wolfStates.Chase;
 		return stateKey;
 	}
 

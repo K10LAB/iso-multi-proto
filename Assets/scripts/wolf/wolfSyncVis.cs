@@ -16,43 +16,16 @@ public class wolfSyncVis : NetworkBehaviour
 
     [SerializeField] List<Sprite> spriteList = new List<Sprite>(6);
     
-
-    [SerializeField] public wolfStateMachine wSM;
-    public void Awake()
-    {
-        wSM = GetComponent<wolfStateMachine>();
-        
-    }
-
-    public override void OnNetworkSpawn()
-    {
-        base.OnNetworkSpawn();
-
-        wSM.faceDir.OnValueChanged += onFaceDirChange;
-        onFaceDirChange(0f, wSM.faceDir.Value);
-
-        wSM.networkCurrentState.OnValueChanged += onStateChange;
-        onStateChange(default, wSM.networkCurrentState.Value);
-
-        wSM.detectionLevel.OnValueChanged += onDetectionChange;
-        onDetectionChange(0f, wSM.detectionLevel.Value);
-    }
-
-    public override void OnNetworkDespawn()
-    {
-        base.OnNetworkDespawn();
-        wSM.networkCurrentState.OnValueChanged -=  onStateChange;
-    }
     public void onDetectionChange(float Old, float New)
     {
 
-        maskDetection.transform.localPosition = new Vector2(0, -2 * (1 - New/wSM.detectionMax));
+        maskDetection.transform.localPosition = new Vector2(0, -2 * (1 - New/100));
         
         if (New<=0)
         {
             visDetection.sprite = spriteList[6];
             visDetection.color = Color.yellow;
-        } else if(New>=wSM.detectionMax){
+        } else if(New>=100){
             visDetection.sprite = spriteList[7];
             visDetection.color = Color.red;
         }
@@ -70,7 +43,7 @@ public class wolfSyncVis : NetworkBehaviour
         if(New<=-1f)visSkin.sprite = spriteList[5];
         
     }    
-    void onStateChange(wolfStateMachine.wolfStates Old, wolfStateMachine.wolfStates New)
+    public void onStateChange(wolfStateMachine.wolfStates Old, wolfStateMachine.wolfStates New)
     {
         switch (New)
         {

@@ -14,7 +14,7 @@ public class wolfIdleState : wolfBaseState
 	public override wolfStateMachine.wolfStates NextState()
 	{
 		if(randomWaitTime<0)return wolfStateMachine.wolfStates.Patrol;
-		if(detectionLevel.Value >= detectionMax) return wolfStateMachine.wolfStates.Chase;
+		if(detectionLevel.Value >= 100) return wolfStateMachine.wolfStates.Chase;
 		return stateKey;
 	}
 	public override void EnterState()

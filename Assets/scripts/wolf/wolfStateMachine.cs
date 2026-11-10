@@ -26,19 +26,16 @@ public class wolfStateMachine : StateManagerM<wolfStateMachine.wolfStates>
     
     
     
-    [SerializeField] public NetworkVariable<float> chargeCurrent = new NetworkVariable<float>
-    (0f, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
+    
     [SerializeField] public triggerDelegation triggerD;
     [SerializeField] public attackDelegation attackD;
 
     [NonSerialized] public HashSet<GameObject> playerList = new HashSet<GameObject>();
-    /*[SerializeField] public NetworkVariable<bool> isChase = new NetworkVariable<bool>
-    (false, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
-    */
+  
     [SerializeField] public NetworkVariable<float> faceDir = new NetworkVariable<float>
     (0f, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
     [SerializeField] public NavMeshAgent navAgent;
-    [SerializeField] public float detectionMax;
+    //[SerializeField] public float detectionMax;
     [SerializeField] public float detectionRate;
     [SerializeField] public readonly NetworkVariable<float> detectionLevel = new NetworkVariable<float>
     (0f, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
@@ -55,8 +52,10 @@ public class wolfStateMachine : StateManagerM<wolfStateMachine.wolfStates>
     
     [SerializeField] public float chaseSpeed;
 
-    [SerializeField] public attackDelegation.attackContext attackC;
+    
     [SerializeField] public GameObject attackMod;
+
+    [SerializeField] public wolfSyncVis vis;
     
     
 
@@ -76,19 +75,48 @@ public class wolfStateMachine : StateManagerM<wolfStateMachine.wolfStates>
     {
         base.OnNetworkSpawn();
         if(!IsServer) return;
-        
-        setupState();
+        netSetUp();
+        stateSetUp();
     }
-    public void setupState()
+    public override void OnNetworkDespawn()
     {
-        attackC = attackD.attackContexts[0];
+        base.OnNetworkDespawn();
+        if(!IsServer) return;
+        netUnSetUp();
+        stateSetUp();
+    }
+    public void netUnSetUp()
+    {
+        faceDir.OnValueChanged -= attackD.curFace;
+        faceDir.OnValueChanged -= vis.onFaceDirChange;
+        vis.onFaceDirChange(0f, faceDir.Value);
+
+        networkCurrentState.OnValueChanged -= vis.onStateChange;
+        vis.onStateChange(default, networkCurrentState.Value);
+
+        detectionLevel.OnValueChanged -= vis.onDetectionChange;
+        vis.onDetectionChange(0f, detectionLevel.Value);
+    }
+
+    public void netSetUp()
+    {
+        faceDir.OnValueChanged += attackD.curFace;
+        faceDir.OnValueChanged += vis.onFaceDirChange;
+        vis.onFaceDirChange(0f, faceDir.Value);
+
+        networkCurrentState.OnValueChanged += vis.onStateChange;
+        vis.onStateChange(default, networkCurrentState.Value);
+
+        detectionLevel.OnValueChanged += vis.onDetectionChange;
+        vis.onDetectionChange(0f, detectionLevel.Value);
+    }
+    public void stateSetUp()
+    {
         states.Add(wolfStates.Idle, new wolfIdleState(this, wolfStates.Idle));
         currentState = states[wolfStates.Idle];
         states.Add(wolfStates.Patrol, new WolfPatrolState(this, wolfStates.Patrol));
         states.Add(wolfStates.Chase, new wolfChaseState(this, wolfStates.Chase));
         states.Add(wolfStates.Attack, new wolfAttackState(this, wolfStates.Attack));
-
-        
     }
     public void playerListAdd(triggerDelegation.OnTriggerDelegation dele)
     {
@@ -120,13 +148,13 @@ public class wolfStateMachine : StateManagerM<wolfStateMachine.wolfStates>
 public abstract class wolfBaseState : BasedStateM<wolfStateMachine.wolfStates>
 {
     public GameObject playerFocus;
-    public readonly NetworkVariable<float> chargeCurrent;
+    
     
     public readonly HashSet<GameObject> playerList;
     //public readonly NetworkVariable<bool> isChase;
     public readonly NetworkVariable<float> faceDir;
     protected NavMeshAgent navAgent;
-    public readonly float detectionMax;
+    //public readonly float detectionMax;
     public readonly float detectionRate;
     public readonly NetworkVariable<float> detectionLevel;
 
@@ -144,7 +172,7 @@ public abstract class wolfBaseState : BasedStateM<wolfStateMachine.wolfStates>
     public readonly triggerDelegation triggerD;
     public readonly attackDelegation attackD;
 
-    public attackDelegation.attackContext attackC;
+    
 
     
     
@@ -159,7 +187,7 @@ public abstract class wolfBaseState : BasedStateM<wolfStateMachine.wolfStates>
         //isChase = context.isChase;
         faceDir = context.faceDir;
         navAgent = context.navAgent;
-        detectionMax = context.detectionMax;
+        
         detectionRate = context.detectionRate;
         detectionLevel = context.detectionLevel;
         idleTimeMax = context.idleTimeMax;
@@ -169,16 +197,13 @@ public abstract class wolfBaseState : BasedStateM<wolfStateMachine.wolfStates>
         patrolSpeed = context.patrolSpeed;
         spawnPoint = context.spawnPoint;
         
-        chargeCurrent = context.chargeCurrent;
+        
         
         chaseSpeed = context.chaseSpeed;
         triggerD = context.triggerD;
-        attackC = context.attackC;
+        
     }
-    public virtual void changeAttackContext(int i)
-    {
-        attackC = attackD.attackContexts[i];
-    }
+    
 
     public virtual void faceDirChange(Vector2 flatDir)
     {
@@ -202,7 +227,7 @@ public abstract class wolfBaseState : BasedStateM<wolfStateMachine.wolfStates>
     {
         if(playerList.Count != 0){
             
-			if(detectionLevel.Value<=detectionMax){
+			if(detectionLevel.Value<=100){
 				detectionLevel.Value += detectionRate * Time.deltaTime;	
 			}
             closestPlayer();
@@ -242,6 +267,7 @@ public abstract class wolfBaseState : BasedStateM<wolfStateMachine.wolfStates>
     }
 
     public virtual float distCheck(){
+        
         return (closestPlayer().transform.position - navAgent.transform.position).magnitude;
     }
     

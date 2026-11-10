@@ -43,7 +43,7 @@ public class WolfPatrolState : wolfBaseState
     {
         if (currentPositionPoints == -2)return wolfStateMachine.wolfStates.Idle;
         
-        if (detectionLevel.Value>=detectionMax)return wolfStateMachine.wolfStates.Chase;
+        if (detectionLevel.Value>=100)return wolfStateMachine.wolfStates.Chase;
 
         return stateKey;
     }

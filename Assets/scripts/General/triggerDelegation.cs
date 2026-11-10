@@ -43,6 +43,7 @@ public class triggerDelegation : NetworkBehaviour
     }
     void FixedUpdate()
     {
+        if(!IsServer)return;
         if (isProcessingDetection)
         {
             checkingCollider(detectionCollider);

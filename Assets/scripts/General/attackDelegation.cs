@@ -9,6 +9,8 @@ public class attackDelegation : NetworkBehaviour
 {
     [SerializeField]public bool isAttacking;
     public float currentFaceDir;
+    public GameObject playerFocus;
+    public GameObject Source;
     public void curFace(float old, float New)
     {
         currentFaceDir = New;
@@ -26,24 +28,25 @@ public class attackDelegation : NetworkBehaviour
     }
     public void performAttack()
     {
-        foreach (attackMod f in currentContext.listOfAttacks)
+        foreach (GameObject attack in currentContext.listOfAttacks)
         {
-            f.gameObject.SetActive(true);
+            attack.SetActive(true);
         }
+        
         isAttacking = true;
     }
     public void checkAttack()
     {
-        isAttacking = currentContext.attackMarker.isActiveAndEnabled;
+        isAttacking = currentContext.attackMarker.activeInHierarchy;
     }
     [System.Serializable]
     public class attackContext
     {
-        public attackMod attackMarker;
+        public GameObject attackMarker;
         public int attackCount;
         public int attackCountTemp;
         public float attackAbSRange;
-        public List<attackMod> listOfAttacks;
+        public List<GameObject> listOfAttacks;
     }
     
     

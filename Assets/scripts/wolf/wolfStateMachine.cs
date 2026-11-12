@@ -53,7 +53,7 @@ public class wolfStateMachine : StateManagerM<wolfStateMachine.wolfStates>
     [SerializeField] public float chaseSpeed;
 
     
-    [SerializeField] public GameObject attackMod;
+
 
     [SerializeField] public wolfSyncVis vis;
     
@@ -262,7 +262,6 @@ public abstract class wolfBaseState : BasedStateM<wolfStateMachine.wolfStates>
                 }  
             }
         }
-        
         return playerFocus;
     }
 

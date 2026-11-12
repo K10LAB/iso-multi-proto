@@ -5,9 +5,14 @@ using UnityEngine.Rendering;
 
 public class slashAttack : attackMod
 {
-    void Start()
+    void OnEnable() 
     {
-        
+        startTelegraph();
+    }
+
+    void Update()
+    {
+        updateTelegraph();
     }
 
 

@@ -27,7 +27,7 @@ public class wolfAttackState : wolfBaseState
 			attackD.performAttack();
 		}
 		attackD.checkAttack();
-		attackD.playerFocus = closestPlayer();
+		//attackD.playerFocus = closestPlayer();
 		faceDirChange(closestPlayer().transform.position);
 		
 	}

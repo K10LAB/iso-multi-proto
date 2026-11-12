@@ -11,7 +11,7 @@ public class wolfChaseState : wolfBaseState
 	public wolfChaseState(wolfStateMachine context, wolfStateMachine.wolfStates state): base(context, state){}
 
     
-    public float currentWait;
+   
 	public override wolfStateMachine.wolfStates NextState()
 	{
 		if(detectionLevel.Value<=0) return wolfStateMachine.wolfStates.Patrol;
@@ -38,7 +38,6 @@ public class wolfChaseState : wolfBaseState
     {
         chaseSetPostion();
         faceDirChange(playerFocus.transform.position);
-        currentWait -= Time.deltaTime;
         if(detectionChange()) return;
     }
 

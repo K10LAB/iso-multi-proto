@@ -32,7 +32,7 @@ public class attackDelegation : NetworkBehaviour
         {
             attack.SetActive(true);
         }
-        
+
         isAttacking = true;
     }
     public void checkAttack()

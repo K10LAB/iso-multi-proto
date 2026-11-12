@@ -56,6 +56,7 @@ public class wolfStateMachine : StateManagerM<wolfStateMachine.wolfStates>
 
 
     [SerializeField] public wolfSyncVis vis;
+    public GameObject playerFocus;
     
     
 
@@ -83,7 +84,7 @@ public class wolfStateMachine : StateManagerM<wolfStateMachine.wolfStates>
         base.OnNetworkDespawn();
         if(!IsServer) return;
         netUnSetUp();
-        stateSetUp();
+        
     }
     public void netUnSetUp()
     {
@@ -117,6 +118,7 @@ public class wolfStateMachine : StateManagerM<wolfStateMachine.wolfStates>
         states.Add(wolfStates.Patrol, new WolfPatrolState(this, wolfStates.Patrol));
         states.Add(wolfStates.Chase, new wolfChaseState(this, wolfStates.Chase));
         states.Add(wolfStates.Attack, new wolfAttackState(this, wolfStates.Attack));
+        attackD.changeContext(0);
     }
     public void playerListAdd(triggerDelegation.OnTriggerDelegation dele)
     {
@@ -196,7 +198,8 @@ public abstract class wolfBaseState : BasedStateM<wolfStateMachine.wolfStates>
         patrolRadius = context.patrolRadius;
         patrolSpeed = context.patrolSpeed;
         spawnPoint = context.spawnPoint;
-        
+        playerFocus = context.playerFocus;
+        attackD = context.attackD;
         
         
         chaseSpeed = context.chaseSpeed;
@@ -253,7 +256,7 @@ public abstract class wolfBaseState : BasedStateM<wolfStateMachine.wolfStates>
                 Vector3 directionToPlayer = playerT.position - navAgent.transform.position;
 
                 float distanceToPlayer = directionToPlayer.magnitude;
-                Debug.Log(distanceToPlayer);
+               
                 if (distanceToPlayer <= closeDistance)
                 {
                     playerFocus = player;
@@ -262,6 +265,7 @@ public abstract class wolfBaseState : BasedStateM<wolfStateMachine.wolfStates>
                 }  
             }
         }
+        
         return playerFocus;
     }
 

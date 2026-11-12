@@ -1639,7 +1639,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 990175978}
-  - component: {fileID: 990175979}
   - component: {fileID: 990175980}
   m_Layer: 0
   m_Name: attackGroup
@@ -1664,34 +1663,6 @@ Transform:
   - {fileID: 1551131769}
   m_Father: {fileID: 1540095039}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &990175979
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 990175977}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d4d1b09f831d6a94b8b94ab201914fa3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::attackDelegation
-  ShowTopMostFoldoutHeaderGroup: 1
-  isAttacking: 0
-  currentFaceDir: 0
-  attackContexts:
-  - attackMarker: {fileID: 0}
-    attackCount: 3
-    attackCountTemp: 0
-    attackAbSRange: 3
-    listOfAttacks:
-    - {fileID: 0}
-  currentContext:
-    attackMarker: {fileID: 0}
-    attackCount: 0
-    attackCountTemp: 0
-    attackAbSRange: 0
-    listOfAttacks: []
 --- !u!210 &990175980
 SortingGroup:
   m_ObjectHideFlags: 0
@@ -2277,8 +2248,12 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 576642035159617897, guid: 8cb59e1fc4a432240b3af807229d5b8a, type: 3}
+      propertyPath: Source
+      value: 
+      objectReference: {fileID: 1540095041}
+    - target: {fileID: 576642035159617897, guid: 8cb59e1fc4a432240b3af807229d5b8a, type: 3}
       propertyPath: m_Enabled
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 576642035159617897, guid: 8cb59e1fc4a432240b3af807229d5b8a, type: 3}
       propertyPath: attackContexts.Array.data[0].attackGobj
@@ -2320,6 +2295,10 @@ PrefabInstance:
       propertyPath: vis
       value: 
       objectReference: {fileID: 1540095040}
+    - target: {fileID: 2185785335333829338, guid: 8cb59e1fc4a432240b3af807229d5b8a, type: 3}
+      propertyPath: attackD
+      value: 
+      objectReference: {fileID: 1540095051}
     - target: {fileID: 2185785335333829338, guid: 8cb59e1fc4a432240b3af807229d5b8a, type: 3}
       propertyPath: attackMod
       value: 
@@ -2443,13 +2422,17 @@ PrefabInstance:
     m_RemovedComponents:
     - {fileID: 616052809343375824, guid: 8cb59e1fc4a432240b3af807229d5b8a, type: 3}
     - {fileID: 3664148013941917889, guid: 8cb59e1fc4a432240b3af807229d5b8a, type: 3}
+    - {fileID: 576642035159617897, guid: 8cb59e1fc4a432240b3af807229d5b8a, type: 3}
     m_RemovedGameObjects:
     - {fileID: 7655842865723992267, guid: 8cb59e1fc4a432240b3af807229d5b8a, type: 3}
     m_AddedGameObjects:
     - targetCorrespondingSourceObject: {fileID: 2614283679058524813, guid: 8cb59e1fc4a432240b3af807229d5b8a, type: 3}
       insertIndex: -1
       addedObject: {fileID: 990175978}
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 7018876420574353599, guid: 8cb59e1fc4a432240b3af807229d5b8a, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1540095051}
   m_SourcePrefab: {fileID: 100100000, guid: 8cb59e1fc4a432240b3af807229d5b8a, type: 3}
 --- !u!4 &1540095039 stripped
 Transform:
@@ -2461,23 +2444,58 @@ MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 8537141892098220985, guid: 8cb59e1fc4a432240b3af807229d5b8a, type: 3}
   m_PrefabInstance: {fileID: 1540095038}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
+  m_GameObject: {fileID: 1540095041}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 602cd8e5e0f958d4186662dbdb25c1c7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::wolfSyncVis
+--- !u!1 &1540095041 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7018876420574353599, guid: 8cb59e1fc4a432240b3af807229d5b8a, type: 3}
+  m_PrefabInstance: {fileID: 1540095038}
+  m_PrefabAsset: {fileID: 0}
 --- !u!114 &1540095042 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 2185785335333829338, guid: 8cb59e1fc4a432240b3af807229d5b8a, type: 3}
   m_PrefabInstance: {fileID: 1540095038}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
+  m_GameObject: {fileID: 1540095041}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 5e50505a04fd8914d980a2fd70911a1a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::wolfStateMachine
+--- !u!114 &1540095051
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1540095041}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d4d1b09f831d6a94b8b94ab201914fa3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::attackDelegation
+  ShowTopMostFoldoutHeaderGroup: 1
+  isAttacking: 0
+  currentFaceDir: 0
+  playerFocus: {fileID: 0}
+  Source: {fileID: 1540095041}
+  attackContexts:
+  - attackMarker: {fileID: 1551131770}
+    attackCount: 3
+    attackCountTemp: 0
+    attackAbSRange: 0.1
+    listOfAttacks:
+    - {fileID: 1551131770}
+  currentContext:
+    attackMarker: {fileID: 0}
+    attackCount: 0
+    attackCountTemp: 0
+    attackAbSRange: 0
+    listOfAttacks: []
 --- !u!1001 &1551131768
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2489,6 +2507,10 @@ PrefabInstance:
     - target: {fileID: 156019803872882802, guid: d52cdc382d540044886c0fd279782d16, type: 3}
       propertyPath: m_Name
       value: slashAttack
+      objectReference: {fileID: 0}
+    - target: {fileID: 156019803872882802, guid: d52cdc382d540044886c0fd279782d16, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 709365134802077606, guid: d52cdc382d540044886c0fd279782d16, type: 3}
       propertyPath: m_LocalScale.x
@@ -2595,14 +2617,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2d30ff04f1ccd0048926fa92f7a20b22, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::slashAttack
-  ShowTopMostFoldoutHeaderGroup: 1
-  c: {fileID: 990175979}
+  c: {fileID: 0}
   timeBeforeAttack: 5
-  timeBeforeTelegraph: 0
+  timeBeforeTelegraph: 1
   currentTime: 0
-  visMask: {fileID: 1634164740}
+  visMask: {fileID: 1634164742}
   visSprite: {fileID: 1551131772}
   teleSprite: {fileID: 7482667652216324306, guid: 48e93eef0688c4a259cb0eddcd8661f7, type: 3}
+  isAoe: 0
+  trackingTime: 0
+  trackSpeed: 0
+  spawnPoint: {x: 0, y: 0}
 --- !u!212 &1551131772 stripped
 SpriteRenderer:
   m_CorrespondingSourceObject: {fileID: 4273804752085891772, guid: d52cdc382d540044886c0fd279782d16, type: 3}

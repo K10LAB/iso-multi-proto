@@ -5,7 +5,7 @@ using Unity.VisualScripting;
 using System;
 using UnityEngine.UI;
 [System.Serializable]
-public class attackMod : NetworkBehaviour
+public class attackMod : MonoBehaviour
 {
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     
@@ -18,9 +18,6 @@ public class attackMod : NetworkBehaviour
     public SpriteMask visMask;
     public SpriteRenderer visSprite;
     public Sprite teleSprite;
-
-    public Component attackTrigger;
-
     public bool isAoe;
     public float trackingTime;
     public float trackSpeed;

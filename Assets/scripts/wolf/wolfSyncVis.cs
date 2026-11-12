@@ -35,10 +35,10 @@ public class wolfSyncVis : NetworkBehaviour
     {
         
         visSkin.flipX=!(New>180);
-        if(New>337.5f || New >= 0 && New<=22.5f)visSkin.sprite = spriteList[0];
-        if(New>22.5f && New<=67.5f || New>202.5f && New<=247.5f)visSkin.sprite = spriteList[1];
-        if(New>67.5f && New<=112.5f || New>247.5f && New<=292.5f)visSkin.sprite = spriteList[2];
-        if(New>112.5f && New<=157.5f || New>292.5f && New<=337.5f)visSkin.sprite = spriteList[3];
+        if(New>337.5f || (New >= 0 && New<=22.5f))visSkin.sprite = spriteList[0];
+        if((New>22.5f && New<=67.5f) || (New>292.5f && New<=337.5f))visSkin.sprite = spriteList[1];
+        if(New>67.5f && New<=112.5f || (New>247.5f && New<=292.5f))visSkin.sprite = spriteList[2];
+        if((New>112.5f && New<=157.5f) || (New>202.5f && New<=247.5f))visSkin.sprite = spriteList[3];
         if(New>157.5f && New<=202.5f)visSkin.sprite = spriteList[4];
         if(New<=-1f)visSkin.sprite = spriteList[5];
         

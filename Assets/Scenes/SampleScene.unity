@@ -2514,15 +2514,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 709365134802077606, guid: d52cdc382d540044886c0fd279782d16, type: 3}
       propertyPath: m_LocalScale.x
-      value: 2.92
+      value: 0.4
       objectReference: {fileID: 0}
     - target: {fileID: 709365134802077606, guid: d52cdc382d540044886c0fd279782d16, type: 3}
       propertyPath: m_LocalScale.y
-      value: 2.92
+      value: 1.5
       objectReference: {fileID: 0}
     - target: {fileID: 709365134802077606, guid: d52cdc382d540044886c0fd279782d16, type: 3}
       propertyPath: m_LocalScale.z
-      value: 2.92
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 709365134802077606, guid: d52cdc382d540044886c0fd279782d16, type: 3}
       propertyPath: m_LocalPosition.x
@@ -2562,6 +2562,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 709365134802077606, guid: d52cdc382d540044886c0fd279782d16, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 709365134802077606, guid: d52cdc382d540044886c0fd279782d16, type: 3}
+      propertyPath: m_ConstrainProportionsScale
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4273804752085891772, guid: d52cdc382d540044886c0fd279782d16, type: 3}
@@ -2617,7 +2621,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2d30ff04f1ccd0048926fa92f7a20b22, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::slashAttack
-  c: {fileID: 0}
+  c: {fileID: 1540095051}
   timeBeforeAttack: 5
   timeBeforeTelegraph: 1
   currentTime: 0
@@ -2625,8 +2629,8 @@ MonoBehaviour:
   visSprite: {fileID: 1551131772}
   teleSprite: {fileID: 7482667652216324306, guid: 48e93eef0688c4a259cb0eddcd8661f7, type: 3}
   isAoe: 0
-  trackingTime: 0
-  trackSpeed: 0
+  trackingTime: 1
+  trackSpeed: 3
   spawnPoint: {x: 0, y: 0}
 --- !u!212 &1551131772 stripped
 SpriteRenderer:
@@ -2871,7 +2875,7 @@ Transform:
   m_GameObject: {fileID: 1634164740}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: -1, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []

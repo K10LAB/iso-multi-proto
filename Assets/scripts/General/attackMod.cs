@@ -30,22 +30,23 @@ public class attackMod : MonoBehaviour
     }
     public bool updateTelegraph()
     {
-        float time = Math.Max(0, currentTime/timeBeforeAttack);
-        if(time<1)return true;
+        float time = Mathf.Max(0, currentTime/timeBeforeAttack);
+        
+        if(time>1)return false;
         if (!isAoe)
         {
-            if(time<trackingTime){
+            if(time < trackingTime){
                 transform.localRotation = Quaternion.Lerp(transform.localRotation, Quaternion.Euler(0, c.currentFaceDir, 0), trackSpeed * Time.deltaTime);
                 transform.localPosition = transform.localRotation * Vector3.up * (visSprite.transform.localScale.y / 2f);
             }
-            visMask.transform.localPosition = spawnPoint + new Vector2(0, -visSprite.transform.localScale.y * (time - 1));
+            visMask.transform.localPosition = new Vector2(0, time-1);
         }
         else
         {
             if(time<trackingTime)transform.position = Vector2.Lerp(transform.position, c.playerFocus.transform.position, trackSpeed * Time.deltaTime);
             visMask.transform.localScale = new Vector2(time, time);
         }
-        return false;
+        return true;
         
         
     }
@@ -55,6 +56,7 @@ public class attackMod : MonoBehaviour
         visMask.sprite = teleSprite;
         spawnPoint = transform.localPosition;
         currentTime = -timeBeforeTelegraph;
+        
     
     }
 

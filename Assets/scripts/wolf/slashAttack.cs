@@ -12,6 +12,9 @@ public class slashAttack : attackMod
 
     void Update()
     {
+        timePass();
+
+        
         updateTelegraph();
     }
 

@@ -44,9 +44,20 @@ public class attackMod : MonoBehaviour
         }
         return playerFocus;
     }
+
+    public float faceDirChange(Vector2 flatDir)
+    {
+        
+        flatDir -= new Vector2(transform.position.x, transform.position.y);
+        float mathDir = Mathf.Atan2(flatDir.x, flatDir.y) * Mathf.Rad2Deg;
+        if (mathDir < 0)
+        {
+            return 360f + mathDir;
+        } else return mathDir;
+    }
     
     
-    public void updateTelegraph()
+    public void Update()
     {
         float time = Mathf.Max(0, (c.currentTime-timeBeforeTelegraph)/timeBeforeAttack);
         if (time > 1)
@@ -55,10 +66,7 @@ public class attackMod : MonoBehaviour
             {
                 if(time<trackingTime){
                     transform.localRotation = Quaternion.Lerp(transform.rotation, Quaternion.LookRotation(closestPlayer().transform.position-transform.position), trackSpeed * Time.deltaTime);
-                } else if (trackingTime==-1)
-                {
-                    transform.localRotation = Quaternion.LookRotation(closestPlayer().transform.position-transform.position);
-                }
+                } 
                 transform.localPosition = transform.localRotation * Vector3.up * (visSprite.transform.localScale.y / 2f);
                 visMask.transform.localPosition = new Vector2(0, time-1);
             }
@@ -66,9 +74,6 @@ public class attackMod : MonoBehaviour
             {
                 if(time<trackingTime){
                     transform.position = Vector2.Lerp(transform.position, closestPlayer().transform.position, trackSpeed * Time.deltaTime);
-                }else if (trackingTime==-1)
-                {
-                    transform.position = closestPlayer().transform.position;
                 }
                 visMask.transform.localScale = new Vector2(time, time);
             }
@@ -101,7 +106,7 @@ public class attackMod : MonoBehaviour
         visMask.sprite = teleSprite;
         spawnPoint = transform.localPosition;
         visSprite.enabled = true;
-        transform.rotation = Quaternion.LookRotation(playerFocus.transform.position-transform.position);
+        transform.rotation = Quaternion.Euler(0, 0, faceDirChange(closestPlayer().transform.position));
         
     }
 

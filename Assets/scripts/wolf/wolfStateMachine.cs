@@ -27,7 +27,7 @@ public class wolfStateMachine : StateManagerM<wolfStateMachine.wolfStates>
     
     
     
-    [SerializeField] public triggerDelegation triggerD;
+    
     [SerializeField] public attackDelegation attackD;
 
     [NonSerialized] public HashSet<GameObject> playerList = new HashSet<GameObject>();
@@ -56,7 +56,7 @@ public class wolfStateMachine : StateManagerM<wolfStateMachine.wolfStates>
 
 
     [SerializeField] public wolfSyncVis vis;
-    public GameObject playerFocus;
+    //public GameObject playerFocus;
     
     
 
@@ -88,7 +88,6 @@ public class wolfStateMachine : StateManagerM<wolfStateMachine.wolfStates>
     }
     public void netUnSetUp()
     {
-        faceDir.OnValueChanged -= attackD.curFace;
         faceDir.OnValueChanged -= vis.onFaceDirChange;
         vis.onFaceDirChange(0f, faceDir.Value);
 
@@ -101,7 +100,6 @@ public class wolfStateMachine : StateManagerM<wolfStateMachine.wolfStates>
 
     public void netSetUp()
     {
-        faceDir.OnValueChanged += attackD.curFace;
         faceDir.OnValueChanged += vis.onFaceDirChange;
         vis.onFaceDirChange(0f, faceDir.Value);
 
@@ -120,76 +118,50 @@ public class wolfStateMachine : StateManagerM<wolfStateMachine.wolfStates>
         states.Add(wolfStates.Attack, new wolfAttackState(this, wolfStates.Attack));
         attackD.changeContext(0);
     }
-    public void playerListAdd(triggerDelegation.OnTriggerDelegation dele)
+    public void playerListAdd(Collider2D other)
     {
-        if(dele.Self != triggerD.detectionCollider)return;
-        if (dele.Other.CompareTag("Player"))
+        if(!IsServer)return;
+        if (other.CompareTag("Player"))
         {
-            playerList.Add(dele.Other.gameObject);
+            playerList.Add(other.gameObject);
+            attackD.playerList = playerList;
         }
     }
-    public void playerListRemove(triggerDelegation.OnTriggerDelegation dele)
+    public void playerListRemove(Collider2D other)
     {
-        if(dele.Self != triggerD.detectionCollider)return;
-        if (dele.Other.CompareTag("Player"))
+        if(!IsServer)return;
+        if (other.CompareTag("Player"))
         {
-            playerList.Remove(dele.Other.gameObject);
+            playerList.Remove(other.gameObject);
+            attackD.playerList = playerList;
         }
     }
-
-    
-    
-
-    
-    
-   
 }
-
-    
 
 public abstract class wolfBaseState : BasedStateM<wolfStateMachine.wolfStates>
 {
-    public GameObject playerFocus;
-    
-    
+    public GameObject playerFocus;    
     public readonly HashSet<GameObject> playerList;
-    //public readonly NetworkVariable<bool> isChase;
     public readonly NetworkVariable<float> faceDir;
     protected NavMeshAgent navAgent;
-    //public readonly float detectionMax;
     public readonly float detectionRate;
     public readonly NetworkVariable<float> detectionLevel;
-
     public readonly float idleTimeMax;
     public readonly float idleTimeMin;
-    
     public readonly float patrolRadius;
     public readonly float patrolSpeed;
-
     public readonly int patrolPositions;
     public readonly Vector2 spawnPoint;
-
-    
     public readonly float chaseSpeed;
-    public readonly triggerDelegation triggerD;
     public readonly attackDelegation attackD;
-
-    
-
-    
-    
-
-    
     //public readonly SpriteRenderer stateVisual;
 
     public wolfBaseState(wolfStateMachine context, wolfStateMachine.wolfStates stateKey) : base(stateKey)
     {
         
         playerList = context.playerList;
-        //isChase = context.isChase;
         faceDir = context.faceDir;
         navAgent = context.navAgent;
-        
         detectionRate = context.detectionRate;
         detectionLevel = context.detectionLevel;
         idleTimeMax = context.idleTimeMax;
@@ -198,12 +170,9 @@ public abstract class wolfBaseState : BasedStateM<wolfStateMachine.wolfStates>
         patrolRadius = context.patrolRadius;
         patrolSpeed = context.patrolSpeed;
         spawnPoint = context.spawnPoint;
-        playerFocus = context.playerFocus;
         attackD = context.attackD;
-        
-        
         chaseSpeed = context.chaseSpeed;
-        triggerD = context.triggerD;
+        
         
     }
     
@@ -250,19 +219,12 @@ public abstract class wolfBaseState : BasedStateM<wolfStateMachine.wolfStates>
             float closeDistance = float.MaxValue;
             foreach (GameObject player in playerList)
             {
-
-                Transform playerT = player.transform;
-
-                Vector3 directionToPlayer = playerT.position - navAgent.transform.position;
-
-                float distanceToPlayer = directionToPlayer.magnitude;
-               
+                float distanceToPlayer = Vector2.Distance(navAgent.transform.position, player.transform.position);
                 if (distanceToPlayer <= closeDistance)
                 {
                     playerFocus = player;
                     closeDistance = distanceToPlayer;
-                    
-                }  
+                }
             }
         }
         

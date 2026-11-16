@@ -2300,6 +2300,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1540095051}
     - target: {fileID: 2185785335333829338, guid: 8cb59e1fc4a432240b3af807229d5b8a, type: 3}
+      propertyPath: triggerD
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 2185785335333829338, guid: 8cb59e1fc4a432240b3af807229d5b8a, type: 3}
       propertyPath: attackMod
       value: 
       objectReference: {fileID: 0}
@@ -2419,10 +2423,21 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 9063409957709374469, guid: 8cb59e1fc4a432240b3af807229d5b8a, type: 3}
+      propertyPath: hitboxCollider
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 9063409957709374469, guid: 8cb59e1fc4a432240b3af807229d5b8a, type: 3}
+      propertyPath: detectionCollider
+      value: 
+      objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 616052809343375824, guid: 8cb59e1fc4a432240b3af807229d5b8a, type: 3}
     - {fileID: 3664148013941917889, guid: 8cb59e1fc4a432240b3af807229d5b8a, type: 3}
     - {fileID: 576642035159617897, guid: 8cb59e1fc4a432240b3af807229d5b8a, type: 3}
+    - {fileID: 8743083571315418072, guid: 8cb59e1fc4a432240b3af807229d5b8a, type: 3}
+    - {fileID: 9063409957709374469, guid: 8cb59e1fc4a432240b3af807229d5b8a, type: 3}
+    - {fileID: 4290576227057476116, guid: 8cb59e1fc4a432240b3af807229d5b8a, type: 3}
     m_RemovedGameObjects:
     - {fileID: 7655842865723992267, guid: 8cb59e1fc4a432240b3af807229d5b8a, type: 3}
     m_AddedGameObjects:
@@ -2433,6 +2448,18 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 7018876420574353599, guid: 8cb59e1fc4a432240b3af807229d5b8a, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1540095051}
+    - targetCorrespondingSourceObject: {fileID: 7018876420574353599, guid: 8cb59e1fc4a432240b3af807229d5b8a, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1540095053}
+    - targetCorrespondingSourceObject: {fileID: 7018876420574353599, guid: 8cb59e1fc4a432240b3af807229d5b8a, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1540095052}
+    - targetCorrespondingSourceObject: {fileID: 8857565338839586818, guid: 8cb59e1fc4a432240b3af807229d5b8a, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1540095045}
+    - targetCorrespondingSourceObject: {fileID: 8857565338839586818, guid: 8cb59e1fc4a432240b3af807229d5b8a, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1540095044}
   m_SourcePrefab: {fileID: 100100000, guid: 8cb59e1fc4a432240b3af807229d5b8a, type: 3}
 --- !u!4 &1540095039 stripped
 Transform:
@@ -2466,6 +2493,90 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5e50505a04fd8914d980a2fd70911a1a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::wolfStateMachine
+--- !u!1 &1540095043 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8857565338839586818, guid: 8cb59e1fc4a432240b3af807229d5b8a, type: 3}
+  m_PrefabInstance: {fileID: 1540095038}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1540095044
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1540095043}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c047e685887df5840a81bc4ab0c01637, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::TriggerFowarder
+  isProcessing: 1
+  Enter:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1540095042}
+        m_TargetAssemblyTypeName: wolfStateMachine, Assembly-CSharp
+        m_MethodName: playerListAdd
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  Exit:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1540095042}
+        m_TargetAssemblyTypeName: wolfStateMachine, Assembly-CSharp
+        m_MethodName: playerListRemove
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+--- !u!58 &1540095045
+CircleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1540095043}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_CompositeOperation: 0
+  m_CompositeOrder: 0
+  m_Offset: {x: 0, y: 0}
+  m_Radius: 1
 --- !u!114 &1540095051
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2480,8 +2591,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::attackDelegation
   ShowTopMostFoldoutHeaderGroup: 1
   isAttacking: 0
-  currentFaceDir: 0
-  playerFocus: {fileID: 0}
+  currentTime: 0
   Source: {fileID: 1540095041}
   attackContexts:
   - attackMarker: {fileID: 1551131770}
@@ -2496,6 +2606,79 @@ MonoBehaviour:
     attackCountTemp: 0
     attackAbSRange: 0
     listOfAttacks: []
+--- !u!61 &1540095052
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1540095041}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_CompositeOperation: 0
+  m_CompositeOrder: 0
+  m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0, y: 0}
+    oldSize: {x: 0, y: 0}
+    newSize: {x: 0, y: 0}
+    adaptiveTilingThreshold: 0
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  m_Size: {x: 0.5, y: 0.5}
+  m_EdgeRadius: 0
+--- !u!50 &1540095053
+Rigidbody2D:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1540095041}
+  m_BodyType: 0
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 0
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDamping: 0
+  m_AngularDamping: 0.05
+  m_GravityScale: 0
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_Interpolate: 0
+  m_SleepingMode: 1
+  m_CollisionDetection: 0
+  m_Constraints: 4
 --- !u!1001 &1551131768
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2624,7 +2807,7 @@ MonoBehaviour:
   c: {fileID: 1540095051}
   timeBeforeAttack: 5
   timeBeforeTelegraph: 1
-  currentTime: 0
+  playerFocus: {fileID: 0}
   visMask: {fileID: 1634164742}
   visSprite: {fileID: 1551131772}
   teleSprite: {fileID: 7482667652216324306, guid: 48e93eef0688c4a259cb0eddcd8661f7, type: 3}
@@ -2632,6 +2815,9 @@ MonoBehaviour:
   trackingTime: 1
   trackSpeed: 3
   spawnPoint: {x: 0, y: 0}
+  attackIntervals: []
+  currentAttackInt: 0
+  attackProj: {fileID: 0}
 --- !u!212 &1551131772 stripped
 SpriteRenderer:
   m_CorrespondingSourceObject: {fileID: 4273804752085891772, guid: d52cdc382d540044886c0fd279782d16, type: 3}

@@ -12,14 +12,60 @@ public class triggerDelegation : NetworkBehaviour
     [SerializeField]public Collider2D detectionCollider;
     [SerializeField]public Collider2D hitboxCollider;
     
-    [SerializeField]public bool isProcessingDetection;
-    [SerializeField]public bool isProcessingHitBox;
-    
     
     public UnityEvent<OnTriggerDelegation> Enter;
 
     public UnityEvent<OnTriggerDelegation> Exit;
-    [NonSerialized]public Dictionary<Collider2D, HashSet<Collider2D>> currColliders = new Dictionary<Collider2D, HashSet<Collider2D>>();
+
+    public void mainEnter(Collider2D self, Collider2D other)
+    {
+        if(!IsServer) return;
+        Enter.Invoke(new OnTriggerDelegation(self, other));
+        
+    }
+    public void mainExit(Collider2D self, Collider2D other)
+    {
+        if(!IsServer) return;
+        Exit.Invoke(new OnTriggerDelegation(self, other));
+        
+    }
+
+    public struct OnTriggerDelegation
+    {
+        public Collider2D Self { get; private set;}
+        public Collider2D Other { get; private set;}
+
+        public OnTriggerDelegation(Collider2D self, Collider2D other)
+        {
+            Self = self;
+            Other = other;
+        }
+    }
+
+    
+}
+
+
+
+
+
+
+
+
+
+
+
+/*
+
+void FixedUpdate()
+    {
+        if(!IsServer)return;
+        if (isProcessingDetection)
+        {
+            checkingCollider(detectionCollider);
+        }
+    }
+[NonSerialized]public Dictionary<Collider2D, HashSet<Collider2D>> currColliders = new Dictionary<Collider2D, HashSet<Collider2D>>();
 
     [NonSerialized]public Dictionary<Collider2D, HashSet<Collider2D>> prevColliders = new Dictionary<Collider2D, HashSet<Collider2D>>();
     public ContactFilter2D overlapFilter = new ContactFilter2D();
@@ -41,15 +87,7 @@ public class triggerDelegation : NetworkBehaviour
 
         
     }
-    void FixedUpdate()
-    {
-        if(!IsServer)return;
-        if (isProcessingDetection)
-        {
-            checkingCollider(detectionCollider);
-        }
-    }
-    void checkingCollider(Collider2D col)
+void checkingCollider(Collider2D col)
     {
         HashSet<Collider2D>prevT = prevColliders[col];
         HashSet<Collider2D>currT = currColliders[col];
@@ -72,18 +110,4 @@ public class triggerDelegation : NetworkBehaviour
     }
 
 
-
-    public struct OnTriggerDelegation
-    {
-        public Collider2D Self { get; private set;}
-        public Collider2D Other { get; private set;}
-
-        public OnTriggerDelegation(Collider2D self, Collider2D other)
-        {
-            Self = self;
-            Other = other;
-        }
-    }
-
-    
-}
+*/

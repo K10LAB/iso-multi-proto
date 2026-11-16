@@ -12,52 +12,97 @@ public class attackMod : MonoBehaviour
     public attackDelegation c;
     public float timeBeforeAttack;
     public float timeBeforeTelegraph;
-    public float currentTime;
+    
+    public GameObject playerFocus;
 
     //[SerializeField] public GameObject visTell;
     public SpriteMask visMask;
     public SpriteRenderer visSprite;
     public Sprite teleSprite;
     public bool isAoe;
+
     public float trackingTime;
     public float trackSpeed;
     public Vector2 spawnPoint;
+    public float[] attackIntervals;
+    public int currentAttackInt;
+    public GameObject attackProj;
 
-
-    public void timePass()
+    public GameObject closestPlayer()
     {
-        currentTime += Time.deltaTime;
-    }
-    public bool updateTelegraph()
-    {
-        float time = Mathf.Max(0, currentTime/timeBeforeAttack);
-        
-        if(time>1)return false;
-        if (!isAoe)
-        {
-            if(time < trackingTime){
-                transform.localRotation = Quaternion.Lerp(transform.localRotation, Quaternion.Euler(0, c.currentFaceDir, 0), trackSpeed * Time.deltaTime);
-                transform.localPosition = transform.localRotation * Vector3.up * (visSprite.transform.localScale.y / 2f);
+        if(c.playerList.Count !=0){
+            float closeDistance = float.MaxValue;
+            foreach (GameObject player in c.playerList)
+            {
+                float distanceToPlayer = Vector2.Distance(transform.position, player.transform.position);
+                if (distanceToPlayer <= closeDistance)
+                {
+                    playerFocus = player;
+                    closeDistance = distanceToPlayer;
+                }
             }
-            visMask.transform.localPosition = new Vector2(0, time-1);
         }
-        else
+        return playerFocus;
+    }
+    
+    
+    public void updateTelegraph()
+    {
+        float time = Mathf.Max(0, (c.currentTime-timeBeforeTelegraph)/timeBeforeAttack);
+        if (time > 1)
         {
-            if(time<trackingTime)transform.position = Vector2.Lerp(transform.position, c.playerFocus.transform.position, trackSpeed * Time.deltaTime);
-            visMask.transform.localScale = new Vector2(time, time);
+            if (!isAoe)
+            {
+                if(time<trackingTime){
+                    transform.localRotation = Quaternion.Lerp(transform.rotation, Quaternion.LookRotation(closestPlayer().transform.position-transform.position), trackSpeed * Time.deltaTime);
+                } else if (trackingTime==-1)
+                {
+                    transform.localRotation = Quaternion.LookRotation(closestPlayer().transform.position-transform.position);
+                }
+                transform.localPosition = transform.localRotation * Vector3.up * (visSprite.transform.localScale.y / 2f);
+                visMask.transform.localPosition = new Vector2(0, time-1);
+            }
+            else
+            {
+                if(time<trackingTime){
+                    transform.position = Vector2.Lerp(transform.position, closestPlayer().transform.position, trackSpeed * Time.deltaTime);
+                }else if (trackingTime==-1)
+                {
+                    transform.position = closestPlayer().transform.position;
+                }
+                visMask.transform.localScale = new Vector2(time, time);
+            }
+        } else
+        {
+            visSprite.enabled = false;
+            spawnAttack();
         }
-        return true;
+    }
+
+    public void spawnAttack()
+    {
+        if(currentAttackInt == attackIntervals.Length) gameObject.SetActive(false);
+        float time = c.currentTime-timeBeforeAttack;
+        for (int i = 0; i<currentAttackInt; i++)
+        {
+            time -= attackIntervals[currentAttackInt];
+        }
+        if(time>=attackIntervals[currentAttackInt])
+        {
+            Instantiate(attackProj, transform.position, transform.rotation);
+            currentAttackInt++;
+        }
         
         
     }
-    public void startTelegraph()
+    public void OnEnable()
     {
         visSprite.sprite = teleSprite;
         visMask.sprite = teleSprite;
         spawnPoint = transform.localPosition;
-        currentTime = -timeBeforeTelegraph;
+        visSprite.enabled = true;
+        transform.rotation = Quaternion.LookRotation(playerFocus.transform.position-transform.position);
         
-    
     }
 
 

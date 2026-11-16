@@ -49,7 +49,6 @@ public class wolfSyncVis : NetworkBehaviour
         {
             case wolfStateMachine.wolfStates.Idle:
             visState.color = Color.green;
-            
             break;
             case wolfStateMachine.wolfStates.Patrol:
             visState.color = Color.yellow;

@@ -8,13 +8,10 @@ using Unity.VisualScripting;
 public class attackDelegation : NetworkBehaviour
 {
     [SerializeField]public bool isAttacking;
-    public float currentFaceDir;
-    public GameObject playerFocus;
+    public float currentTime;
+    [NonSerialized] public HashSet<GameObject> playerList = new HashSet<GameObject>();
     public GameObject Source;
-    public void curFace(float old, float New)
-    {
-        currentFaceDir = New;
-    }
+    
     [SerializeField]public List<attackContext> attackContexts = new List<attackContext>();
 
     [SerializeField]public attackContext currentContext;
@@ -35,9 +32,11 @@ public class attackDelegation : NetworkBehaviour
 
         isAttacking = true;
     }
+    
     public void checkAttack()
     {
         isAttacking = currentContext.attackMarker.activeInHierarchy;
+        currentTime += Time.deltaTime;
     }
     [System.Serializable]
     public class attackContext

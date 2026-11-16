@@ -7,15 +7,15 @@ public class slashAttack : attackMod
 {
     void OnEnable() 
     {
-        startTelegraph();
+        
     }
 
     void Update()
     {
-        timePass();
+        
 
         
-        updateTelegraph();
+        
     }
 
 

@@ -37,7 +37,7 @@ public class wolfChaseState : wolfBaseState
 	public override void UpdateState()
     {
         chaseSetPostion();
-        faceDirChange(playerFocus.transform.position);
+        faceDirChange(closestPlayer().transform.position);
         if(detectionChange()) return;
     }
 

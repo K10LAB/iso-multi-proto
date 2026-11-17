@@ -16,7 +16,7 @@ public class attackMod : MonoBehaviour
     public GameObject playerFocus;
 
     //[SerializeField] public GameObject visTell;
-    public SpriteMask visMask;
+    public SpriteRenderer visMask;
     public SpriteRenderer visSprite;
     public Sprite teleSprite;
     public bool isAoe;
@@ -60,7 +60,7 @@ public class attackMod : MonoBehaviour
     public void Update()
     {
         float time = Mathf.Max(0, (c.currentTime-timeBeforeTelegraph)/timeBeforeAttack);
-        if (time > 1)
+        if (time < 1)
         {
             if (!isAoe)
             {
@@ -106,6 +106,7 @@ public class attackMod : MonoBehaviour
         visMask.sprite = teleSprite;
         spawnPoint = transform.localPosition;
         visSprite.enabled = true;
+        currentAttackInt = 0;
         transform.rotation = Quaternion.Euler(0, 0, faceDirChange(closestPlayer().transform.position));
         
     }

@@ -11,7 +11,7 @@ public class slashAttack : NetworkBehaviour
     void Update()
     {
         lifeTime-=Time.deltaTime;
-        if(lifeTime<=0)Destroy(this);
+        if(lifeTime<=0)Destroy(gameObject);
     }
 
 

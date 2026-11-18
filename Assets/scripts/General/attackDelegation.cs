@@ -25,18 +25,22 @@ public class attackDelegation : NetworkBehaviour
     }
     public void performAttack()
     {
+        currentTime = 0;
+        currentContext.attackCountTemp++;
         foreach (GameObject attack in currentContext.listOfAttacks)
         {
             attack.SetActive(true);
         }
 
         isAttacking = true;
+        
     }
     
     public void checkAttack()
     {
         isAttacking = currentContext.attackMarker.activeInHierarchy;
         currentTime += Time.deltaTime;
+        
     }
     [System.Serializable]
     public class attackContext

@@ -25,7 +25,9 @@ public class wolfAttackState : wolfBaseState
 		if (!attackD.isAttacking)
 		{
 			attackD.performAttack();
+			
 		}
+		
 		attackD.checkAttack();
 		faceDirChange(closestPlayer().transform.position);
 		

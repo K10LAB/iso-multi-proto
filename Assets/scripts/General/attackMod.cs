@@ -4,8 +4,9 @@ using UnityEngine.Events;
 using Unity.VisualScripting;
 using System;
 using UnityEngine.UI;
+
 [System.Serializable]
-public class attackMod : MonoBehaviour
+public class attackMod : NetworkBehaviour
 {
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     
@@ -48,7 +49,7 @@ public class attackMod : MonoBehaviour
     public float faceDirChange(Vector2 flatDir)
     {
         
-        flatDir -= new Vector2(transform.position.x, transform.position.y);
+        flatDir -= new Vector2(spawnPoint.x, spawnPoint.y);
         float mathDir = Mathf.Atan2(flatDir.x, flatDir.y) * Mathf.Rad2Deg;
         if (mathDir < 0)
         {
@@ -65,7 +66,7 @@ public class attackMod : MonoBehaviour
             if (!isAoe)
             {
                 if(time<trackingTime){
-                    transform.localRotation = Quaternion.Lerp(transform.rotation, Quaternion.LookRotation(closestPlayer().transform.position-transform.position), trackSpeed * Time.deltaTime);
+                    transform.localRotation = Quaternion.Lerp(transform.rotation, Quaternion.Euler(0, 0, -faceDirChange(closestPlayer().transform.position)), trackSpeed * Time.deltaTime);
                 } 
                 transform.localPosition = transform.localRotation * Vector3.up * (visSprite.transform.localScale.y / 2f);
                 visMask.transform.localPosition = new Vector2(0, time-1);
@@ -94,7 +95,9 @@ public class attackMod : MonoBehaviour
         }
         if(time>=attackIntervals[currentAttackInt])
         {
-            Instantiate(attackProj, transform.position, transform.rotation);
+            GameObject g = Instantiate(attackProj, spawnPoint, transform.rotation);
+            NetworkObject f = g.GetComponent<NetworkObject>();
+            f.Spawn();
             currentAttackInt++;
         }
         
@@ -102,12 +105,13 @@ public class attackMod : MonoBehaviour
     }
     public void OnEnable()
     {
+        transform.localPosition = Vector2.zero;
         visSprite.sprite = teleSprite;
         visMask.sprite = teleSprite;
-        spawnPoint = transform.localPosition;
+        spawnPoint = transform.position;
         visSprite.enabled = true;
         currentAttackInt = 0;
-        transform.rotation = Quaternion.Euler(0, 0, faceDirChange(closestPlayer().transform.position));
+        
         
     }
 

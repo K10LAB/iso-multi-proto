@@ -181,7 +181,7 @@ public abstract class wolfBaseState : BasedStateM<wolfStateMachine.wolfStates>
     {
         flatDir -= new Vector2(navAgent.transform.position.x, navAgent.transform.position.y);
         float mathDir = Mathf.Atan2(flatDir.x, flatDir.y) * Mathf.Rad2Deg;
-        if(Mathf.Abs(faceDir.Value) < navAgent.stoppingDistance + 0.1)return;
+        //if(Mathf.Abs(faceDir.Value) < navAgent.stoppingDistance + 0.1)return;
         if (mathDir < 0)
         {
             faceDir.Value = 360f + mathDir;

@@ -2257,6 +2257,14 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2770940762034128332, guid: 8cb59e1fc4a432240b3af807229d5b8a, type: 3}
+      propertyPath: m_Color.a
+      value: 0.74509805
+      objectReference: {fileID: 0}
+    - target: {fileID: 3721216247658639537, guid: 8cb59e1fc4a432240b3af807229d5b8a, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -1
+      objectReference: {fileID: 0}
     - target: {fileID: 6150193684175909502, guid: 8cb59e1fc4a432240b3af807229d5b8a, type: 3}
       propertyPath: trackSpeed
       value: 10
@@ -2267,11 +2275,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6150193684175909502, guid: 8cb59e1fc4a432240b3af807229d5b8a, type: 3}
       propertyPath: timeBeforeAttack
-      value: 10
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 7018876420574353599, guid: 8cb59e1fc4a432240b3af807229d5b8a, type: 3}
       propertyPath: m_Name
       value: wolf
+      objectReference: {fileID: 0}
+    - target: {fileID: 7028531078996782258, guid: 8cb59e1fc4a432240b3af807229d5b8a, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7188486628784365086, guid: 8cb59e1fc4a432240b3af807229d5b8a, type: 3}
       propertyPath: m_InScenePlaced

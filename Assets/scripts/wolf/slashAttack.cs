@@ -6,12 +6,10 @@ using Unity.Netcode;
 
 public class slashAttack : NetworkBehaviour
 {
-    public float lifeTime;
-
+    
     void Update()
     {
-        lifeTime-=Time.deltaTime;
-        if(lifeTime<=0)Destroy(gameObject);
+        
     }
 
 

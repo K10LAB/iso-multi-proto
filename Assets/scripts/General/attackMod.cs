@@ -35,7 +35,7 @@ public class attackMod : NetworkBehaviour
             float closeDistance = float.MaxValue;
             foreach (GameObject player in c.playerList)
             {
-                float distanceToPlayer = Vector2.Distance(transform.position, player.transform.position);
+                float distanceToPlayer = Vector2.Distance(spawnPoint, player.transform.position);
                 if (distanceToPlayer <= closeDistance)
                 {
                     playerFocus = player;
@@ -81,13 +81,17 @@ public class attackMod : NetworkBehaviour
         } else
         {
             visSprite.enabled = false;
+            visMask.enabled = false;
             spawnAttack();
         }
     }
 
     public void spawnAttack()
     {
-        if(currentAttackInt == attackIntervals.Length) gameObject.SetActive(false);
+        if(currentAttackInt == attackIntervals.Length) {
+            gameObject.SetActive(false);
+            return;
+        }
         float time = c.currentTime-timeBeforeAttack;
         for (int i = 0; i<currentAttackInt; i++)
         {
@@ -106,10 +110,12 @@ public class attackMod : NetworkBehaviour
     public void OnEnable()
     {
         transform.localPosition = Vector2.zero;
+        transform.localRotation = Quaternion.Euler(0, 0, -faceDirChange(closestPlayer().transform.position));
         visSprite.sprite = teleSprite;
         visMask.sprite = teleSprite;
         spawnPoint = transform.position;
         visSprite.enabled = true;
+        visMask.enabled = true;
         currentAttackInt = 0;
         
         

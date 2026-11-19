@@ -100,6 +100,8 @@ public class attackMod : NetworkBehaviour
         if(time>=attackIntervals[currentAttackInt])
         {
             GameObject g = Instantiate(attackProj, spawnPoint, transform.rotation);
+            g.GetComponent<ProjectileMovement>().range = transform.localScale.y;
+            g.GetComponent<ProjectileMovement>().source = gameObject;
             NetworkObject f = g.GetComponent<NetworkObject>();
             f.Spawn();
             currentAttackInt++;

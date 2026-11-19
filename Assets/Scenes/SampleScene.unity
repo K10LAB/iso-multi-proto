@@ -2219,7 +2219,7 @@ PrefabInstance:
       objectReference: {fileID: 1540095051}
     - target: {fileID: 2614283679058524813, guid: 8cb59e1fc4a432240b3af807229d5b8a, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -0.79
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2614283679058524813, guid: 8cb59e1fc4a432240b3af807229d5b8a, type: 3}
       propertyPath: m_LocalPosition.y
@@ -2294,12 +2294,24 @@ PrefabInstance:
       value: 2273908626
       objectReference: {fileID: 0}
     - target: {fileID: 7188486628784365086, guid: 8cb59e1fc4a432240b3af807229d5b8a, type: 3}
+      propertyPath: m_InScenePlacedDisabledByDefault
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7188486628784365086, guid: 8cb59e1fc4a432240b3af807229d5b8a, type: 3}
       propertyPath: InScenePlacedSourceGlobalObjectIdHash
       value: 4133303127
       objectReference: {fileID: 0}
     - target: {fileID: 7371701040956536971, guid: 8cb59e1fc4a432240b3af807229d5b8a, type: 3}
       propertyPath: attackContexts.Array.data[0].attackAbSRange
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7671947096799140710, guid: 8cb59e1fc4a432240b3af807229d5b8a, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 0.75
+      objectReference: {fileID: 0}
+    - target: {fileID: 7671947096799140710, guid: 8cb59e1fc4a432240b3af807229d5b8a, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 2
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

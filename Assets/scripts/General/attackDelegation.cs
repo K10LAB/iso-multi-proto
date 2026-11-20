@@ -8,6 +8,7 @@ using Unity.VisualScripting;
 public class attackDelegation : NetworkBehaviour
 {
     [SerializeField]public bool isAttacking;
+    public GameObject source;
     public float currentTime;
     [NonSerialized] public HashSet<GameObject> playerList = new HashSet<GameObject>();
     public GameObject Source;

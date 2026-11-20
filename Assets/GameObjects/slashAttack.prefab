@@ -48,14 +48,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Unity.Netcode.Runtime::Unity.Netcode.NetworkObject
-  GlobalObjectIdHash: 956178554
+  GlobalObjectIdHash: 2731709443
   InScenePlacedSourceGlobalObjectIdHash: 2731709443
   m_InScenePlacedDisabledByDefault: 0
   DeferredDespawnTick: 0
   Ownership: 1
   AlwaysReplicateAsRoot: 0
   SynchronizeTransform: 1
-  m_InScenePlaced: 1
+  m_InScenePlaced: 0
   ActiveSceneSynchronization: 0
   SceneMigrationSynchronization: 0
   SpawnWithObservers: 1
@@ -77,6 +77,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::slashAttack
   speed: 10
   range: 5
+  source: {fileID: 0}
 --- !u!50 &1051502795753294344
 Rigidbody2D:
   serializedVersion: 5

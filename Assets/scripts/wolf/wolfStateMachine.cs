@@ -174,6 +174,7 @@ public abstract class wolfBaseState : BasedStateM<wolfStateMachine.wolfStates>
         chaseSpeed = context.chaseSpeed;
         
         
+        
     }
     
 
@@ -193,6 +194,7 @@ public abstract class wolfBaseState : BasedStateM<wolfStateMachine.wolfStates>
     {
         navAgent.transform.position += navAgent.desiredVelocity * Time.deltaTime;
         navAgent.nextPosition = navAgent.transform.position;
+        
     }
 
     public virtual bool detectionChange()

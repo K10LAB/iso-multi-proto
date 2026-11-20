@@ -1,10 +1,11 @@
+using Unity.Services.Lobbies.Models;
 using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody2D))]
 public class ProjectileMovement : MonoBehaviour
 {
-    [SerializeField] private float speed = 10f;
-    [SerializeField] public float range = 5f;
+    [SerializeField] public float speed = 10f;
+    [SerializeField] public float range = 100f;
 
     private Rigidbody2D rb2d;
 
@@ -30,23 +31,23 @@ public class ProjectileMovement : MonoBehaviour
 
     void Update()
     {
-        range-= Time.deltaTime;
+        range -= rb2d.linearVelocity.magnitude * Time.deltaTime;
         if(range<0)Destroy(gameObject);
     }
 
     void OnTriggerEnter2D(Collider2D other)
     {
-        if(other.gameObject == source)return;
-
-        //if (damageComponent != null)
-            //damageComponent.OnTriggerDamage(other);
-
+        if(!other.CompareTag("Player"))return;
+        Debug.Log(other.name);
         Destroy(gameObject);
+        
+
+        
     }
 
-    public void SetProjectileDirection(Vector2 _projectileDirection)
+    public void SetProjectileDirection(Quaternion _projectileDirection)
     {
-        Vector2 _linearVelocity = _projectileDirection * speed;
+        Vector2 _linearVelocity = _projectileDirection * Vector2.up * speed;
 
         rb2d.linearVelocity = _linearVelocity;
     }
